@@ -101,7 +101,7 @@
   /* ---------- шапка: структура как у Лушникова, оформление span ---------- */
   header {
     width: 100%;
-    max-width: calc(1280px + var(--page-margin) * 2);   /* в макете шапка 1280 при полях 80 */
+    max-width: calc(var(--container-xl) + var(--page-margin) * 2);   /* шапка в той же колонке 1200, что и секции */
     margin: 0 auto;
     padding: var(--space-16) var(--page-margin) 0;
     display: grid;
@@ -286,6 +286,13 @@
   /* Свечение от краёв (Surface/edge-glow, группа BG) выключено в макете 22.09.2026.
      Вернуть: радиальное пятно #1361C7 35 → 24 → 0% за левым и правым краем,
      погашенное линейной маской, см. SYSTEM_CHANGELOG.md, 17.09.2026. */
+
+  /* Container: колонка 1200 по центру. Поля по бокам на широком экране даёт она,
+     а page-margin секции работает только как минимум на узком (SPACING.md). */
+  .container {
+    max-width: var(--container-xl);
+    margin-inline: auto;
+  }
 
   .statement h2 {
     position: relative;
@@ -511,6 +518,7 @@
 
 
   <section class="statement">
+    <div class="container">
     <h2>I'll help you to create clarity on what matters and the confidence to act on it.</h2>
     <div class="cards">
       <article class="card">
@@ -541,6 +549,7 @@
           <p>Interactive prototypes and motion that validate ideas before a single line of code.</p>
         </div>
       </article>
+    </div>
     </div>
   </section>
 </div>
