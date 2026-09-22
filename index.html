@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Первый экран</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* шрифт: один на всю систему */
+    --font: "Manrope", system-ui, sans-serif;
+
+    /* цвет */
+    --surface-page: #000309;
+    --surface-raised: #0e1f42;
+    --surface-overlay: rgb(245 248 255 / 0.05);
+    --surface-inverse: #f5f8ff;
+    --text-primary: #f5f8ff;
+    --text-secondary: #7a7d84;
+    --text-accent: #b8d7ff;
+    --text-inverse: #000309;
+    --border-subtle: rgb(245 248 255 / 0.08);
+    --accent: #144dc7;
+    --edge-glow: #1361c7;
+    --blue-950: #020814;
+    --blue-900: #061640;
+    --neutral-300: #9aa3b2;
+
+    /* типографика */
+    --display-lg: 3.75rem;    /* 60 / 72 / -4% Bold */
+    --display-md: 3rem;      /* 48 / 60 / -4%  */
+    --text-lg: 1.25rem;      /* 20 / 28 / -1%  */
+    --text-md: 1.0625rem;    /* 17 / 26 / -1.6% Bold */
+    --text-sm: 0.875rem;     /* 14 / 20 SemiBold */
+    --label-lg: 1rem;        /* 16 / 24 SemiBold */
+    --label-md: 0.875rem;    /* 14 / 16 / -1% SemiBold */
+
+    /* отступы */
+    --space-8: 0.5rem;
+    --space-10: 0.625rem;
+    --space-16: 1rem;
+    --space-24: 1.5rem;
+    --space-40: 2.5rem;
+    --space-48: 3rem;
+    --space-64: 4rem;
+    --space-160: 10rem;
+    --space-80: 5rem;
+    --space-240: 15rem;
+    --display-md: 3rem;      /* 48 / 60 / -3.5% */
+    --display-sm: 2.25rem;   /* 36 / 44 / -3% */
+    --heading-lg: 2rem;      /* 32 / 40 / -2.5% */
+    --space-20: 1.25rem;
+    --container-xl: 1200px;
+    --page-margin: 5rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: var(--font);
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--surface-page);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Surface/page-glow: база плюс синее свечение снизу по центру */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(85% 55% at 50% 108%, rgb(19 97 199 / 0.5) 0%, rgb(19 97 199 / 0.14) 45%, transparent 72%),
+      radial-gradient(60% 45% at 88% -12%, rgb(19 97 199 / 0.22) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; gap: var(--space-64); }
+
+  /* ---------- шапка: структура как у Лушникова, оформление span ---------- */
+  header {
+    width: 100%;
+    max-width: calc(var(--container-xl) + var(--page-margin) * 2);
+    margin: 0 auto;
+    padding: var(--space-16) var(--page-margin) 0;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-24);
+  }
+
+  .logo { justify-self: start; display: flex; align-items: center; gap: var(--space-8); }
+  .logo-name {
+    font-size: 1.75rem;     /* 28 / 38 / -4% Bold — задано в макете вручную */
+    line-height: 38px;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+  }
+  header > .btn { justify-self: end; }
+
+  nav {
+    justify-self: center;
+    display: flex;
+    align-items: center;
+    gap: var(--space-24);
+    padding: 0 var(--space-24);
+    border-radius: 100px;
+  }
+  nav a {
+    position: relative;
+    font-size: var(--label-md);   /* 14 / 16 / -1% */
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  /* подчёркивание растёт из центра: hover · width · 0 → 100% · 250 мс · standard */
+  nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 0;
+    height: 2px;
+    border-radius: 1px;
+    background: currentColor;
+    transform: translateX(-50%);
+    transition: width 250ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  nav a:hover::after,
+  nav a:focus-visible::after { width: 100%; }
+
+  /* активная страница: линия стоит всегда и не анимируется */
+  nav a[aria-current="page"]::after {
+    width: 100%;
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    nav a::after, .btn, .btn .roll span { transition: none; }
+  }
+
+  /* ---------- кнопка из компонента: 122x38, 9/10, r12, 14 SemiBold ---------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    padding: 8px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--surface-inverse);
+    color: var(--text-inverse);
+    font-family: var(--font);
+    font-weight: 700;          /* Text/sm — Bold, как в стиле Figma */
+    font-size: var(--text-sm);
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    cursor: pointer;
+    /* мягкий выкат как на span: три четверти пути за 180 мс, дальше долгий хвост */
+    transition: opacity 600ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .btn:hover { opacity: 0.8; }
+  .btn:active { opacity: 0.65; }
+  .btn:focus-visible { outline: 2px solid #5a94f5; outline-offset: 2px; }
+  .btn .roll { display: block; height: 20px; overflow: hidden; }
+  .btn .roll span {
+    display: block;
+    height: 20px;
+    transition: transform 520ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .btn:hover .roll span { transform: translateY(-20px); }
+  .btn svg { flex: none; }
+
+  /* Size=md: 46 высотой, padding 10/12, текст 17/26 */
+  .btn--md {
+    padding: 10px 12px;
+    font-size: 1.0625rem;      /* 17 / 26 / -1.6% */
+    line-height: 26px;
+    letter-spacing: -0.016em;
+  }
+  .btn--md .roll, .btn--md .roll span { height: 26px; }
+  .btn--md:hover .roll span { transform: translateY(-26px); }
+  .btn--md svg { width: 14px; height: 12px; }
+
+  /* Hierarchy=Secondary: стеклянная, наведение наливает подложку, а не гасит текст */
+  .btn--glass {
+    background: var(--surface-overlay);      /* Surface/overlay 5% */
+    color: var(--text-primary);
+    transition: background-color 600ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .btn--glass:hover { background: rgb(245 248 255 / 0.1); opacity: 1; }   /* Surface/overlay-hover 10% */
+  .btn--glass:active { background: rgb(245 248 255 / 0.16); opacity: 1; }
+
+  /* блок контента героя */
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-40);
+    width: 100%;
+  }
+
+  .actions { display: flex; align-items: center; gap: var(--space-8); }
+
+  /* Scroll cue: hover · background · Blue/950 → Blue/900 · 150 мс · standard */
+  .scroll-cue {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--blue-950);
+    display: grid;
+    place-items: center;
+    color: var(--neutral-300);
+    border: 0;
+    cursor: pointer;
+    transition: background-color 600ms cubic-bezier(0.25, 1, 0.5, 1),
+                color 600ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .scroll-cue:hover { background: var(--blue-900); color: var(--text-primary); }
+  .scroll-cue:focus-visible { outline: 2px solid #5a94f5; outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue { transition: none; }
+  }
+
+  /* ---------- герой: композиция designleader, всё по центру ---------- */
+  main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 var(--page-margin) var(--space-160);   /* нижнее поле 160 */
+    gap: 2rem;                              /* 32 */
+  }
+
+  .headlines {
+    width: 652px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-24);
+  }
+
+  .avatar {
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid var(--border-subtle);
+  }
+
+  h1 {
+    width: 100%;
+    margin: 0;
+    font-size: var(--display-lg);   /* 60 / 72 / -4% Bold */
+    line-height: 72px;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+  }
+
+  .lead {
+    max-width: 401px;
+    margin: 0;
+    font-size: var(--text-sm);      /* 14 / 20 / -1% Bold */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+
+  /* ---------- секция Statement ---------- */
+  .statement {
+    position: relative;
+    min-height: 900px;
+    padding: var(--space-80) var(--page-margin) var(--space-160);
+    background: var(--surface-page);
+    overflow: hidden;
+  }
+
+  /* свечение от краёв: радиальное пятно, погашенное линейной маской */
+  .statement::before,
+  .statement::after {
+    content: "";
+    position: absolute;
+    top: -100px;
+    width: 560px;
+    height: 1100px;
+    pointer-events: none;
+    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
+  }
+  .statement::before {
+    left: -320px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 100%);
+            mask-image: linear-gradient(to right, transparent 0%, #000 100%);
+  }
+  .statement::after {
+    right: -320px;
+    -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 100%);
+            mask-image: linear-gradient(to left, transparent 0%, #000 100%);
+  }
+
+  .statement h2 {
+    position: relative;
+    z-index: 1;
+    max-width: 704px;
+    margin: 0 0 var(--space-64);
+    font-size: var(--display-md);   /* 48 / 60 / -3.5% */
+    line-height: 60px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+
+  .cards {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: var(--space-8);
+  }
+
+  .card {
+    width: 403px;
+    min-height: 258px;
+    border-radius: 30px;
+    background: rgb(0 3 9 / 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    padding: var(--space-20);
+  }
+
+  .card__icon {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgb(0 3 9 / 0.2);
+    display: grid;
+    place-items: center;
+    color: var(--text-accent);
+  }
+
+  .card__text { display: flex; flex-direction: column; gap: var(--space-16); max-width: 280px; }
+
+  .card h3 {
+    margin: 0;
+    font-size: var(--heading-lg);   /* 32 / 40 / -2.5% */
+    line-height: 40px;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+  .card p {
+    margin: 0;
+    max-width: 232px;
+    font-size: var(--text-sm);      /* 14 / 20 / -1% */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    :root { --page-margin: 1.5rem; }
+    header { grid-template-columns: auto auto; row-gap: var(--space-16); }
+    .logo-name { font-size: 1.75rem; line-height: 36px; }
+    nav { grid-column: 1 / -1; order: 3; justify-self: stretch; justify-content: center; gap: var(--space-16); }
+    h1 { font-size: 2.5rem; line-height: 48px; }
+    .headlines { width: 100%; }
+    .avatar { width: 112px; height: 112px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="logo">
+      <span class="logo-name">Diana Shvedskaia</span>
+    </div>
+
+    <nav>
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#playbook">Playbook</a>
+      <a href="#cv">Download CV</a>
+    </nav>
+
+    <a class="btn" href="#contact">
+      <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+      <svg width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true">
+        <path d="M6.77423 10.4371C6.69794 10.4375 6.62234 10.4226 6.55188 10.3934C6.48142 10.3641 6.41751 10.3211 6.3639 10.2668C6.25517 10.1579 6.19409 10.0104 6.19409 9.85648C6.19409 9.70261 6.25517 9.55503 6.3639 9.44616L10.5987 5.21132L6.3639 0.976484C6.26134 0.866413 6.2055 0.720829 6.20815 0.570402C6.21081 0.419975 6.27175 0.276451 6.37813 0.170067C6.48452 0.0636827 6.62804 0.00274457 6.77847 9.04625e-05C6.92889 -0.00256364 7.07448 0.0532735 7.18455 0.155839L11.8297 4.801C11.9384 4.90987 11.9995 5.05745 11.9995 5.21132C11.9995 5.36519 11.9384 5.51277 11.8297 5.62164L7.18455 10.2668C7.13094 10.3211 7.06703 10.3641 6.99657 10.3934C6.92611 10.4226 6.85052 10.4375 6.77423 10.4371Z" fill="currentColor"/>
+        <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
+      </svg>
+    </a>
+  </header>
+
+  <main>
+    <img class="avatar" src="assets/avatar.png" alt="Diana Shvedskaia">
+
+    <div class="content">
+      <div class="headlines">
+        <h1>Deploy AI systems that run your B2B operations</h1>
+        <p class="lead">Span gives B2B companies the infrastructure to deploy AI workflows across sales, support, and operations in days.</p>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn--md" href="#contact">
+          <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+            <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+            <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+          </svg>
+        </a>
+
+        <a class="btn btn--md btn--glass" href="https://www.behance.net/" target="_blank" rel="noopener">
+          <span class="roll"><span>Behance</span><span>Behance</span></span>
+          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+            <path d="M3 12.7498C2.88537 12.7483 2.77256 12.721 2.67 12.6698C2.54453 12.6083 2.43873 12.513 2.36453 12.3946C2.29032 12.2763 2.25065 12.1395 2.25 11.9998V-0.000216186C2.25065 -0.139931 2.29032 -0.276685 2.36453 -0.395065C2.43873 -0.513445 2.54453 -0.608743 2.67 -0.670216C2.79355 -0.732677 2.93214 -0.759229 3.07002 -0.746854C3.2079 -0.73448 3.33955 -0.683676 3.45 -0.600216L11.45 5.39978C11.5431 5.46964 11.6187 5.56023 11.6708 5.66437C11.7229 5.76852 11.75 5.88335 11.75 5.99978C11.75 6.11622 11.7229 6.23105 11.6708 6.33519C11.6187 6.43934 11.5431 6.52992 11.45 6.59978L3.45 12.5998C3.32052 12.6978 3.1624 12.7505 3 12.7498ZM3.75 1.49978V10.4998L9.75 5.99978L3.75 1.49978Z" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+
+      <a class="scroll-cue" href="#work" aria-label="К работам">
+        <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
+          <path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+
+  </main>
+
+
+  <section class="statement">
+    <h2>I'll help you to create clarity on what matters and the confidence to act on it.</h2>
+    <div class="cards">
+      <article class="card">
+        <span class="card__icon"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M5.8387 17.9993C4.31423 18.0053 2.84439 17.4312 1.72645 16.3933C1.18202 15.8892 0.747594 15.2777 0.450484 14.5974C0.153374 13.917 0 13.1825 0 12.4399C0 11.6974 0.153374 10.9628 0.450484 10.2825C0.747594 9.60214 1.18202 8.99069 1.72645 8.48657L9.4986 1.13578C10.298 0.405099 11.3412 0 12.4234 0C13.5057 0 14.5489 0.405099 15.3483 1.13578C15.765 1.52323 16.0992 1.99113 16.3307 2.5113C16.5621 3.03147 16.6861 3.59317 16.695 4.16257C16.6978 4.65465 16.5988 5.14198 16.4042 5.59382C16.2095 6.04566 15.9235 6.45222 15.5642 6.78785L7.78174 14.1489C7.31213 14.5853 6.6952 14.8277 6.05459 14.8277C5.41399 14.8277 4.79705 14.5853 4.32745 14.1489C4.09443 13.9339 3.90844 13.6729 3.78123 13.3823C3.65401 13.0917 3.58833 12.7778 3.58833 12.4605C3.58833 12.1432 3.65401 11.8294 3.78123 11.5388C3.90844 11.2482 4.09443 10.9871 4.32745 10.7721L11.5239 3.98756C11.6685 3.84296 11.8644 3.76174 12.0688 3.76174C12.2731 3.76174 12.4691 3.84296 12.6136 3.98756C12.758 4.13233 12.8391 4.32858 12.8391 4.5332C12.8391 4.73782 12.758 4.93407 12.6136 5.07885L5.41719 11.8634C5.33648 11.9339 5.27178 12.021 5.22745 12.1186C5.18312 12.2163 5.16018 12.3223 5.16018 12.4296C5.16018 12.5369 5.18312 12.643 5.22745 12.7406C5.27178 12.8383 5.33648 12.9253 5.41719 12.9959C5.60341 13.1554 5.84039 13.243 6.08543 13.243C6.33048 13.243 6.56746 13.1554 6.75367 12.9959L14.5361 5.65538C14.7341 5.46105 14.8908 5.22863 14.9968 4.97209C15.1028 4.71555 15.1559 4.44019 15.1529 4.16257C15.1444 3.80474 15.0635 3.45236 14.9151 3.12676C14.7666 2.80115 14.5538 2.50909 14.2894 2.26825C13.7819 1.7972 13.1154 1.53547 12.4234 1.53547C11.7315 1.53547 11.065 1.7972 10.5575 2.26825L2.8162 9.60874C2.42416 9.9685 2.11113 10.406 1.89698 10.8934C1.68283 11.3808 1.57224 11.9074 1.57224 12.4399C1.57224 12.9724 1.68283 13.4991 1.89698 13.9865C2.11113 14.4739 2.42416 14.9114 2.8162 15.2711C3.65356 16.0527 4.75569 16.4873 5.90038 16.4873C7.04508 16.4873 8.1472 16.0527 8.98457 15.2711L16.6848 7.9718C16.7556 7.89896 16.8404 7.84106 16.9339 7.80153C17.0275 7.762 17.1281 7.74163 17.2296 7.74163C17.3312 7.74163 17.4317 7.762 17.5253 7.80153C17.6189 7.84106 17.7036 7.89896 17.7745 7.9718C17.9189 8.11658 18 8.31283 18 8.51745C18 8.72207 17.9189 8.91832 17.7745 9.0631L10.0126 16.3933C8.87972 17.4469 7.38461 18.0222 5.8387 17.9993Z" fill="currentColor"/>
+          </svg></span>
+        <div class="card__text">
+          <h3>Complex UX Design</h3>
+          <p>Turning complex workflows and requirements into clear, efficient, and user-friendly experiences for digital products</p>
+        </div>
+      </article>
+    </div>
+  </section>
+</div>
+</body>
+</html>
