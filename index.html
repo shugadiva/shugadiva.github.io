@@ -362,8 +362,33 @@
     position: relative;
     padding: var(--space-96) var(--page-margin);
     background: var(--surface-page);
-    overflow-x: clip;   /* свечение за устройством шире экрана, иначе появляется горизонтальная прокрутка */
+    overflow-x: clip;   /* свечения шире экрана, иначе появляется горизонтальная прокрутка */
   }
+
+  /* BG: Surface/edge-glow у левого и правого края секции. Пятно 560x600
+     за краем, линейная маска гасит внешнюю часть: прозрачно до 36%, полностью к 68%.
+     Правое пятно зеркальное. */
+  .experience::before,
+  .experience::after {
+    content: "";
+    position: absolute;
+    top: 57px;
+    width: 560px;
+    height: 600px;
+    pointer-events: none;
+    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
+  }
+  .experience::before {
+    left: -295px;
+    -webkit-mask-image: linear-gradient(to right, transparent 36%, #000 68%);
+            mask-image: linear-gradient(to right, transparent 36%, #000 68%);
+  }
+  .experience::after {
+    right: -295px;
+    -webkit-mask-image: linear-gradient(to left, transparent 36%, #000 68%);
+            mask-image: linear-gradient(to left, transparent 36%, #000 68%);
+  }
+  .experience .container { position: relative; z-index: 1; }
   .experience .container {
     display: flex;
     align-items: center;
@@ -426,48 +451,41 @@
   }
 
   .experience__media { position: relative; flex: 1 1 0; min-width: 0; }
-  /* Glow за устройством: Surface/edge-glow 35 → 24 → 0%, прямоугольник 880x720 */
-  .experience__media::before {
-    content: "";
-    position: absolute;
-    left: -132px;
-    top: -140px;
-    width: 880px;
-    height: 720px;
-    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
-    pointer-events: none;
-  }
-  .device {
+
+  /* iPad Pro 11": экран 492x338 с отступом 22 и радиусом 12, поверх рамка-картинка */
+  .ipad {
     position: relative;
-    height: 440px;
-    padding: var(--space-12);
-    border-radius: 32px;
-    background: var(--surface-card);
-    border: 1px solid var(--border-default);
+    aspect-ratio: 536 / 382;
   }
-  .device__screen {
-    height: 100%;
-    border-radius: 20px;
+  .ipad__screen {
+    position: absolute;
+    inset: 5.76% 4.1%;            /* 22 из 382 и 22 из 536 */
+    border-radius: 12px;
     background: var(--surface-raised);
-    border: 1px dashed var(--border-default);
+    overflow: hidden;
     display: grid;
     place-items: center;
-    font-size: var(--label-md);
+    font-size: var(--label-md);   /* Label/md, Text/secondary */
     line-height: 16px;
     letter-spacing: -0.01em;
     font-weight: 600;
     color: var(--text-secondary);
   }
+  .ipad__bezel {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
 
   @media (max-width: 1100px) {
     .experience .container { flex-direction: column; align-items: stretch; }
     .experience__text { flex-basis: auto; }
-    .experience__media::before { left: -20%; width: 140%; }
   }
   @media (max-width: 768px) {
     .experience { padding-block: var(--space-64); }
     .experience h2 { font-size: 1.75rem; line-height: 36px; }
-    .device { height: 300px; }
   }
 
   /* ---------- Globe: фрейм Globe 1000x440 в Hero, координаты слоёв из макета ----------
@@ -693,7 +711,10 @@
         </div>
       </div>
       <div class="experience__media">
-        <div class="device"><div class="device__screen">PRODUCT SCREENSHOT</div></div>
+        <div class="ipad">
+          <div class="ipad__screen">PRODUCT SCREENSHOT</div>
+          <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+        </div>
       </div>
     </div>
   </section>
