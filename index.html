@@ -23,6 +23,7 @@
     --text-accent: #b8d7ff;
     --text-inverse: #000309;
     --border-subtle: rgb(245 248 255 / 0.08);
+    --border-default: rgb(245 248 255 / 0.2);
     --accent: #144dc7;
     --edge-glow: #1361c7;
     --blue-950: #020814;
@@ -32,7 +33,7 @@
     /* типографика */
     --display-lg: 3.75rem;    /* 60 / 72 / -4% Bold */
     --display-md: 3rem;      /* 48 / 60 / -4%  */
-    --text-lg: 1.25rem;      /* 20 / 28 / -1%  */
+    --text-lg: 1.25rem;      /* 20 / 28 / -1.8% Medium */
     --text-md: 1.0625rem;    /* 17 / 26 / -1.6% Bold */
     --text-sm: 0.875rem;     /* 14 / 20 SemiBold */
     --label-lg: 1rem;        /* 16 / 24 SemiBold */
@@ -300,9 +301,9 @@
     z-index: 1;
     max-width: 704px;
     margin: 0 0 var(--space-64);
-    font-size: var(--display-md);   /* 48 / 60 / -3.5% */
-    line-height: 60px;
-    letter-spacing: -0.035em;
+    font-size: var(--display-sm);   /* Display/sm 36 / 44 / -3% SemiBold */
+    line-height: 44px;
+    letter-spacing: -0.03em;
     font-weight: 600;
   }
 
@@ -355,6 +356,119 @@
     .card { flex-basis: 100%; }
   }
 
+
+  /* ---------- Experience: текст 600 слева, макет продукта справа ---------- */
+  .experience {
+    position: relative;
+    padding: var(--space-96) var(--page-margin);
+    background: var(--surface-page);
+    overflow-x: clip;   /* свечение за устройством шире экрана, иначе появляется горизонтальная прокрутка */
+  }
+  .experience .container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-64);
+  }
+  .experience__text {
+    flex: 0 0 600px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-64);
+  }
+  .experience h2 {
+    margin: 0;
+    max-width: 585px;   /* в макете 589, но браузер рисует Manrope чуть уже: строка «driving … Product» выходит ровно 589 и не переносится, как в Figma */
+    font-size: var(--display-sm);   /* Display/sm 36 / 44 / -3% SemiBold */
+    line-height: 44px;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .experience h2 strong { font-weight: inherit; color: var(--text-primary); }
+
+  .experience__details { display: flex; flex-direction: column; gap: var(--space-40); }
+  .experience__company {
+    margin: 0;
+    font-size: var(--heading-lg);   /* Heading/lg 32 / 40 / -2.5% Medium */
+    line-height: 40px;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+  .experience__role { display: flex; flex-direction: column; gap: var(--space-8); max-width: 450px; }
+  .experience__role h3 {
+    margin: 0;
+    font-size: var(--heading-md);   /* Heading/md 24 / 32 / -2% Medium */
+    line-height: 32px;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  .experience__role p {
+    margin: 0;
+    font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+
+  /* Chip, Size=md: поля 8 и 16, Surface/overlay, Border/subtle, текст Label/md */
+  .chips { display: flex; flex-wrap: wrap; gap: var(--space-12); margin: 0; padding: 0; list-style: none; }
+  .chip {
+    padding: var(--space-8) var(--space-16);
+    border-radius: 100px;
+    background: var(--surface-overlay);
+    border: 1px solid var(--border-subtle);
+    font-size: var(--label-md);     /* Label/md 14 / 16 / -1% SemiBold */
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .experience__media { position: relative; flex: 1 1 0; min-width: 0; }
+  /* Glow за устройством: Surface/edge-glow 35 → 24 → 0%, прямоугольник 880x720 */
+  .experience__media::before {
+    content: "";
+    position: absolute;
+    left: -132px;
+    top: -140px;
+    width: 880px;
+    height: 720px;
+    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
+    pointer-events: none;
+  }
+  .device {
+    position: relative;
+    height: 440px;
+    padding: var(--space-12);
+    border-radius: 32px;
+    background: var(--surface-card);
+    border: 1px solid var(--border-default);
+  }
+  .device__screen {
+    height: 100%;
+    border-radius: 20px;
+    background: var(--surface-raised);
+    border: 1px dashed var(--border-default);
+    display: grid;
+    place-items: center;
+    font-size: var(--label-md);
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 1100px) {
+    .experience .container { flex-direction: column; align-items: stretch; }
+    .experience__text { flex-basis: auto; }
+    .experience__media::before { left: -20%; width: 140%; }
+  }
+  @media (max-width: 768px) {
+    .experience { padding-block: var(--space-64); }
+    .experience h2 { font-size: 1.75rem; line-height: 36px; }
+    .device { height: 300px; }
+  }
 
   /* ---------- Globe: фрейм Globe 1000x440 в Hero, координаты слоёв из макета ----------
      Механика и грабли: globe-multiply.html и COPY_EFFECTS.md. Шар рендерится
@@ -551,6 +665,36 @@
         </div>
       </article>
     </div>
+    </div>
+  </section>
+
+  <section class="experience" id="work">
+    <div class="container">
+      <div class="experience__text">
+        <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+        <div class="experience__details">
+          <p class="experience__company">Company</p>
+          <div class="experience__role">
+            <h3>Senior Product Designer</h3>
+            <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+          </div>
+          <ul class="chips">
+            <li class="chip">LEAD DESIGNER</li>
+            <li class="chip">GEN AI</li>
+            <li class="chip">DESIGN STRATEGY</li>
+            <li class="chip">EXPERIENCE VISION</li>
+            <li class="chip">STAKEHOLDER MANAGEMENT</li>
+            <li class="chip">HANDS-ON</li>
+            <li class="chip">PRODUCT DELIVERY</li>
+            <li class="chip">PROTOTYPING</li>
+            <li class="chip">DISCOVERY</li>
+            <li class="chip">VISUAL DESIGN</li>
+          </ul>
+        </div>
+      </div>
+      <div class="experience__media">
+        <div class="device"><div class="device__screen">PRODUCT SCREENSHOT</div></div>
+      </div>
     </div>
   </section>
 </div>
