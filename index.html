@@ -48,6 +48,7 @@
     --space-40: 2.5rem;
     --space-48: 3rem;
     --space-64: 4rem;
+    --space-96: 6rem;
     --space-160: 10rem;
     --space-80: 5rem;
     --space-240: 15rem;
@@ -275,10 +276,10 @@
 
   /* ---------- секция Statement ---------- */
   /* Секция: одинаковый отступ сверху и снизу, высота по содержимому.
-     64 + 64 = 128 между секциями на десктопе, 48 + 48 = 96 на телефоне (SPACING.md). */
+     96 + 96 = 192 между секциями на десктопе, 64 + 64 = 128 на телефоне (SPACING.md). */
   .statement {
     position: relative;
-    padding: var(--space-64) var(--page-margin);
+    padding: var(--space-96) var(--page-margin);
     background: var(--surface-page);
     overflow: hidden;
   }
@@ -438,7 +439,7 @@
     h1 { font-size: 2.5rem; line-height: 48px; }
     .headlines { width: 100%; }
     .avatar { width: 112px; height: 112px; }
-    .statement { padding-block: var(--space-48); }
+    .statement { padding-block: var(--space-64); }
     /* как у оригинала: шар не уменьшается и вылезает за края, чуть меньше только пятно и дуги */
     .globe__glow { width: 419px; height: 419px; left: 290.5px; top: 183.5px; }
     .globe__arcs { width: 750px; height: 750px; left: 125px; top: 43px; }
