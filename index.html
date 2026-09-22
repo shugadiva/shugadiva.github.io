@@ -282,27 +282,9 @@
     overflow: hidden;
   }
 
-  /* свечение от краёв: радиальное пятно, погашенное линейной маской */
-  .statement::before,
-  .statement::after {
-    content: "";
-    position: absolute;
-    top: -100px;
-    width: 560px;
-    height: 1100px;
-    pointer-events: none;
-    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
-  }
-  .statement::before {
-    left: -320px;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 100%);
-            mask-image: linear-gradient(to right, transparent 0%, #000 100%);
-  }
-  .statement::after {
-    right: -320px;
-    -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 100%);
-            mask-image: linear-gradient(to left, transparent 0%, #000 100%);
-  }
+  /* Свечение от краёв (Surface/edge-glow, группа BG) выключено в макете 22.09.2026.
+     Вернуть: радиальное пятно #1361C7 35 → 24 → 0% за левым и правым краем,
+     погашенное линейной маской, см. SYSTEM_CHANGELOG.md, 17.09.2026. */
 
   .statement h2 {
     position: relative;
