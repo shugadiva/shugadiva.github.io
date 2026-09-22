@@ -81,12 +81,23 @@
     z-index: 0;
   }
 
-  .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; gap: var(--space-64); }
+  .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* ---------- первый экран: 1440x1000 по макету, глобус прибит к нижнему краю ---------- */
+  .hero {
+    position: relative;
+    min-height: 1000px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-64);
+    overflow: clip;
+  }
+  .hero > header, .hero > main { position: relative; z-index: 1; }
 
   /* ---------- шапка: структура как у Лушникова, оформление span ---------- */
   header {
     width: 100%;
-    max-width: calc(var(--container-xl) + var(--page-margin) * 2);
+    max-width: calc(1280px + var(--page-margin) * 2);   /* в макете шапка 1280 при полях 80 */
     margin: 0 auto;
     padding: var(--space-16) var(--page-margin) 0;
     display: grid;
@@ -211,34 +222,13 @@
 
   .actions { display: flex; align-items: center; gap: var(--space-8); }
 
-  /* Scroll cue: hover · background · Blue/950 → Blue/900 · 150 мс · standard */
-  .scroll-cue {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--blue-950);
-    display: grid;
-    place-items: center;
-    color: var(--neutral-300);
-    border: 0;
-    cursor: pointer;
-    transition: background-color 600ms cubic-bezier(0.25, 1, 0.5, 1),
-                color 600ms cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .scroll-cue:hover { background: var(--blue-900); color: var(--text-primary); }
-  .scroll-cue:focus-visible { outline: 2px solid #5a94f5; outline-offset: 2px; }
-
-  @media (prefers-reduced-motion: reduce) {
-    .scroll-cue { transition: none; }
-  }
-
   /* ---------- герой: композиция designleader, всё по центру ---------- */
   main {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-    padding: 0 var(--page-margin) var(--space-160);   /* нижнее поле 160 */
+    padding: 0 var(--page-margin);
     gap: 2rem;                              /* 32 */
   }
 
@@ -368,6 +358,82 @@
     color: var(--text-secondary);
   }
 
+
+  /* ---------- Globe: фрейм Globe 1000x440 в Hero, координаты слоёв из макета ----------
+     Механика и грабли: globe-multiply.html и COPY_EFFECTS.md. Шар рендерится
+     чёрно-белым, цвет точкам даёт Glow под ним через mix-blend-mode: multiply.
+     У .globe нет transform, filter и opacity: любое из них отрезало бы multiply. */
+  .globe {
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    left: calc(50% - 500px);
+    width: 1000px;
+    height: 440px;
+  }
+
+  /* Glow: загрузка · opacity, y · 0.001 → 1, +20 → 0 · 1000 мс · cubic-bezier(0.25, 1, 0.5, 1) */
+  .globe__glow {
+    position: absolute;
+    left: 259px;
+    top: 152px;
+    width: 482px;
+    height: 482px;
+    border-radius: 50%;
+    background: radial-gradient(circle closest-side, #8fbcfc 0%, #2e6ee8 64%, #0031ff 100%); /* как в макете: Blue/300 → Blue/500 → #0031FF, closest-side = край круга, как в Figma */
+    filter: blur(65px);
+    animation: glow-in 1000ms cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+  @keyframes glow-in {
+    from { opacity: 0.001; translate: 0 20px; }
+    to   { opacity: 1;     translate: 0 0; }
+  }
+
+  /* Arcs: загрузка · scale · 0.90 → 1.00 → 0.90 · 10 с · linear, бесконечно.
+     Без transform: только отдельные свойства rotate и scale вокруг центра блока. */
+  .globe__arcs {
+    position: absolute;
+    left: 105px;
+    top: 23px;
+    width: 790px;
+    height: 790px;
+    rotate: 186deg;
+    animation: arcs-breathe 10s linear infinite;
+  }
+  .globe__arcs svg { display: block; width: 100%; height: 100%; overflow: visible; }
+  .globe__arcs path { fill: none; stroke: rgb(90 148 245 / 0.12); stroke-width: 12; } /* Blue/400, слой 12% */
+  @keyframes arcs-breathe {
+    0%, 100% { scale: 0.9; }
+    50%      { scale: 1; }
+  }
+
+  /* Globe image: канвас 575 в режиме multiply, край гасится маской */
+  .globe__ball {
+    position: absolute;
+    left: 212.5px;
+    top: 145.5px;
+    width: 575px;
+    height: 575px;
+    mix-blend-mode: multiply;
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 70%);
+    mask-image: radial-gradient(circle at 50% 50%, rgba(0,0,0,1) 60%, rgba(0,0,0,0) 70%);
+  }
+  .globe__ball canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    contain: layout paint size;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+  }
+  .globe__ball canvas.dragging { cursor: grabbing; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .globe__glow, .globe__arcs { animation: none; }
+  }
+
   @media (max-width: 768px) {
     :root { --page-margin: 1.5rem; }
     header { grid-template-columns: auto auto; row-gap: var(--space-16); }
@@ -376,12 +442,16 @@
     h1 { font-size: 2.5rem; line-height: 48px; }
     .headlines { width: 100%; }
     .avatar { width: 112px; height: 112px; }
+    /* как у оригинала: шар не уменьшается и вылезает за края, чуть меньше только пятно и дуги */
+    .globe__glow { width: 419px; height: 419px; left: 290.5px; top: 183.5px; }
+    .globe__arcs { width: 750px; height: 750px; left: 125px; top: 43px; }
   }
 </style>
 </head>
 <body>
 <div class="page">
 
+<div class="hero">
   <header>
     <div class="logo">
       <span class="logo-name">Diana Shvedskaia</span>
@@ -429,14 +499,25 @@
         </a>
       </div>
 
-      <a class="scroll-cue" href="#work" aria-label="К работам">
-        <svg width="14" height="8" viewBox="0 0 14 8" fill="none">
-          <path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </a>
     </div>
 
   </main>
+
+  <div class="globe" aria-hidden="true">
+    <div class="globe__glow"></div>
+    <div class="globe__arcs">
+      <svg viewBox="-751 -738 1580 1580">
+        <path d="M555.5 374.7 A670 670 0 1 1 403.2 -535.1"/>
+        <path d="M715.2 -303.6 A777 777 0 0 1 478.4 612.3"/>
+        <path d="M388.5 672.9 A777 777 0 0 1 -698.4 340.6"/>
+        <path d="M0 575 A575 575 0 0 1 -531.2 -220"/>
+        <path d="M-406.6 -406.6 A575 575 0 0 1 0 -575"/>
+        <path d="M531.6 219.1 A575 575 0 0 1 408 405.2"/>
+      </svg>
+    </div>
+    <div class="globe__ball"><canvas id="globe"></canvas></div>
+  </div>
+</div>
 
 
   <section class="statement">
@@ -454,5 +535,92 @@
     </div>
   </section>
 </div>
+
+<script type="module">
+  // cobe с CDN. Для проекта ставится локально: npm i cobe.
+  import createGlobe from "https://esm.sh/cobe@0.6.4";
+
+  const canvas = document.getElementById("globe");
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // DPR всегда 2, как у оригинала: на обычном мониторе с DPR 1 иначе
+  // канвас рисуется в 575 px и точки выходят крупнее и рванее.
+  const dpr = 2;
+  // Шар на всех экранах 575, поэтому плотность одна.
+  const samples = 20000;
+
+  let size = canvas.offsetWidth || 575;
+  let phi = 0;            // текущий поворот
+  let theta = 0.3;        // наклон к северу
+  let spin = 0;           // скорость от броска мышью, гасится трением
+  let dragging = false;
+  let lastX = 0;
+  let lastY = 0;
+
+  const globe = createGlobe(canvas, {
+    devicePixelRatio: dpr,
+    width: size * dpr,
+    height: size * dpr,
+    phi: 0,
+    theta,
+    dark: 1,              // максимально тёмная ночная сторона
+    diffuse: 2,           // жёсткий терминатор, шар читается объёмным
+    mapSamples: samples,
+    mapBrightness: 12,
+    // Точки материков берут цвет из baseColor, умноженного на mapBrightness.
+    // Чёрная база даёт чёрный шар вообще без материков, проверено в Chrome.
+    // База белая, а тёмным шар делает dark: 1 — ночная сторона гасится отдельно.
+    baseColor: [1, 1, 1],
+    markerColor: [1, 1, 1],
+    glowColor: [0.92, 0.914, 0.91],   // светлый ореол по краю, #EBE9E8
+    markers: [],
+    opacity: 1,
+    onRender: (state) => {
+      if (!dragging && !reduced) phi += 0.003;   // автовращение
+      phi += spin;
+      spin *= 0.94;                              // инерция после броска
+      state.phi = phi;
+      state.theta = theta;
+      state.width = size * dpr;
+      state.height = size * dpr;
+    },
+  });
+
+  // Перетаскивание мышью и пальцем.
+  const onDown = (e) => {
+    dragging = true;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    canvas.classList.add("dragging");
+    canvas.setPointerCapture(e.pointerId);
+  };
+  const onMove = (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX;
+    const dy = e.clientY - lastY;
+    lastX = e.clientX;
+    lastY = e.clientY;
+    phi += dx * 0.005;
+    theta = Math.max(-0.6, Math.min(0.9, theta + dy * 0.005));  // не даём шару перевернуться
+    spin = dx * 0.0015;
+  };
+  const onUp = (e) => {
+    dragging = false;
+    canvas.classList.remove("dragging");
+    if (e.pointerId !== undefined && canvas.hasPointerCapture?.(e.pointerId)) {
+      canvas.releasePointerCapture(e.pointerId);
+    }
+  };
+  canvas.addEventListener("pointerdown", onDown);
+  canvas.addEventListener("pointermove", onMove);
+  canvas.addEventListener("pointerup", onUp);
+  canvas.addEventListener("pointercancel", onUp);
+
+  const onResize = () => { size = canvas.offsetWidth || size; };
+  window.addEventListener("resize", onResize);
+
+  // Без destroy в dev-режиме накапливаются WebGL-контексты.
+  window.addEventListener("pagehide", () => globe.destroy());
+</script>
 </body>
 </html>
