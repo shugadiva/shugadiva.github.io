@@ -25,7 +25,10 @@
     /* палитра лендинга (portfolio/COLORS.md). Оригинал agentory:
        фон #0a0a0a, пятно #ff5101, вторичный текст #8a8a8a. */
     --page: #000309;         /* Surface/page */
-    --accent: #1361c7;       /* свечение лендинга, Accent/glow и Surface/edge-glow */
+    --accent: #5a94f5;       /* Blue/400: цвет дуг */
+    /* Свечение как горизонт на span: светлое ядро, к краю насыщенный синий.
+       Замер span-top.png: #A2CAFE в ядре, #6696D7, #3064AA, #113E77 к краю. */
+    --glow: radial-gradient(circle, #8fbcfc 0%, #2e6ee8 45%, #0011ff 100%); /* Blue/300 → Blue/500 → Accent/vivid */
     --text-primary: #f5f8ff; /* Text/primary */
     --text-secondary: #7a7d84; /* Text/secondary */
 
@@ -93,7 +96,7 @@
     width: var(--glow-size);
     aspect-ratio: 1;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--glow);
     filter: blur(65px);
     animation: glow-in 1000ms cubic-bezier(0.25, 1, 0.5, 1) both;
   }
