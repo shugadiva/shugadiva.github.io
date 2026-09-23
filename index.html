@@ -142,7 +142,7 @@
   }
   /* Линия снизу растёт из центра, как подчёркивание пунктов меню при наведении, та же кривая.
      Отдельным слоем, а не border: не добавляет шапке высоты.
-     scroll · line width · 0 → 100% · 500 мс · cubic-bezier(0.2, 0, 0, 1); обратно сжимается к центру */
+     scroll · line width · 0 → 100% · 1000 мс · cubic-bezier(0.2, 0, 0, 1); обратно сжимается к центру */
   header::after {
     content: "";
     position: absolute;
@@ -152,7 +152,7 @@
     height: 1px;
     background: var(--border-subtle);
     transform: translateX(-50%);
-    transition: width 500ms cubic-bezier(0.2, 0, 0, 1);
+    transition: width 1000ms cubic-bezier(0.2, 0, 0, 1);
     pointer-events: none;
   }
   header.is-scrolled::after { width: 100%; }
