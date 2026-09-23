@@ -600,18 +600,18 @@
   }
   .about .cards { align-items: stretch; }
 
-  /* Card, Size=lg: текстовая карточка, радиус 20, поля 32, заголовок и текст через 8 */
+  /* Card, Size=lg: текстовая карточка, радиус 20, поля 32, строки через 12, Heading/lg + Text/sm + Label/sm */
   .card--lg {
     border-radius: 20px;
     padding: var(--space-32);
   }
-  .card--lg .card__text { gap: var(--space-8); }
+  .card--lg .card__text { gap: var(--space-12); }
   .card--lg h3 {
     font-size: var(--heading-lg);   /* Heading/lg 32 / 40 / -2.5% Medium */
     line-height: 40px;
     letter-spacing: -0.025em;
   }
-  /* текст в About переопределён в макете на Text/sm (как у md), дата на Label/sm 12 / 16 / -0.5% Medium */
+  /* текст Text/sm (как у md, из .card p), дата Label/sm 12 / 16 / -0.5% Medium */
   .card--lg .card__meta {
     font-size: 0.75rem;
     line-height: 16px;
