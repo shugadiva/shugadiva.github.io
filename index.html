@@ -25,6 +25,7 @@
     --border-subtle: rgb(245 248 255 / 0.08);
     --border-default: rgb(245 248 255 / 0.2);
     --accent: #144dc7;
+    --focus-ring: #5a94f5;
     --edge-glow: #1361c7;
     --blue-950: #020814;
     --blue-900: #061640;
@@ -389,10 +390,67 @@
             mask-image: linear-gradient(to left, transparent 36%, #000 68%);
   }
   .experience .container { position: relative; z-index: 1; }
-  .experience .container {
+
+  /* Карусель: слайды в ряд, лента едет на ширину слайда.
+     Управление по образцу vercel.com/customers, замер в refs/vercel-carousel-controls.md */
+  .carousel__viewport { overflow: clip; }
+  .carousel__track {
+    display: flex;
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);   /* слайд · translateX · 400 мс · standard */
+  }
+  .experience__slide {
+    flex: 0 0 100%;
     display: flex;
     align-items: center;
     gap: var(--space-64);
+  }
+
+  /* Carousel controls: стрелки и полоска прогресса, от контента space/48 */
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-24);
+    margin-top: var(--space-48);
+  }
+  .carousel-controls__arrows { display: flex; gap: var(--space-8); }
+
+  /* Icon button, Size=md, Hierarchy=Secondary: круг 32, Surface/card, Border/default, шеврон 16 Text/primary */
+  .icon-button {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+    background: var(--surface-card);
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .icon-button:hover:not(:disabled) { background: var(--surface-overlay); }
+  .icon-button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+  .icon-button:disabled { opacity: 0.4; cursor: default; }
+  .icon-button svg { width: 16px; height: 16px; }
+
+  /* Progress bar: дорожка 4 Border/subtle, ползунок Text/primary шириной 1/N, едет, а не растёт */
+  .progress {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border-subtle);
+    overflow: hidden;
+  }
+  .progress__thumb {
+    height: 100%;
+    border-radius: 2px;
+    background: var(--text-primary);
+    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .carousel__track, .progress__thumb { transition: none; }
   }
   .experience__text {
     flex: 0 0 600px;
@@ -480,7 +538,7 @@
   }
 
   @media (max-width: 1100px) {
-    .experience .container { flex-direction: column; align-items: stretch; }
+    .experience__slide { flex-direction: column; align-items: stretch; }
     .experience__text { flex-basis: auto; }
   }
   @media (max-width: 768px) {
@@ -686,40 +744,165 @@
     </div>
   </section>
 
-  <section class="experience" id="work">
-    <div class="container">
-      <div class="experience__text">
-        <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
-        <div class="experience__details">
-          <p class="experience__company">Company</p>
-          <div class="experience__role">
-            <h3>Senior Product Designer</h3>
-            <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+  <section class="experience" id="work" aria-roledescription="carousel" aria-label="Опыт работы">
+    <div class="container" data-carousel>
+      <div class="carousel__viewport">
+        <div class="carousel__track">
+          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="1 из 4">
+          <div class="experience__text">
+            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <div class="experience__details">
+              <p class="experience__company">Company</p>
+              <div class="experience__role">
+                <h3>Senior Product Designer</h3>
+                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+              </div>
+              <ul class="chips">
+                <li class="chip">LEAD DESIGNER</li>
+                <li class="chip">GEN AI</li>
+                <li class="chip">DESIGN STRATEGY</li>
+                <li class="chip">EXPERIENCE VISION</li>
+                <li class="chip">STAKEHOLDER MANAGEMENT</li>
+                <li class="chip">HANDS-ON</li>
+                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">PROTOTYPING</li>
+                <li class="chip">DISCOVERY</li>
+                <li class="chip">VISUAL DESIGN</li>
+              </ul>
+            </div>
           </div>
-          <ul class="chips">
-            <li class="chip">LEAD DESIGNER</li>
-            <li class="chip">GEN AI</li>
-            <li class="chip">DESIGN STRATEGY</li>
-            <li class="chip">EXPERIENCE VISION</li>
-            <li class="chip">STAKEHOLDER MANAGEMENT</li>
-            <li class="chip">HANDS-ON</li>
-            <li class="chip">PRODUCT DELIVERY</li>
-            <li class="chip">PROTOTYPING</li>
-            <li class="chip">DISCOVERY</li>
-            <li class="chip">VISUAL DESIGN</li>
-          </ul>
+          <div class="experience__media">
+            <div class="ipad">
+              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
+              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            </div>
+          </div>
+          </div>
+          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="2 из 4">
+          <div class="experience__text">
+            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <div class="experience__details">
+              <p class="experience__company">Company</p>
+              <div class="experience__role">
+                <h3>Senior Product Designer</h3>
+                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+              </div>
+              <ul class="chips">
+                <li class="chip">LEAD DESIGNER</li>
+                <li class="chip">GEN AI</li>
+                <li class="chip">DESIGN STRATEGY</li>
+                <li class="chip">EXPERIENCE VISION</li>
+                <li class="chip">STAKEHOLDER MANAGEMENT</li>
+                <li class="chip">HANDS-ON</li>
+                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">PROTOTYPING</li>
+                <li class="chip">DISCOVERY</li>
+                <li class="chip">VISUAL DESIGN</li>
+              </ul>
+            </div>
+          </div>
+          <div class="experience__media">
+            <div class="ipad">
+              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
+              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            </div>
+          </div>
+          </div>
+          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="3 из 4">
+          <div class="experience__text">
+            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <div class="experience__details">
+              <p class="experience__company">Company</p>
+              <div class="experience__role">
+                <h3>Senior Product Designer</h3>
+                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+              </div>
+              <ul class="chips">
+                <li class="chip">LEAD DESIGNER</li>
+                <li class="chip">GEN AI</li>
+                <li class="chip">DESIGN STRATEGY</li>
+                <li class="chip">EXPERIENCE VISION</li>
+                <li class="chip">STAKEHOLDER MANAGEMENT</li>
+                <li class="chip">HANDS-ON</li>
+                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">PROTOTYPING</li>
+                <li class="chip">DISCOVERY</li>
+                <li class="chip">VISUAL DESIGN</li>
+              </ul>
+            </div>
+          </div>
+          <div class="experience__media">
+            <div class="ipad">
+              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
+              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            </div>
+          </div>
+          </div>
+          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="4 из 4">
+          <div class="experience__text">
+            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <div class="experience__details">
+              <p class="experience__company">Company</p>
+              <div class="experience__role">
+                <h3>Senior Product Designer</h3>
+                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+              </div>
+              <ul class="chips">
+                <li class="chip">LEAD DESIGNER</li>
+                <li class="chip">GEN AI</li>
+                <li class="chip">DESIGN STRATEGY</li>
+                <li class="chip">EXPERIENCE VISION</li>
+                <li class="chip">STAKEHOLDER MANAGEMENT</li>
+                <li class="chip">HANDS-ON</li>
+                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">PROTOTYPING</li>
+                <li class="chip">DISCOVERY</li>
+                <li class="chip">VISUAL DESIGN</li>
+              </ul>
+            </div>
+          </div>
+          <div class="experience__media">
+            <div class="ipad">
+              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
+              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            </div>
+          </div>
+          </div>
         </div>
       </div>
-      <div class="experience__media">
-        <div class="ipad">
-          <div class="ipad__screen">PRODUCT SCREENSHOT</div>
-          <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+      <div class="carousel-controls">
+        <div class="carousel-controls__arrows">
+          <button class="icon-button" type="button" data-prev aria-label="Предыдущая компания"><svg viewBox="0 0 16 16" aria-hidden="true" style="transform: scaleX(-1)"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
+          <button class="icon-button" type="button" data-next aria-label="Следующая компания"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
         </div>
+        <div class="progress" aria-hidden="true"><div class="progress__thumb"></div></div>
       </div>
     </div>
   </section>
 </div>
 
+<script>
+  // Карусель Experience: стрелки листают по одному слайду, ползунок шириной 1/N едет следом.
+  document.querySelectorAll("[data-carousel]").forEach((root) => {
+    const track = root.querySelector(".carousel__track");
+    const slides = [...track.children];
+    const prev = root.querySelector("[data-prev]");
+    const next = root.querySelector("[data-next]");
+    const thumb = root.querySelector(".progress__thumb");
+    let index = 0;
+    thumb.style.width = `${100 / slides.length}%`;
+    const render = () => {
+      track.style.transform = `translateX(${-index * 100}%)`;
+      thumb.style.transform = `translateX(${index * 100}%)`;
+      prev.disabled = index === 0;
+      next.disabled = index === slides.length - 1;
+      slides.forEach((s, i) => { s.inert = i !== index; });   // скрытые слайды не ловят Tab
+    };
+    prev.addEventListener("click", () => { index = Math.max(0, index - 1); render(); });
+    next.addEventListener("click", () => { index = Math.min(slides.length - 1, index + 1); render(); });
+    render();
+  });
+</script>
 <script type="module">
   // cobe с CDN. Для проекта ставится локально: npm i cobe.
   import createGlobe from "https://esm.sh/cobe@0.6.4";
