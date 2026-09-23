@@ -550,11 +550,9 @@
   /* Кнопка под чипами: Button md Primary, в Details через space/40 */
   .experience__details > .btn { align-self: flex-start; }
 
-  /* ---------- About: вступление по центру, карточки Values и Education ----------
-     В макете секция About вложена в фрейм 13 со своими полями 96, поэтому
-     сверху и снизу по 96 + 96. */
+  /* ---------- About: вступление по центру, карточки Values и Education ---------- */
   .about {
-    padding: calc(var(--space-96) * 2) var(--page-margin);
+    padding: var(--space-96) var(--page-margin);
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
@@ -613,23 +611,18 @@
     line-height: 40px;
     letter-spacing: -0.025em;
   }
-  .card--lg p {
-    font-size: var(--text-lg);      /* Text/lg 20 / 28 / -1.8% Medium */
-    line-height: 28px;
-    letter-spacing: -0.018em;
-    font-weight: 500;
-  }
+  /* текст в About переопределён в макете на Text/sm (как у md), дата на Label/sm 12 / 16 / -0.5% Medium */
   .card--lg .card__meta {
-    font-size: var(--label-lg);     /* Label/lg 16 / 24 SemiBold */
-    line-height: 24px;
-    letter-spacing: -0.014em;
-    font-weight: 600;
+    font-size: 0.75rem;
+    line-height: 16px;
+    letter-spacing: -0.005em;
+    font-weight: 500;
   }
   @media (max-width: 900px) {
     .about .cards { flex-direction: column; }
   }
   @media (max-width: 768px) {
-    .about { padding-block: var(--space-96); }
+    .about { padding-block: var(--space-64); }
     .about h2 { font-size: var(--display-sm); line-height: 44px; }
   }
 
@@ -733,10 +726,10 @@
     </div>
 
     <nav>
-      <a href="#work">Work</a>
+      <a href="#work">Works</a>
       <a href="#about">About</a>
-      <a href="#playbook">Playbook</a>
-      <a href="#cv">Download CV</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
     </nav>
 
     <a class="btn" href="#contact">
