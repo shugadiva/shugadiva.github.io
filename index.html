@@ -407,14 +407,14 @@
   .carousel__viewport { position: relative; z-index: 1; overflow: clip; }   /* слайды выше свечения полосы */
   .carousel__track {
     display: flex;
-    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);   /* слайд · translateX · 0 → −100% · 700 мс · быстрый старт, длинное торможение */
+    transition: transform 1000ms cubic-bezier(0.65, 0, 0.35, 1);   /* слайд · translateX · 0 → −100% · 1000 мс · ease-in-out: мягкий разгон и мягкое торможение */
   }
   /* Кроссфейд: уходящий слайд гаснет до 30%, приходящий разгорается. Только opacity, без blur. */
   .experience__slide.is-active { opacity: 1; }
   .carousel__track.no-anim, .carousel__track.no-anim .experience__slide { transition: none; }
   .experience__slide {
     opacity: 0.3;
-    transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition: opacity 800ms cubic-bezier(0.65, 0, 0.35, 1);
     flex: 0 0 100%;
     display: flex;
     align-items: flex-start;   /* текст прижат к верху: метка Works → заголовок 24, как в других секциях (сверка со span 23.09.2026) */
@@ -480,7 +480,7 @@
     height: 100%;
     border-radius: 2px;
     background: var(--text-primary);
-    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);   /* синхронно со слайдом */
+    transition: transform 1000ms cubic-bezier(0.65, 0, 0.35, 1);   /* синхронно со слайдом */
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -1429,7 +1429,7 @@
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Can you take it all the way to a live site?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. Beyond design, I code and deploy live sites myself, from a one-pager to a full multi-page site on its own domain (this portfolio included). With AI in my workflow I can spin up a simple landing in a single day. For heavier builds I hand developers clean, spec-ready files</p></div></div>
+        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. Beyond design, I code and deploy live sites myself, from a one-pager to a full multi-page site on its own domain (this portfolio included). For heavier builds I hand developers clean, spec-ready files</p></div></div>
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>What’s it like to work with you?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
@@ -1441,11 +1441,11 @@
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>How long does a project take?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on the scope, so I estimate each project up front and set clear milestones before we start. With AI in the process I can put together a simple landing page in a day. For anything larger, you’ll have a realistic timeline before any work begins</p></div></div>
+        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on the scope, so I estimate each project up front and set clear milestones before we start. A simple landing page can be ready in a day. For anything larger, you’ll have a realistic timeline before any work begins</p></div></div>
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How do you use AI in your work?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Closely, across the whole process: research, structure, copy, design systems, documentation and even front-end code. I make every design call and own the craft; AI takes the heavy lifting around it, so more of my time goes into the design itself</p></div></div>
+        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Openly and with care. I use it to explore more options early and to turn approved designs into working code faster. Everything it produces goes through my review, and nothing reaches you that I haven’t checked myself</p></div></div>
       </div>
     </div>
   </section>
