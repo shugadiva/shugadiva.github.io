@@ -245,12 +245,11 @@
 
   /* Hierarchy=Secondary: стеклянная, наведение наливает подложку, а не гасит текст */
   .btn--glass {
-    background: var(--surface-overlay);      /* Surface/overlay 5% */
+    background: rgb(245 248 255 / 0.1);      /* Button/secondary 10%: в покое плотнее, чем раньше (Диана, 23.09.2026) */
     color: var(--text-primary);
     transition: background-color 600ms cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .btn--glass:hover { background: rgb(245 248 255 / 0.1); opacity: 1; }   /* Surface/overlay-hover 10% */
-  .btn--glass:active { background: rgb(245 248 255 / 0.16); opacity: 1; }
+  .btn--glass:hover, .btn--glass:active { background: rgb(245 248 255 / 0.16); opacity: 1; }   /* Button/secondary-hover 16% */
 
   /* блок контента героя */
   .content {
