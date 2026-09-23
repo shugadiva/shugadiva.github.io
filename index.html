@@ -314,7 +314,7 @@
      96 + 96 = 192 между секциями на десктопе, 64 + 64 = 128 на телефоне (SPACING.md). */
   .statement {
     position: relative;
-    padding: var(--space-96) var(--page-margin);
+    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
     padding-top: var(--space-160);   /* после первого экрана больше воздуха: space/160 «вокруг первого экрана», 23.09.2026 */
     background: var(--surface-page);
     overflow: hidden;
@@ -395,7 +395,7 @@
   /* ---------- Experience: текст 600 слева, макет продукта справа ---------- */
   .experience {
     position: relative;
-    padding: var(--space-96) var(--page-margin);
+    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
     background: var(--surface-page);
     overflow-x: clip;   /* свечения шире экрана, иначе появляется горизонтальная прокрутка */
   }
@@ -583,7 +583,7 @@
     .experience__text { flex-basis: auto; }
   }
   @media (max-width: 768px) {
-    .experience { padding-block: var(--space-64); }
+    .experience { padding-block: var(--space-48); }
     .experience h2 { font-size: 1.75rem; line-height: 36px; }
   }
 
@@ -613,7 +613,7 @@
   .about {
     position: relative;
     overflow-x: clip;               /* свечения шире экрана */
-    padding: var(--space-96) var(--page-margin);
+    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
@@ -709,14 +709,14 @@
     .about .cards { flex-direction: column; }
   }
   @media (max-width: 768px) {
-    .about { padding-block: var(--space-64); }
+    .about { padding-block: var(--space-48); }
     .about h2 { font-size: var(--display-sm); line-height: 44px; }
   }
 
   /* ---------- FAQ: вступление по центру, список Accordion шириной container/md ---------- */
   .faq {
     overflow-x: clip;               /* размытые полосы над списком шире экрана на узких окнах */
-    padding: var(--space-96) var(--page-margin);
+    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
@@ -845,7 +845,7 @@
     .accordion, .accordion__trigger, .accordion__panel, .accordion__icon .accordion__bar-v { transition: none; }
   }
   @media (max-width: 768px) {
-    .faq { padding-block: var(--space-64); }
+    .faq { padding-block: var(--space-48); }
     .faq h2 { font-size: var(--display-sm); line-height: 44px; }
   }
 
@@ -856,7 +856,7 @@
   .footer {
     position: relative;
     overflow: clip;
-    padding: var(--space-96) var(--page-margin) 0;
+    padding: var(--space-64) var(--page-margin) 0;
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
@@ -958,7 +958,7 @@
     .footer__columns { flex-wrap: wrap; gap: var(--space-48); }
   }
   @media (max-width: 768px) {
-    .footer { padding-top: var(--space-64); gap: var(--space-96); }
+    .footer { padding-top: var(--space-48); gap: var(--space-96); }
     .footer__cta h2 { font-size: var(--display-sm); line-height: 44px; }
   }
 
@@ -1050,7 +1050,7 @@
     h1 { font-size: 2.5rem; line-height: 48px; }
     .headlines { width: 100%; }
     .avatar { width: 112px; height: 112px; }
-    .statement { padding-block: var(--space-96) var(--space-64); }
+    .statement { padding-block: var(--space-96) var(--space-48); }
     /* как у оригинала: шар не уменьшается и вылезает за края, чуть меньше только пятно и дуги */
     .globe__glow { width: 419px; height: 419px; left: 290.5px; top: 183.5px; }
     .globe__arcs { width: 750px; height: 750px; left: 125px; top: 43px; }
