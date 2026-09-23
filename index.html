@@ -86,8 +86,7 @@
     content: "";
     position: fixed;
     inset: 0;
-    background:
-      radial-gradient(85% 55% at 50% 108%, rgb(19 97 199 / 0.5) 0%, rgb(19 97 199 / 0.14) 45%, transparent 72%);
+    background: none;   /* Surface/page-glow убрано 23.09.2026 по просьбе Дианы: синее свечение за глобусом слева и справа */
     /* пятно справа сверху (60% 45% at 88% -12%) убрано 23.09.2026: в макете его нет */
     pointer-events: none;
     z-index: 0;
@@ -409,9 +408,14 @@
   .carousel__viewport { position: relative; z-index: 1; overflow: clip; }   /* слайды выше свечения полосы */
   .carousel__track {
     display: flex;
-    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);   /* слайд · translateX · 400 мс · standard */
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);   /* слайд · translateX · 0 → −100% · 700 мс · быстрый старт, длинное торможение */
   }
+  /* Кроссфейд: уходящий слайд гаснет до 30%, приходящий разгорается. Только opacity, без blur. */
+  .experience__slide.is-active { opacity: 1; }
+  .carousel__track.no-anim, .carousel__track.no-anim .experience__slide { transition: none; }
   .experience__slide {
+    opacity: 0.3;
+    transition: opacity 500ms cubic-bezier(0.22, 1, 0.36, 1);
     flex: 0 0 100%;
     display: flex;
     align-items: flex-start;   /* текст прижат к верху: метка Works → заголовок 24, как в других секциях (сверка со span 23.09.2026) */
@@ -477,11 +481,11 @@
     height: 100%;
     border-radius: 2px;
     background: var(--text-primary);
-    transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);   /* синхронно со слайдом */
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .carousel__track, .progress__thumb { transition: none; }
+    .carousel__track, .progress__thumb, .experience__slide { transition: none; }
   }
   .experience__text {
     flex: 0 0 600px;
@@ -618,12 +622,12 @@
     gap: var(--space-64);
   }
   .about__intro {
-    width: 500px;
+    width: 492px;
     max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-40);
+    gap: var(--space-32);           /* текст → кнопка 32, как везде (SPACING.md) */
     text-align: center;
   }
   .about__headlines { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); }
@@ -660,7 +664,7 @@
   .about::after {
     content: "";
     position: absolute;
-    top: 234px;
+    top: 228px;
     width: 560px;
     height: 600px;
     pointer-events: none;
@@ -677,6 +681,7 @@
             mask-image: linear-gradient(to left, transparent 36%, #000 68%);
   }
   .about__education { display: flex; flex-direction: column; gap: var(--space-48); }
+  .about__grid { display: flex; flex-direction: column; gap: var(--space-24); }   /* ряды карточек через 24, как колонки */
   .about h3.about__heading {
     max-width: 500px;
     margin: 0;
@@ -881,9 +886,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-24);
+    gap: var(--space-32);   /* заголовок → кнопки 32 */
     text-align: center;
   }
+  .footer__headlines { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); }
   .footer__cta h2 {
     margin: 0;
     font-size: var(--display-md);   /* Display/md 48 / 60 / -3.5% SemiBold */
@@ -1327,8 +1333,8 @@
       <div class="about__headlines">
         <span class="section-label">About</span>
         <div class="about__title">
-        <h2>I’m Diana, a designer</h2>
-        <p>Working at the intersection of user needs and business strategy since 2020. Using a User-Centered Design approach, I’ve contributed to the launch of digital products in EdTech and E-commerce</p>
+        <h2>I’m Diana, turning<br>ideas into live products</h2>
+        <p>Five years of product design in EdTech and E-commerce, a graphic design background and a habit of taking work all the way to launch</p>
         </div>
       </div>
       <a class="btn btn--md" href="https://drive.google.com/file/d/1bqPZfGpOYD9Zdko0EAb5hOmjhrwSNbYD/view?usp=sharing" target="_blank" rel="noopener">
@@ -1358,6 +1364,7 @@
       </div>
       <div class="about__education">
         <h3 class="about__heading">I simplify complex systems into intuitive product experiences</h3>
+        <div class="about__grid">
         <div class="cards">
           <article class="card card--lg">
             <div class="card__text">
@@ -1397,6 +1404,7 @@
               <p>Indonesia (ID), working with teams across time zones</p>
             </div>
           </article>
+        </div>
         </div>
       </div>
     </div>
@@ -1443,8 +1451,10 @@
   <footer class="footer" id="contact">
     <div class="footer__glow" aria-hidden="true"></div>
     <div class="footer__cta">
-      <span class="section-label">Contact</span>
-      <h2>Have a product that needs clarity? Let’s talk</h2>
+      <div class="footer__headlines">
+        <span class="section-label">Contact</span>
+        <h2>Have a product that needs clarity? Let’s talk</h2>
+      </div>
       <div class="actions">
         <a class="btn btn--md" href="mailto:mockbirdds@gmail.com">
           <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
@@ -1557,19 +1567,23 @@
     let index = 0;
     let busy = false;
     thumb.style.width = `${100 / n}%`;
-    const jump = (i) => {                       // перестановка без анимации
-      track.style.transition = "none";
+    const all = [...track.children];            // слайды плюс копия
+    const mark = (i) => all.forEach((el, k) => el.classList.toggle("is-active", k === i));
+    const jump = (i) => {                       // перестановка без анимации, и сдвиг, и прозрачность
+      track.classList.add("no-anim");
       track.style.transform = `translateX(${-i * 100}%)`;
+      mark(i);
       track.offsetHeight;                       // применить сразу
-      track.style.transition = "";
+      track.classList.remove("no-anim");
     };
     const render = () => {
       track.style.transform = `translateX(${-index * 100}%)`;
       thumb.style.transform = `translateX(${(index % n) * 100}%)`;
+      mark(index);
       slides.forEach((s, i) => { s.inert = i !== index % n; });   // скрытые слайды не ловят Tab
     };
     track.addEventListener("transitionend", (e) => {
-      if (e.target !== track) return;
+      if (e.target !== track || e.propertyName !== "transform") return;
       busy = false;
       if (index === n) { index = 0; jump(0); }
     });
