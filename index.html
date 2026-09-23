@@ -692,23 +692,19 @@
   }
   .about .cards { align-items: stretch; }
 
-  /* Card, Size=lg: текстовая карточка, радиус 20, поля 32, строки через 12, Heading/lg + Text/sm + Label/sm */
+  /* Card, Size=lg: текстовая карточка, радиус 20, поля 32, строки через 12.
+     Шрифты как у md (23.09.2026): заголовок Heading/md и текст Text/sm берутся из .card h3 и .card p. */
   .card--lg {
     border-radius: 20px;
     padding: var(--space-32);
   }
   .card--lg .card__text { gap: var(--space-12); }
-  .card--lg h3 {
-    font-size: var(--heading-lg);   /* Heading/lg 32 / 40 / -2.5% Medium */
-    line-height: 40px;
-    letter-spacing: -0.025em;
-  }
-  /* текст Text/sm (как у md, из .card p), дата Label/sm 12 / 16 / -0.5% Medium */
+  /* дата Label/md 14 / 16 / -1% SemiBold */
   .card--lg .card__meta {
-    font-size: 0.75rem;
+    font-size: var(--label-md);
     line-height: 16px;
-    letter-spacing: -0.005em;
-    font-weight: 500;
+    letter-spacing: -0.01em;
+    font-weight: 600;
   }
   @media (max-width: 900px) {
     .about .cards { flex-direction: column; }
