@@ -514,15 +514,22 @@
 
   .experience__media { position: relative; flex: 1 1 0; min-width: 0; }
 
-  /* iPad Pro 11": экран 492x338 с отступом 22 и радиусом 12, поверх рамка-картинка */
-  .ipad {
+  /* iPhone 16 Pro: рамка 297x608 по центру колонки 536, экран 266x578 с отступом 16/15 и радиусом 36, поверх рамка-картинка.
+     Рамка из файла Apple iOS 26 (Device Bezels), PNG выгружен в 3x: 891x1824 */
+  .iphone {
     position: relative;
-    aspect-ratio: 536 / 382;
+    width: 297px;
+    max-width: 100%;
+    aspect-ratio: 297 / 608;
+    margin-inline: auto;
   }
-  .ipad__screen {
+  .iphone__screen {
     position: absolute;
-    inset: 5.76% 4.1%;            /* 22 из 382 и 22 из 536 */
-    border-radius: 12px;
+    left: 5.39%;                  /* 16 из 297 */
+    top: 2.47%;                   /* 15 из 608 */
+    width: 89.56%;                /* 266 из 297 */
+    height: 95.07%;               /* 578 из 608 */
+    border-radius: 36px;
     background: var(--surface-raised);
     overflow: hidden;
     display: grid;
@@ -533,7 +540,7 @@
     font-weight: 600;
     color: var(--text-secondary);
   }
-  .ipad__bezel {
+  .iphone__bezel {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -1072,9 +1079,9 @@
             </div>
           </div>
           <div class="experience__media">
-            <div class="ipad">
-              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
-              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            <div class="iphone">
+              <div class="iphone__screen">PRODUCT SCREENSHOT</div>
+              <img class="iphone__bezel" src="assets/iphone-bezel.png" alt="" width="297" height="608">
             </div>
           </div>
           </div>
@@ -1109,9 +1116,9 @@
             </div>
           </div>
           <div class="experience__media">
-            <div class="ipad">
-              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
-              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            <div class="iphone">
+              <div class="iphone__screen">PRODUCT SCREENSHOT</div>
+              <img class="iphone__bezel" src="assets/iphone-bezel.png" alt="" width="297" height="608">
             </div>
           </div>
           </div>
@@ -1146,9 +1153,9 @@
             </div>
           </div>
           <div class="experience__media">
-            <div class="ipad">
-              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
-              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            <div class="iphone">
+              <div class="iphone__screen">PRODUCT SCREENSHOT</div>
+              <img class="iphone__bezel" src="assets/iphone-bezel.png" alt="" width="297" height="608">
             </div>
           </div>
           </div>
@@ -1183,9 +1190,9 @@
             </div>
           </div>
           <div class="experience__media">
-            <div class="ipad">
-              <div class="ipad__screen">PRODUCT SCREENSHOT</div>
-              <img class="ipad__bezel" src="assets/ipad-bezel.png" alt="" width="536" height="382">
+            <div class="iphone">
+              <div class="iphone__screen">PRODUCT SCREENSHOT</div>
+              <img class="iphone__bezel" src="assets/iphone-bezel.png" alt="" width="297" height="608">
             </div>
           </div>
           </div>
