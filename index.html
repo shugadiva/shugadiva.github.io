@@ -768,6 +768,117 @@
     .faq h2 { font-size: var(--display-sm); line-height: 44px; }
   }
 
+
+  /* ---------- Footer: CTA по центру, ниже строка с именем и колонками ссылок, внизу слово-логотип ----------
+     Поля 96 сверху, 0 снизу; от CTA до тела подвала space/160. Свечение Blue/500 50% с размытием 180
+     в левом нижнем углу, выходит за край и обрезается секцией. */
+  .footer {
+    position: relative;
+    overflow: clip;
+    padding: var(--space-96) var(--page-margin) 0;
+    background: var(--surface-page);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-160);
+  }
+  .footer__glow {
+    position: absolute;
+    left: calc(50% - 720px - 420px);
+    top: 700px;
+    width: 1100px;
+    height: 560px;
+    border-radius: 50%;
+    background: #2e6ee8;             /* Blue/500 */
+    opacity: 0.5;
+    filter: blur(180px);
+    pointer-events: none;
+  }
+  .footer__cta {
+    position: relative;
+    width: 600px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-24);
+    text-align: center;
+  }
+  .footer__cta h2 {
+    margin: 0;
+    font-size: var(--display-md);   /* Display/md 48 / 60 / -3.5% SemiBold */
+    line-height: 60px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+  .footer__body {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-48);
+  }
+  .footer__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-64);
+  }
+  .footer__brand { display: flex; flex-direction: column; gap: var(--space-16); }
+  .footer__name {
+    margin: 0;
+    font-size: var(--heading-md);   /* Heading/md 24 / 32 / -2% Medium */
+    line-height: 32px;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  .footer__copy, .footer__links a {
+    margin: 0;
+    font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .footer__columns { display: flex; gap: var(--space-96); padding: 0; border-radius: 0; align-items: flex-start; justify-self: auto; }   /* сброс стилей nav из шапки */
+  .footer__column { display: flex; flex-direction: column; gap: var(--space-24); }
+  .footer__column h3 {
+    margin: 0;
+    font-size: var(--label-lg);     /* Label/lg 16 / 24 SemiBold */
+    line-height: 24px;
+    font-weight: 600;
+  }
+  .footer__links { display: flex; flex-direction: column; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
+  .footer__links li { display: flex; }   /* иначе строка списка 21: инлайн-ссылка добавляет пиксель под базовой линией */
+  .footer__links a { display: block; }
+  .footer__links a { text-decoration: none; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); }
+  .footer__links a:hover, .footer__links a:focus-visible { color: var(--text-primary); }
+  .footer__bottom { display: flex; flex-direction: column; gap: var(--space-64); }
+  .footer__divider { height: 1px; background: var(--border-subtle); }
+  /* Слово-логотип: стекло по форме букв. Surface/overlay 5% и размытие фона 12 (в CSS blur 6),
+     форма берётся маской из assets/wordmark.svg. Буквы 1200x145, окно 123: низ букв срезан, как в макете. */
+  .footer__wordmark {
+    aspect-ratio: 1200 / 123;
+    overflow: hidden;
+  }
+  .footer__wordmark span {
+    display: block;
+    aspect-ratio: 1200 / 144.923;
+    background: var(--surface-overlay);
+    -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+    -webkit-mask: url("assets/wordmark.svg") no-repeat 0 0 / 100% 100%;
+            mask: url("assets/wordmark.svg") no-repeat 0 0 / 100% 100%;
+  }
+  @media (max-width: 900px) {
+    .footer__row { flex-direction: column; }
+    .footer__columns { flex-wrap: wrap; gap: var(--space-48); }
+  }
+  @media (max-width: 768px) {
+    .footer { padding-top: var(--space-64); gap: var(--space-96); }
+    .footer__cta h2 { font-size: var(--display-sm); line-height: 44px; }
+  }
+
   /* ---------- Globe: фрейм Globe 1000x440 в Hero, координаты слоёв из макета ----------
      Механика и грабли: globe-multiply.html и COPY_EFFECTS.md. Шар рендерится
      чёрно-белым, цвет точкам даёт Glow под ним через mix-blend-mode: multiply.
@@ -1246,6 +1357,70 @@
       </div>
     </div>
   </section>
+
+  <footer class="footer" id="contact">
+    <div class="footer__glow" aria-hidden="true"></div>
+    <div class="footer__cta">
+      <span class="section-label">Contact</span>
+      <h2>Have a product that needs clarity? Let’s talk.</h2>
+      <div class="actions">
+        <a class="btn btn--md" href="mailto:mockbirdds@gmail.com">
+          <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+            <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+            <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+          </svg>
+        </a>
+
+        <a class="btn btn--md btn--glass" href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">
+          <span class="roll"><span>Behance</span><span>Behance</span></span>
+          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+            <path d="M3 12.7498C2.88537 12.7483 2.77256 12.721 2.67 12.6698C2.54453 12.6083 2.43873 12.513 2.36453 12.3946C2.29032 12.2763 2.25065 12.1395 2.25 11.9998V-0.000216186C2.25065 -0.139931 2.29032 -0.276685 2.36453 -0.395065C2.43873 -0.513445 2.54453 -0.608743 2.67 -0.670216C2.79355 -0.732677 2.93214 -0.759229 3.07002 -0.746854C3.2079 -0.73448 3.33955 -0.683676 3.45 -0.600216L11.45 5.39978C11.5431 5.46964 11.6187 5.56023 11.6708 5.66437C11.7229 5.76852 11.75 5.88335 11.75 5.99978C11.75 6.11622 11.7229 6.23105 11.6708 6.33519C11.6187 6.43934 11.5431 6.52992 11.45 6.59978L3.45 12.5998C3.32052 12.6978 3.1624 12.7505 3 12.7498ZM3.75 1.49978V10.4998L9.75 5.99978L3.75 1.49978Z" fill="currentColor"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="container footer__body">
+      <div class="footer__row">
+        <div class="footer__brand">
+          <p class="footer__name">Diana Shvedskaia</p>
+          <p class="footer__copy">© 2026 Diana Shvedskaia. All rights reserved.</p>
+        </div>
+        <nav class="footer__columns" aria-label="Ссылки в подвале">
+          <div class="footer__column">
+            <h3>Navigation</h3>
+            <ul class="footer__links">
+              <li><a href="#work">Works</a></li>
+              <li><a href="#about">About</a></li>
+              <li><a href="#faq">FAQ</a></li>
+              <li><a href="#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer__column">
+            <h3>Social</h3>
+            <ul class="footer__links">
+              <li><a href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">Behance</a></li>
+              <li><a href="https://www.linkedin.com/in/diana-shvedskaia-b34124288/" target="_blank" rel="noopener">LinkedIn</a></li>
+              <li><a href="https://dribbble.com/" target="_blank" rel="noopener">Dribbble</a></li>
+            </ul>
+          </div>
+          <div class="footer__column">
+            <h3>Contact</h3>
+            <ul class="footer__links">
+              <li><a href="mailto:mockbirdds@gmail.com">Email</a></li>
+              <li><a href="https://t.me/shugdiv" target="_blank" rel="noopener">Telegram</a></li>
+              <li><a href="https://drive.google.com/file/d/1bqPZfGpOYD9Zdko0EAb5hOmjhrwSNbYD/view?usp=sharing" target="_blank" rel="noopener">Resume</a></li>
+            </ul>
+          </div>
+        </nav>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__divider"></div>
+        <div class="footer__wordmark" role="img" aria-label="Shvedskaia"><span></span></div>
+      </div>
+    </div>
+  </footer>
+
 
 
 </div>
