@@ -913,7 +913,7 @@
     letter-spacing: -0.02em;
     font-weight: 500;
   }
-  .footer__copy, .footer__links a {
+  .footer__copy, .footer__links a, .footer__link-static {
     margin: 0;
     font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
     line-height: 20px;
@@ -931,9 +931,11 @@
   }
   .footer__links { display: flex; flex-direction: column; gap: var(--space-16); margin: 0; padding: 0; list-style: none; }
   .footer__links li { display: flex; }   /* иначе строка списка 21: инлайн-ссылка добавляет пиксель под базовой линией */
-  .footer__links a { display: block; }
+  .footer__links a, .footer__link-static { display: block; }
   .footer__links a { text-decoration: none; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); }
-  .footer__links a:hover, .footer__links a:focus-visible { color: var(--text-primary); }
+  .footer__links a:hover, .footer__links a:focus-visible, .footer__link-static:hover { color: var(--text-primary); }
+  /* Dribbble: выглядит и ведёт себя как ссылка (подсветка, рука), но клик никуда не ведёт — просьба Дианы */
+  .footer__link-static { cursor: pointer; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); }
   .footer__bottom { display: flex; flex-direction: column; gap: var(--space-64); }
   .footer__divider { height: 1px; background: var(--border-subtle); }
   /* Слово-логотип: стекло по форме букв. Surface/overlay 5% и размытие фона 12 (в CSS blur 6),
@@ -959,6 +961,11 @@
     .footer { padding-top: var(--space-64); gap: var(--space-96); }
     .footer__cta h2 { font-size: var(--display-sm); line-height: 44px; }
   }
+
+
+  /* Заголовки в два цвета (TYPOGRAPHY.md): серый Text/secondary, ключевые слова в <strong> Text/primary. Hero и About целиком белые. */
+  .statement h2, .faq h2, .footer__cta h2, .about h3.about__heading { color: var(--text-secondary); }
+  .statement h2 strong, .faq h2 strong, .footer__cta h2 strong { font-weight: inherit; color: var(--text-primary); }
 
   /* ---------- Globe: фрейм Globe 1000x440 в Hero, координаты слоёв из макета ----------
      Механика и грабли: globe-multiply.html и COPY_EFFECTS.md. Шар рендерится
@@ -1124,7 +1131,7 @@
 
   <section class="statement">
     <div class="container">
-    <h2>I turn user needs and business goals into interfaces that just work</h2>
+    <h2>I turn <strong>user needs</strong> and <strong>business goals</strong> into <strong>interfaces that just work</strong></h2>
     <div class="cards">
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" fill="currentColor"><path d="M5.8387 17.9993C4.31423 18.0053 2.84439 17.4312 1.72645 16.3933C1.18202 15.8892 0.747594 15.2777 0.450484 14.5974C0.153374 13.917 0 13.1825 0 12.4399C0 11.6974 0.153374 10.9628 0.450484 10.2825C0.747594 9.60214 1.18202 8.99069 1.72645 8.48657L9.4986 1.13578C10.298 0.405099 11.3412 0 12.4234 0C13.5057 0 14.5489 0.405099 15.3483 1.13578C15.765 1.52323 16.0992 1.99113 16.3307 2.5113C16.5621 3.03147 16.6861 3.59317 16.695 4.16257C16.6978 4.65465 16.5988 5.14198 16.4042 5.59382C16.2095 6.04566 15.9235 6.45222 15.5642 6.78785L7.78174 14.1489C7.31213 14.5853 6.6952 14.8277 6.05459 14.8277C5.41399 14.8277 4.79705 14.5853 4.32745 14.1489C4.09443 13.9339 3.90844 13.6729 3.78123 13.3823C3.65401 13.0917 3.58833 12.7778 3.58833 12.4605C3.58833 12.1432 3.65401 11.8294 3.78123 11.5388C3.90844 11.2482 4.09443 10.9871 4.32745 10.7721L11.5239 3.98756C11.6685 3.84296 11.8644 3.76174 12.0688 3.76174C12.2731 3.76174 12.4691 3.84296 12.6136 3.98756C12.758 4.13233 12.8391 4.32858 12.8391 4.5332C12.8391 4.73782 12.758 4.93407 12.6136 5.07885L5.41719 11.8634C5.33648 11.9339 5.27178 12.021 5.22745 12.1186C5.18312 12.2163 5.16018 12.3223 5.16018 12.4296C5.16018 12.5369 5.18312 12.643 5.22745 12.7406C5.27178 12.8383 5.33648 12.9253 5.41719 12.9959C5.60341 13.1554 5.84039 13.243 6.08543 13.243C6.33048 13.243 6.56746 13.1554 6.75367 12.9959L14.5361 5.65538C14.7341 5.46105 14.8908 5.22863 14.9968 4.97209C15.1028 4.71555 15.1559 4.44019 15.1529 4.16257C15.1444 3.80474 15.0635 3.45236 14.9151 3.12676C14.7666 2.80115 14.5538 2.50909 14.2894 2.26825C13.7819 1.7972 13.1154 1.53547 12.4234 1.53547C11.7315 1.53547 11.065 1.7972 10.5575 2.26825L2.8162 9.60874C2.42416 9.9685 2.11113 10.406 1.89698 10.8934C1.68283 11.3808 1.57224 11.9074 1.57224 12.4399C1.57224 12.9724 1.68283 13.4991 1.89698 13.9865C2.11113 14.4739 2.42416 14.9114 2.8162 15.2711C3.65356 16.0527 4.75569 16.4873 5.90038 16.4873C7.04508 16.4873 8.1472 16.0527 8.98457 15.2711L16.6848 7.9718C16.7556 7.89896 16.8404 7.84106 16.9339 7.80153C17.0275 7.762 17.1281 7.74163 17.2296 7.74163C17.3312 7.74163 17.4317 7.762 17.5253 7.80153C17.6189 7.84106 17.7036 7.89896 17.7745 7.9718C17.9189 8.11658 18 8.31283 18 8.51745C18 8.72207 17.9189 8.91832 17.7745 9.0631L10.0126 16.3933C8.87972 17.4469 7.38461 18.0222 5.8387 17.9993Z"/></g></svg></span>
@@ -1409,7 +1416,7 @@
     <div class="faq__intro">
       <span class="section-label">FAQ</span>
       <div class="faq__headlines">
-        <h2>What to expect? Clear answers</h2>
+        <h2>What to expect? <strong>Clear answers</strong></h2>
         <p>Still curious about something? Drop me a line, the contact is at the bottom of the page</p>
       </div>
     </div>
@@ -1448,7 +1455,7 @@
     <div class="footer__cta">
       <div class="footer__headlines">
         <span class="section-label">Contact</span>
-        <h2>Have a product that needs clarity? Let’s talk</h2>
+        <h2>Have a product that needs clarity? <strong>Let’s talk</strong></h2>
       </div>
       <div class="actions">
         <a class="btn btn--md" href="mailto:mockbirdds@gmail.com">
@@ -1488,7 +1495,7 @@
             <ul class="footer__links">
               <li><a href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">Behance</a></li>
               <li><a href="https://www.linkedin.com/in/diana-shvedskaia-b34124288/" target="_blank" rel="noopener">LinkedIn</a></li>
-              <li><a href="https://dribbble.com/" target="_blank" rel="noopener">Dribbble</a></li>
+              <li><span class="footer__link-static">Dribbble</span></li>
             </ul>
           </div>
           <div class="footer__column">
