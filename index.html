@@ -258,7 +258,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-40);
+    gap: var(--space-32);          /* Headerlines → Buttons 32, как в макете (23.09.2026) */
     width: 100%;
   }
 
@@ -401,34 +401,11 @@
     overflow-x: clip;   /* свечения шире экрана, иначе появляется горизонтальная прокрутка */
   }
 
-  /* BG: Surface/edge-glow у левого и правого края секции. Пятно 560x600
-     за краем, линейная маска гасит внешнюю часть: прозрачно до 36%, полностью к 68%.
-     Правое пятно зеркальное. */
-  .experience::before,
-  .experience::after {
-    content: "";
-    position: absolute;
-    top: 57px;
-    width: 560px;
-    height: 600px;
-    pointer-events: none;
-    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
-  }
-  .experience::before {
-    left: -295px;
-    -webkit-mask-image: linear-gradient(to right, transparent 36%, #000 68%);
-            mask-image: linear-gradient(to right, transparent 36%, #000 68%);
-  }
-  .experience::after {
-    right: -295px;
-    -webkit-mask-image: linear-gradient(to left, transparent 36%, #000 68%);
-            mask-image: linear-gradient(to left, transparent 36%, #000 68%);
-  }
   .experience .container { position: relative; z-index: 1; }
 
   /* Карусель: слайды в ряд, лента едет на ширину слайда.
      Управление по образцу vercel.com/customers, замер в refs/vercel-carousel-controls.md */
-  .carousel__viewport { overflow: clip; }
+  .carousel__viewport { position: relative; z-index: 1; overflow: clip; }   /* слайды выше свечения полосы */
   .carousel__track {
     display: flex;
     transition: transform 400ms cubic-bezier(0.4, 0, 0.2, 1);   /* слайд · translateX · 400 мс · standard */
@@ -442,10 +419,28 @@
 
   /* Carousel controls: стрелки и полоска прогресса, от контента space/48 */
   .carousel-controls {
+    position: relative;
+    z-index: 0;                     /* свой слой: свечение уходит под стрелки, но не под фон секции */
     display: flex;
     align-items: center;
     gap: var(--space-24);
     margin-top: var(--space-48);
+  }
+  /* Glow / progress: свет от полосы прогресса. Окно 885x333 с обрезкой, внутри пятно 885x665
+     (Surface/rise-glow: Blue/500 70% в центре → 0 у края, слой 40%), видна верхняя половина.
+     Центр пятна на середине полосы: по вертикали 16 от верха ряда, по горизонтали середина полосы,
+     а полоса начинается через 96 от левого края (стрелки 72 + зазор 24). */
+  .carousel-controls::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: calc(48px + 50% - 442.5px);
+    bottom: 16px;
+    width: 885px;
+    height: 333px;
+    background: radial-gradient(442.5px 332.5px at 50% 100%, rgb(46 110 232 / 0.7) 0%, rgb(46 110 232 / 0) 100%);
+    opacity: 0.4;
+    pointer-events: none;
   }
   .carousel-controls__arrows { display: flex; gap: var(--space-8); }
 
@@ -612,6 +607,8 @@
 
   /* ---------- About: вступление по центру, карточки Values и Education ---------- */
   .about {
+    position: relative;
+    overflow-x: clip;               /* свечения шире экрана */
     padding: var(--space-96) var(--page-margin);
     background: var(--surface-page);
     display: flex;
@@ -646,10 +643,37 @@
     color: var(--text-secondary);
   }
   .about .container {
+    position: relative;
+    z-index: 1;
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: var(--space-96);
+    gap: var(--space-64);           /* 96 → 64: поправка Дианы в макете, 23.09.2026 */
+  }
+  .about__intro { position: relative; z-index: 1; }
+
+  /* BG: Surface/edge-glow у левого и правого края секции (с 23.09.2026 в About, раньше было в Experience).
+     Пятно 560x600 за краем, на 234 от верха секции; линейная маска гасит внешнюю часть:
+     прозрачно до 36%, полностью к 68%. Правое пятно зеркальное. */
+  .about::before,
+  .about::after {
+    content: "";
+    position: absolute;
+    top: 234px;
+    width: 560px;
+    height: 600px;
+    pointer-events: none;
+    background: radial-gradient(closest-side, rgb(19 97 199 / 0.35) 0%, rgb(19 97 199 / 0.24) 45%, transparent 100%);
+  }
+  .about::before {
+    left: -295px;
+    -webkit-mask-image: linear-gradient(to right, transparent 36%, #000 68%);
+            mask-image: linear-gradient(to right, transparent 36%, #000 68%);
+  }
+  .about::after {
+    right: -295px;
+    -webkit-mask-image: linear-gradient(to left, transparent 36%, #000 68%);
+            mask-image: linear-gradient(to left, transparent 36%, #000 68%);
   }
   .about__education { display: flex; flex-direction: column; gap: var(--space-48); }
   .about h3.about__heading {
@@ -690,6 +714,7 @@
 
   /* ---------- FAQ: вступление по центру, список Accordion шириной container/md ---------- */
   .faq {
+    overflow-x: clip;               /* размытые полосы над списком шире экрана на узких окнах */
     padding: var(--space-96) var(--page-margin);
     background: var(--surface-page);
     display: flex;
@@ -725,6 +750,7 @@
     color: var(--text-secondary);
   }
   .faq__list {
+    position: relative;
     width: 768px;                    /* container/md */
     max-width: 100%;
     display: flex;
@@ -737,6 +763,30 @@
      hover · background, question и icon color · 150 мс · standard
      click · answer height · 0 → auto · 250 мс · standard (сетка 0fr → 1fr)
      click · icon · вертикальная черта плюса поворачивается на 90° и сливается с горизонтальной · 250 мс · standard */
+  /* Яркая кромка над первой строкой FAQ (по crypton). Координаты в % от ширины списка, по вертикали от его верха.
+     Полосы (Surface/beam: радиал Blue/500 100% → Blue/700 40%) под строками, линия (Surface/beam-line:
+     радиал #F5F8FF 100% → 0) поверх. Размытие Figma в CSS пополам. */
+  .faq__beams, .faq__edge { position: absolute; pointer-events: none; }
+  .faq__beams { inset: 0; z-index: 0; }
+  .faq__beams span {
+    position: absolute;
+    background: radial-gradient(closest-side, rgb(46 110 232 / 1) 0%, rgb(14 55 143 / 0.4) 100%);
+    border-radius: 50%;
+  }
+  .faq__beams .beam-wide      { left: -21.61%; width: 143.23%; top: -15px; height: 27px; filter: blur(50px); opacity: 0.4; }
+  .faq__beams .beam-mid       { left: 6.51%;   width: 86.98%;  top: -9px;  height: 16px; filter: blur(30px); opacity: 0.8; }
+  .faq__beams .beam-core      { left: 9.11%;   width: 81.77%;  top: -8px;  height: 16px; filter: blur(11px); opacity: 0.2; }
+  .faq__beams .beam-highlight { left: 19.40%;  width: 61.33%;  top: -3px;  height: 4px;  filter: blur(10px); opacity: 0.8; }
+  .faq__edge {
+    z-index: 2;
+    left: 9.11%;
+    width: 81.77%;
+    top: -1px;
+    height: 2px;
+    background: radial-gradient(closest-side, #f5f8ff 0%, rgb(245 248 255 / 0) 100%);
+  }
+  .faq__list > .accordion { position: relative; z-index: 1; }
+
   .accordion {
     border-radius: 20px;
     background: var(--surface-card);
@@ -812,16 +862,15 @@
     align-items: center;
     gap: var(--space-160);
   }
+  /* Bottom glow (Surface/bottom-glow): градиент снизу во всю ширину, 762 высотой, прижат к низу подвала.
+     Blue/500 прозрачный до 63%, к низу 23%. Заменил синее пятно слева, 23.09.2026. */
   .footer__glow {
     position: absolute;
-    left: calc(50% - 720px - 420px);
-    top: 700px;
-    width: 1100px;
-    height: 560px;
-    border-radius: 50%;
-    background: #2e6ee8;             /* Blue/500 */
-    opacity: 0.5;
-    filter: blur(180px);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 762px;
+    background: linear-gradient(to bottom, rgb(46 110 232 / 0) 63%, rgb(46 110 232 / 0.23) 100%);
     pointer-events: none;
   }
   .footer__cta {
@@ -894,7 +943,7 @@
   .footer__wordmark span {
     display: block;
     aspect-ratio: 1200 / 144.923;
-    background: var(--surface-overlay);
+    background: rgb(0 77 255 / 0.1);   /* #004DFF 10%, в макете с 23.09.2026 */
     -webkit-backdrop-filter: blur(6px);
             backdrop-filter: blur(6px);
     -webkit-mask: url("assets/wordmark.svg") no-repeat 0 0 / 100% 100%;
@@ -1361,6 +1410,8 @@
       </div>
     </div>
     <div class="faq__list">
+      <div class="faq__beams" aria-hidden="true"><span class="beam-wide"></span><span class="beam-mid"></span><span class="beam-core"></span><span class="beam-highlight"></span></div>
+      <span class="faq__edge" aria-hidden="true"></span>
       <div class="accordion is-open">
         <h3><button class="accordion__trigger" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span>What kind of projects do you take on?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
         <div class="accordion__panel" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Pretty much anything in product design: interfaces, web apps, redesigns, MVPs and landing pages. The one thing I care about is that the product is genuinely useful to the people using it. I’m happiest with startups building an interesting SaaS product, especially small, tight-knit teams</p></div></div>
