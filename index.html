@@ -1488,24 +1488,50 @@
   })();
 </script>
 <script>
-  // Карусель Experience: стрелки листают по одному слайду, ползунок шириной 1/N едет следом.
+  // Карусель Experience: бесконечная. Стрелки листают по одному слайду, после последнего идёт первый,
+  // перед первым последний. Для бесшовного перехода в конец ленты добавлена копия первого слайда:
+  // доехали до копии, и без анимации перескакиваем на настоящий первый. Ползунок шириной 1/N едет следом.
   document.querySelectorAll("[data-carousel]").forEach((root) => {
     const track = root.querySelector(".carousel__track");
     const slides = [...track.children];
+    const n = slides.length;
+    const clone = slides[0].cloneNode(true);
+    clone.setAttribute("aria-hidden", "true");
+    clone.inert = true;
+    track.appendChild(clone);
     const prev = root.querySelector("[data-prev]");
     const next = root.querySelector("[data-next]");
     const thumb = root.querySelector(".progress__thumb");
     let index = 0;
-    thumb.style.width = `${100 / slides.length}%`;
+    let busy = false;
+    thumb.style.width = `${100 / n}%`;
+    const jump = (i) => {                       // перестановка без анимации
+      track.style.transition = "none";
+      track.style.transform = `translateX(${-i * 100}%)`;
+      track.offsetHeight;                       // применить сразу
+      track.style.transition = "";
+    };
     const render = () => {
       track.style.transform = `translateX(${-index * 100}%)`;
-      thumb.style.transform = `translateX(${index * 100}%)`;
-      prev.disabled = index === 0;
-      next.disabled = index === slides.length - 1;
-      slides.forEach((s, i) => { s.inert = i !== index; });   // скрытые слайды не ловят Tab
+      thumb.style.transform = `translateX(${(index % n) * 100}%)`;
+      slides.forEach((s, i) => { s.inert = i !== index % n; });   // скрытые слайды не ловят Tab
     };
-    prev.addEventListener("click", () => { index = Math.max(0, index - 1); render(); });
-    next.addEventListener("click", () => { index = Math.min(slides.length - 1, index + 1); render(); });
+    track.addEventListener("transitionend", (e) => {
+      if (e.target !== track) return;
+      busy = false;
+      if (index === n) { index = 0; jump(0); }
+    });
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const go = (dir) => {
+      if (busy) return;
+      if (dir < 0 && index === 0) { index = n; jump(n); }   // с первого назад: встаём на копию и едем к последнему
+      index += dir;
+      if (reduced && index === n) index = 0;                // без анимации transitionend не придёт
+      busy = !reduced;
+      render();
+    };
+    prev.addEventListener("click", () => go(-1));
+    next.addEventListener("click", () => go(1));
     render();
   });
 
