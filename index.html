@@ -591,6 +591,7 @@
     text-align: center;
   }
   .about__headlines { display: flex; flex-direction: column; align-items: center; gap: var(--space-24); }
+  .about__title { display: flex; flex-direction: column; gap: var(--space-16); }   /* Title+Subtitle: заголовок и текст через 16 */
   .about h2 {
     margin: 0;
     font-size: var(--display-md);   /* Display/md 48 / 60 / -3.5% SemiBold */
@@ -761,21 +762,21 @@
   /* ---------- CTA: синяя карточка 1200 по центру, за ней дуги, по углам карточки дорожки-схемы ---------- */
   .cta {
     position: relative;
-    padding: var(--space-160) var(--page-margin);
+    padding: var(--space-96) var(--page-margin);
     background: var(--surface-page);
     overflow-x: clip;   /* дуги 900 шире телефона; по вертикали вылезают за секцию, как в макете */
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  /* Arcs: 900x900, по центру, на 59 выше секции, слой 12%, Blue/400.
-     Обёртка режет дуги по низу и бокам секции: иначе хвост 59 удлинял страницу и под CTA был виден фон.
+  /* Arcs: 900x900, центр совпадает с центром секции (на 123 выше её верха), слой 12%, Blue/400.
+     Обёртка режет дуги по низу и бокам секции: иначе хвост удлинял страницу и под CTA был виден фон.
      Вверх дуги по-прежнему заходят на FAQ, как в макете.
      загрузка · rotate · 0 → 360° · 10 с · linear, бесконечно (как у agentory.framer.website, замер ~37°/с) */
   .cta__arcs-clip {
     position: absolute;
     z-index: 0;
-    top: -59px;
+    top: -123px;
     right: 0;
     bottom: 0;
     left: 0;
@@ -831,7 +832,7 @@
   }
   .cta__card > .btn { position: relative; }
   @media (max-width: 768px) {
-    .cta { padding-block: var(--space-96); }
+    .cta { padding-block: var(--space-64); }
     .cta__card { padding: var(--space-96) var(--space-24); }
     .cta h2 { font-size: var(--display-sm); line-height: 44px; }
     .cta__circuit { width: 150px; height: 150px; }   /* на узкой карточке дорожки 300 заходят на текст */
@@ -1204,8 +1205,10 @@
     <div class="about__intro">
       <div class="about__headlines">
         <span class="section-label">About</span>
+        <div class="about__title">
         <h2>Where I Come From</h2>
         <p>Born and raised on Gotland, Sweden, I learned the value of adaptability and collaboration early. These traits still guide my approach: listening actively, asking the right questions, and empowering others to succeed. Based in Stockholm for most of my career, I have also worked closely with teams in Oslo, London, Tel Aviv, New York, San Jose, and Kuala Lumpur.</p>
+        </div>
       </div>
       <a class="btn btn--md" href="#cv">
         <span class="roll"><span>Get Resume</span><span>Get Resume</span></span>
