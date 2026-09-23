@@ -1364,13 +1364,19 @@
     render();
   });
 
-  // FAQ: Accordion, строки открываются независимо. Закрытый ответ inert, чтобы не ловил Tab.
-  document.querySelectorAll(".accordion__trigger").forEach((btn) => {
+  // FAQ: Accordion, как на scalable.framer.website: открыта не больше одной строки.
+  // Открываешь строку, остальные закрываются; клик по открытой закрывает её. Закрытый ответ inert, чтобы не ловил Tab.
+  const faqTriggers = [...document.querySelectorAll(".accordion__trigger")];
+  const setOpen = (btn, open) => {
+    btn.setAttribute("aria-expanded", String(open));
+    btn.closest(".accordion").classList.toggle("is-open", open);
+    document.getElementById(btn.getAttribute("aria-controls")).inert = !open;
+  };
+  faqTriggers.forEach((btn) => {
     btn.addEventListener("click", () => {
       const open = btn.getAttribute("aria-expanded") !== "true";
-      btn.setAttribute("aria-expanded", String(open));
-      btn.closest(".accordion").classList.toggle("is-open", open);
-      document.getElementById(btn.getAttribute("aria-controls")).inert = !open;
+      faqTriggers.forEach((other) => { if (other !== btn) setOpen(other, false); });
+      setOpen(btn, open);
     });
   });
 </script>
