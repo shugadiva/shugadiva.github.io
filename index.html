@@ -546,6 +546,93 @@
     .experience h2 { font-size: 1.75rem; line-height: 36px; }
   }
 
+
+  /* Кнопка под чипами: Button md Primary, в Details через space/40 */
+  .experience__details > .btn { align-self: flex-start; }
+
+  /* ---------- About: вступление по центру, карточки Values и Education ----------
+     В макете секция About вложена в фрейм 13 со своими полями 96, поэтому
+     сверху и снизу по 96 + 96. */
+  .about {
+    padding: calc(var(--space-96) * 2) var(--page-margin);
+    background: var(--surface-page);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-64);
+  }
+  .about__intro {
+    width: 500px;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-40);
+    text-align: center;
+  }
+  .about__headlines { display: flex; flex-direction: column; gap: var(--space-24); }
+  .about h2 {
+    margin: 0;
+    font-size: var(--display-md);   /* Display/md 48 / 60 / -3.5% SemiBold */
+    line-height: 60px;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+  .about__intro p {
+    margin: 0;
+    font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .about .container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-96);
+  }
+  .about__education { display: flex; flex-direction: column; gap: var(--space-48); }
+  .about h3.about__heading {
+    margin: 0;
+    font-size: var(--display-sm);   /* Display/sm 36 / 44 / -3% SemiBold */
+    line-height: 44px;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+  .about .cards { align-items: stretch; }
+
+  /* Card, Size=lg: текстовая карточка, радиус 20, поля 32, заголовок и текст через 8 */
+  .card--lg {
+    border-radius: 20px;
+    padding: var(--space-32);
+  }
+  .card--lg .card__text { gap: var(--space-8); }
+  .card--lg h3 {
+    font-size: var(--heading-lg);   /* Heading/lg 32 / 40 / -2.5% Medium */
+    line-height: 40px;
+    letter-spacing: -0.025em;
+  }
+  .card--lg p {
+    font-size: var(--text-lg);      /* Text/lg 20 / 28 / -1.8% Medium */
+    line-height: 28px;
+    letter-spacing: -0.018em;
+    font-weight: 500;
+  }
+  .card--lg .card__meta {
+    font-size: var(--label-lg);     /* Label/lg 16 / 24 SemiBold */
+    line-height: 24px;
+    letter-spacing: -0.014em;
+    font-weight: 600;
+  }
+  @media (max-width: 900px) {
+    .about .cards { flex-direction: column; }
+  }
+  @media (max-width: 768px) {
+    .about { padding-block: var(--space-96); }
+    .about h2 { font-size: var(--display-sm); line-height: 44px; }
+  }
+
   /* ---------- Globe: фрейм Globe 1000x440 в Hero, координаты слоёв из макета ----------
      Механика и грабли: globe-multiply.html и COPY_EFFECTS.md. Шар рендерится
      чёрно-белым, цвет точкам даёт Glow под ним через mix-blend-mode: multiply.
@@ -769,6 +856,13 @@
                 <li class="chip">DISCOVERY</li>
                 <li class="chip">VISUAL DESIGN</li>
               </ul>
+              <a class="btn btn--md" href="#work">
+                <span class="roll"><span>See More</span><span>See More</span></span>
+                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+                </svg>
+              </a>
             </div>
           </div>
           <div class="experience__media">
@@ -799,6 +893,13 @@
                 <li class="chip">DISCOVERY</li>
                 <li class="chip">VISUAL DESIGN</li>
               </ul>
+              <a class="btn btn--md" href="#work">
+                <span class="roll"><span>See More</span><span>See More</span></span>
+                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+                </svg>
+              </a>
             </div>
           </div>
           <div class="experience__media">
@@ -829,6 +930,13 @@
                 <li class="chip">DISCOVERY</li>
                 <li class="chip">VISUAL DESIGN</li>
               </ul>
+              <a class="btn btn--md" href="#work">
+                <span class="roll"><span>See More</span><span>See More</span></span>
+                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+                </svg>
+              </a>
             </div>
           </div>
           <div class="experience__media">
@@ -859,6 +967,13 @@
                 <li class="chip">DISCOVERY</li>
                 <li class="chip">VISUAL DESIGN</li>
               </ul>
+              <a class="btn btn--md" href="#work">
+                <span class="roll"><span>See More</span><span>See More</span></span>
+                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+                </svg>
+              </a>
             </div>
           </div>
           <div class="experience__media">
@@ -879,6 +994,64 @@
       </div>
     </div>
   </section>
+
+  <section class="about" id="about">
+    <div class="about__intro">
+      <div class="about__headlines">
+        <h2>Where I Come From</h2>
+        <p>Born and raised on Gotland, Sweden, I learned the value of adaptability and collaboration early. These traits still guide my approach: listening actively, asking the right questions, and empowering others to succeed. Based in Stockholm for most of my career, I have also worked closely with teams in Oslo, London, Tel Aviv, New York, San Jose, and Kuala Lumpur.</p>
+      </div>
+      <a class="btn btn--md" href="#cv">
+        <span class="roll"><span>Get Resume</span><span>Get Resume</span></span>
+        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+          <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
+          <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+    <div class="container">
+      <div class="cards">
+          <article class="card card--lg">
+            <div class="card__text">
+              <h3>Why I Design</h3>
+              <p>I’m passionate about turning vision into outcomes by aligning design with business goals, user needs, and team growth. For me, design is not just about creating, it’s about enabling meaningful change.</p>
+            </div>
+          </article>
+          <article class="card card--lg">
+            <div class="card__text">
+              <h3>What I Bring</h3>
+              <p>For over 20 years, I’ve focused on creating meaningful user experiences, meeting people where they are and building shared understanding. My work spans advising stakeholders, leading design teams, and contributing hands-on as a UX/Product Designer.</p>
+            </div>
+          </article>
+      </div>
+      <div class="about__education">
+        <h3 class="about__heading">Education and language.</h3>
+        <div class="cards">
+          <article class="card card--lg">
+            <div class="card__text">
+              <h3>Linnéuniversitetet</h3>
+              <p>Design methodologies for interaction design</p>
+              <p class="card__meta">August 2005 – June 2008</p>
+            </div>
+          </article>
+          <article class="card card--lg">
+            <div class="card__text">
+              <h3>Jönköpings Ingenjörshögskola</h3>
+              <p>Communication and Information Technology</p>
+              <p class="card__meta">August 2003 – December 2003</p>
+            </div>
+          </article>
+          <article class="card card--lg">
+            <div class="card__text">
+              <h3>Language</h3>
+              <p>Swedish, native or bilingual proficiency<br>English, full professional proficiency</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 <script>
