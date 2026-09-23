@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.css">
 <style>
   :root {
     /* шрифт: один на всю систему */
@@ -667,7 +668,7 @@
     gap: var(--space-64);
   }
   .faq__intro {
-    width: 500px;
+    width: 674px;                   /* в макете Intro по ширине заголовка в одну строку, подзаголовок 500 */
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -685,7 +686,8 @@
   }
   .faq h2 span { color: var(--text-secondary); }
   .faq__intro p {
-    margin: 0;
+    max-width: 500px;
+    margin: 0 auto;
     font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
     line-height: 20px;
     letter-spacing: -0.01em;
@@ -886,8 +888,8 @@
 
     <div class="content">
       <div class="headlines">
-        <h1>Deploy AI systems that run your B2B operations</h1>
-        <p class="lead">Span gives B2B companies the infrastructure to deploy AI workflows across sales, support, and operations in days.</p>
+        <h1>Problem-driven UI/UX design for modern user-centric digital products</h1>
+        <p class="lead">I’m Diana, a UI/UX designer with 5+ years of designing digital products. Available for projects.</p>
       </div>
 
       <div class="actions">
@@ -930,34 +932,34 @@
 
   <section class="statement">
     <div class="container">
-    <h2>I'll help you to create clarity on what matters and the confidence to act on it.</h2>
+    <h2>I turn user needs and business goals into interfaces that just work.</h2>
     <div class="cards">
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" fill="currentColor"><path d="M5.8387 17.9993C4.31423 18.0053 2.84439 17.4312 1.72645 16.3933C1.18202 15.8892 0.747594 15.2777 0.450484 14.5974C0.153374 13.917 0 13.1825 0 12.4399C0 11.6974 0.153374 10.9628 0.450484 10.2825C0.747594 9.60214 1.18202 8.99069 1.72645 8.48657L9.4986 1.13578C10.298 0.405099 11.3412 0 12.4234 0C13.5057 0 14.5489 0.405099 15.3483 1.13578C15.765 1.52323 16.0992 1.99113 16.3307 2.5113C16.5621 3.03147 16.6861 3.59317 16.695 4.16257C16.6978 4.65465 16.5988 5.14198 16.4042 5.59382C16.2095 6.04566 15.9235 6.45222 15.5642 6.78785L7.78174 14.1489C7.31213 14.5853 6.6952 14.8277 6.05459 14.8277C5.41399 14.8277 4.79705 14.5853 4.32745 14.1489C4.09443 13.9339 3.90844 13.6729 3.78123 13.3823C3.65401 13.0917 3.58833 12.7778 3.58833 12.4605C3.58833 12.1432 3.65401 11.8294 3.78123 11.5388C3.90844 11.2482 4.09443 10.9871 4.32745 10.7721L11.5239 3.98756C11.6685 3.84296 11.8644 3.76174 12.0688 3.76174C12.2731 3.76174 12.4691 3.84296 12.6136 3.98756C12.758 4.13233 12.8391 4.32858 12.8391 4.5332C12.8391 4.73782 12.758 4.93407 12.6136 5.07885L5.41719 11.8634C5.33648 11.9339 5.27178 12.021 5.22745 12.1186C5.18312 12.2163 5.16018 12.3223 5.16018 12.4296C5.16018 12.5369 5.18312 12.643 5.22745 12.7406C5.27178 12.8383 5.33648 12.9253 5.41719 12.9959C5.60341 13.1554 5.84039 13.243 6.08543 13.243C6.33048 13.243 6.56746 13.1554 6.75367 12.9959L14.5361 5.65538C14.7341 5.46105 14.8908 5.22863 14.9968 4.97209C15.1028 4.71555 15.1559 4.44019 15.1529 4.16257C15.1444 3.80474 15.0635 3.45236 14.9151 3.12676C14.7666 2.80115 14.5538 2.50909 14.2894 2.26825C13.7819 1.7972 13.1154 1.53547 12.4234 1.53547C11.7315 1.53547 11.065 1.7972 10.5575 2.26825L2.8162 9.60874C2.42416 9.9685 2.11113 10.406 1.89698 10.8934C1.68283 11.3808 1.57224 11.9074 1.57224 12.4399C1.57224 12.9724 1.68283 13.4991 1.89698 13.9865C2.11113 14.4739 2.42416 14.9114 2.8162 15.2711C3.65356 16.0527 4.75569 16.4873 5.90038 16.4873C7.04508 16.4873 8.1472 16.0527 8.98457 15.2711L16.6848 7.9718C16.7556 7.89896 16.8404 7.84106 16.9339 7.80153C17.0275 7.762 17.1281 7.74163 17.2296 7.74163C17.3312 7.74163 17.4317 7.762 17.5253 7.80153C17.6189 7.84106 17.7036 7.89896 17.7745 7.9718C17.9189 8.11658 18 8.31283 18 8.51745C18 8.72207 17.9189 8.91832 17.7745 9.0631L10.0126 16.3933C8.87972 17.4469 7.38461 18.0222 5.8387 17.9993Z"/></g></svg></span>
         <div class="card__text">
-          <h3>Complex UX Design</h3>
-          <p>Turning complex workflows and requirements into clear, efficient, user-friendly product experiences.</p>
+          <h3>UI/UX</h3>
+          <p>Interfaces built as design systems in Figma: consistent, scalable and handed off dev-ready.</p>
         </div>
       </article>
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6225 1.63502C9.4271 1.54589 9.2148 1.49976 9 1.49976C8.7852 1.49976 8.5729 1.54589 8.3775 1.63502L1.95 4.56C1.81692 4.6187 1.70376 4.7148 1.62433 4.8367C1.54489 4.9585 1.50259 5.1008 1.50259 5.2463C1.50259 5.3917 1.54489 5.534 1.62433 5.6559C1.70376 5.7777 1.81692 5.8738 1.95 5.9325L8.385 8.865C8.5804 8.9542 8.7927 9.0003 9.0075 9.0003C9.2223 9.0003 9.4346 8.9542 9.63 8.865L16.065 5.94C16.1981 5.8813 16.3112 5.7852 16.3907 5.6634C16.4701 5.5415 16.5124 5.3992 16.5124 5.2538C16.5124 5.1083 16.4701 4.966 16.3907 4.8442C16.3112 4.7223 16.1981 4.6262 16.065 4.5675L9.6225 1.63502Z"/><path d="M16.5 13.2375L9.6225 16.3575C9.4271 16.4467 9.2148 16.4928 9 16.4928C8.7852 16.4928 8.5729 16.4467 8.3775 16.3575L1.5 13.2375"/><path d="M16.5 9.4875L9.6225 12.6075C9.4271 12.6967 9.2148 12.7428 9 12.7428C8.7852 12.7428 8.5729 12.6967 8.3775 12.6075L1.5 9.4875"/></g></svg></span>
         <div class="card__text">
-          <h3>Design Systems</h3>
-          <p>Scalable components and tokens that keep teams consistent and help products ship faster.</p>
+          <h3>Identity</h3>
+          <p>A graphic design background turned into type, color and components that feel deliberate.</p>
         </div>
       </article>
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 16.5C13.1421 16.5 16.5 13.1421 16.5 9C16.5 4.8579 13.1421 1.5 9 1.5C4.8579 1.5 1.5 4.8579 1.5 9C1.5 13.1421 4.8579 16.5 9 16.5Z"/><path d="M9 13.5C11.4853 13.5 13.5 11.4853 13.5 9C13.5 6.5147 11.4853 4.5 9 4.5C6.5147 4.5 4.5 6.5147 4.5 9C4.5 11.4853 6.5147 13.5 9 13.5Z"/><path d="M9 10.5C9.8284 10.5 10.5 9.8284 10.5 9C10.5 8.1716 9.8284 7.5 9 7.5C8.1716 7.5 7.5 8.1716 7.5 9C7.5 9.8284 8.1716 10.5 9 10.5Z"/></g></svg></span>
         <div class="card__text">
-          <h3>Product Strategy</h3>
-          <p>Research, metrics and priorities aligned so every screen serves a clear business goal.</p>
+          <h3>Product Design</h3>
+          <p>Research, user interviews and hypotheses first, then design for the metric that matters.</p>
         </div>
       </article>
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5C2.8581 10.5005 2.7189 10.4607 2.5987 10.3852C2.4785 10.3098 2.3822 10.2018 2.3209 10.0737C2.2596 9.9457 2.236 9.8029 2.2526 9.662C2.2693 9.521 2.3256 9.3877 2.415 9.2775L9.84 1.6275C9.8957 1.5632 9.9716 1.5198 10.0552 1.5043C10.1389 1.4888 10.2253 1.5023 10.3003 1.5424C10.3753 1.5825 10.4344 1.6469 10.468 1.7251C10.5016 1.8032 10.5076 1.8905 10.485 1.9725L9.045 6.4875C9.0025 6.6011 8.9883 6.7234 9.0034 6.8438C9.0186 6.9641 9.0627 7.079 9.1321 7.1786C9.2014 7.2781 9.2938 7.3594 9.4015 7.4154C9.5091 7.4714 9.6287 7.5004 9.75 7.5H15C15.1419 7.4995 15.2811 7.5393 15.4013 7.6148C15.5215 7.6902 15.6178 7.7982 15.6791 7.9263C15.7403 8.0543 15.764 8.1971 15.7474 8.338C15.7307 8.479 15.6744 8.6123 15.585 8.7225L8.16 16.3725C8.1043 16.4368 8.0284 16.4802 7.9448 16.4957C7.8611 16.5112 7.7747 16.4977 7.6997 16.4576C7.6247 16.4175 7.5656 16.3531 7.532 16.2749C7.4984 16.1968 7.4924 16.1095 7.515 16.0275L8.955 11.5125C8.9975 11.3989 9.0117 11.2766 8.9966 11.1562C8.9814 11.0359 8.9372 10.921 8.8679 10.8214C8.7986 10.7219 8.7062 10.6406 8.5985 10.5846C8.4909 10.5286 8.3713 10.4996 8.25 10.5H3Z"/></g></svg></span>
         <div class="card__text">
-          <h3>Prototyping &amp; Motion</h3>
-          <p>Interactive prototypes and motion that validate ideas before a single line of code.</p>
+          <h3>Web</h3>
+          <p>Interfaces built in Framer and shipped live, responsive and fast. This site included.</p>
         </div>
       </article>
     </div>
@@ -971,26 +973,26 @@
         <div class="carousel__track">
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="1 из 4">
           <div class="experience__text">
-            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools.</strong></h2>
             <div class="experience__details">
-              <p class="experience__company">Company</p>
+              <p class="experience__company">Astralis</p>
               <div class="experience__role">
-                <h3>Senior Product Designer</h3>
-                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+                <h3>Private SEO platform</h3>
+                <p>Landing page and product interface for a private SaaS platform built for SEO teams.</p>
               </div>
               <ul class="chips">
-                <li class="chip">LEAD DESIGNER</li>
-                <li class="chip">GEN AI</li>
-                <li class="chip">DESIGN STRATEGY</li>
-                <li class="chip">EXPERIENCE VISION</li>
-                <li class="chip">STAKEHOLDER MANAGEMENT</li>
-                <li class="chip">HANDS-ON</li>
-                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">INTERACTION DESIGN</li>
+                <li class="chip">DESIGN SYSTEMS</li>
+                <li class="chip">USER FLOWS</li>
+                <li class="chip">HAND-OFF</li>
+                <li class="chip">VISUAL SYSTEMS</li>
+                <li class="chip">TYPOGRAPHY</li>
+                <li class="chip">USER RESEARCH</li>
+                <li class="chip">A/B TESTING</li>
+                <li class="chip">JTBD</li>
                 <li class="chip">PROTOTYPING</li>
-                <li class="chip">DISCOVERY</li>
-                <li class="chip">VISUAL DESIGN</li>
               </ul>
-              <a class="btn btn--md" href="#work">
+              <a class="btn btn--md" href="https://www.behance.net/gallery/239613305/SaaS-Platform-Landing-Page" target="_blank" rel="noopener">
                 <span class="roll"><span>See More</span><span>See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
@@ -1008,26 +1010,26 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="2 из 4">
           <div class="experience__text">
-            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools.</strong></h2>
             <div class="experience__details">
-              <p class="experience__company">Company</p>
+              <p class="experience__company">Fruit&amp;Vegetable</p>
               <div class="experience__role">
-                <h3>Senior Product Designer</h3>
-                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+                <h3>Produce Delivery App</h3>
+                <p>User-centered UI/UX for a produce delivery app, from first order to repeat purchase.</p>
               </div>
               <ul class="chips">
-                <li class="chip">LEAD DESIGNER</li>
-                <li class="chip">GEN AI</li>
-                <li class="chip">DESIGN STRATEGY</li>
-                <li class="chip">EXPERIENCE VISION</li>
-                <li class="chip">STAKEHOLDER MANAGEMENT</li>
-                <li class="chip">HANDS-ON</li>
-                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">INTERACTION DESIGN</li>
+                <li class="chip">DESIGN SYSTEMS</li>
+                <li class="chip">USER FLOWS</li>
+                <li class="chip">HAND-OFF</li>
+                <li class="chip">VISUAL SYSTEMS</li>
+                <li class="chip">TYPOGRAPHY</li>
+                <li class="chip">USER RESEARCH</li>
+                <li class="chip">A/B TESTING</li>
+                <li class="chip">JTBD</li>
                 <li class="chip">PROTOTYPING</li>
-                <li class="chip">DISCOVERY</li>
-                <li class="chip">VISUAL DESIGN</li>
               </ul>
-              <a class="btn btn--md" href="#work">
+              <a class="btn btn--md" href="https://www.behance.net/gallery/225755909/User-Centered-UIUX-for-a-Produce-Delivery-App" target="_blank" rel="noopener">
                 <span class="roll"><span>See More</span><span>See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
@@ -1045,26 +1047,26 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="3 из 4">
           <div class="experience__text">
-            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools.</strong></h2>
             <div class="experience__details">
-              <p class="experience__company">Company</p>
+              <p class="experience__company">Yugai</p>
               <div class="experience__role">
-                <h3>Senior Product Designer</h3>
-                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+                <h3>Progress Tracking Dashboard</h3>
+                <p>UX/UI for a dashboard that turns progress into a clear, trackable picture.</p>
               </div>
               <ul class="chips">
-                <li class="chip">LEAD DESIGNER</li>
-                <li class="chip">GEN AI</li>
-                <li class="chip">DESIGN STRATEGY</li>
-                <li class="chip">EXPERIENCE VISION</li>
-                <li class="chip">STAKEHOLDER MANAGEMENT</li>
-                <li class="chip">HANDS-ON</li>
-                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">INTERACTION DESIGN</li>
+                <li class="chip">DESIGN SYSTEMS</li>
+                <li class="chip">USER FLOWS</li>
+                <li class="chip">HAND-OFF</li>
+                <li class="chip">VISUAL SYSTEMS</li>
+                <li class="chip">TYPOGRAPHY</li>
+                <li class="chip">USER RESEARCH</li>
+                <li class="chip">A/B TESTING</li>
+                <li class="chip">JTBD</li>
                 <li class="chip">PROTOTYPING</li>
-                <li class="chip">DISCOVERY</li>
-                <li class="chip">VISUAL DESIGN</li>
               </ul>
-              <a class="btn btn--md" href="#work">
+              <a class="btn btn--md" href="https://www.behance.net/gallery/239467815/Progress-Tracking-Dashboard-UXUI" target="_blank" rel="noopener">
                 <span class="roll"><span>See More</span><span>See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
@@ -1082,26 +1084,26 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="4 из 4">
           <div class="experience__text">
-            <h2>I recently <strong>worked at Company,</strong> driving <strong>improvements</strong> to the <strong>Product experience.</strong></h2>
+            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools.</strong></h2>
             <div class="experience__details">
-              <p class="experience__company">Company</p>
+              <p class="experience__company">Chloe</p>
               <div class="experience__role">
-                <h3>Senior Product Designer</h3>
-                <p>At Company, I led the design of the core product flow, making it simpler, faster and more reliable for the people who use it every day.</p>
+                <h3>AI Workflow Studio</h3>
+                <p>Interface for a studio where teams build and run AI workflows.</p>
               </div>
               <ul class="chips">
-                <li class="chip">LEAD DESIGNER</li>
-                <li class="chip">GEN AI</li>
-                <li class="chip">DESIGN STRATEGY</li>
-                <li class="chip">EXPERIENCE VISION</li>
-                <li class="chip">STAKEHOLDER MANAGEMENT</li>
-                <li class="chip">HANDS-ON</li>
-                <li class="chip">PRODUCT DELIVERY</li>
+                <li class="chip">INTERACTION DESIGN</li>
+                <li class="chip">DESIGN SYSTEMS</li>
+                <li class="chip">USER FLOWS</li>
+                <li class="chip">HAND-OFF</li>
+                <li class="chip">VISUAL SYSTEMS</li>
+                <li class="chip">TYPOGRAPHY</li>
+                <li class="chip">USER RESEARCH</li>
+                <li class="chip">A/B TESTING</li>
+                <li class="chip">JTBD</li>
                 <li class="chip">PROTOTYPING</li>
-                <li class="chip">DISCOVERY</li>
-                <li class="chip">VISUAL DESIGN</li>
               </ul>
-              <a class="btn btn--md" href="#work">
+              <a class="btn btn--md" href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">
                 <span class="roll"><span>See More</span><span>See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
@@ -1134,12 +1136,12 @@
       <div class="about__headlines">
         <span class="section-label">About</span>
         <div class="about__title">
-        <h2>Where I Come From</h2>
-        <p>Born and raised on Gotland, Sweden, I learned the value of adaptability and collaboration early. These traits still guide my approach: listening actively, asking the right questions, and empowering others to succeed. Based in Stockholm for most of my career, I have also worked closely with teams in Oslo, London, Tel Aviv, New York, San Jose, and Kuala Lumpur.</p>
+        <h2>I’m Diana, a designer</h2>
+        <p>Working at the intersection of user needs and business strategy since 2020. Using a User-Centered Design approach, I’ve contributed to the launch of digital products in EdTech and E-commerce.</p>
         </div>
       </div>
-      <a class="btn btn--md" href="#cv">
-        <span class="roll"><span>Get Resume</span><span>Get Resume</span></span>
+      <a class="btn btn--md" href="https://drive.google.com/file/d/1bqPZfGpOYD9Zdko0EAb5hOmjhrwSNbYD/view?usp=sharing" target="_blank" rel="noopener">
+        <span class="roll"><span>Download CV</span><span>Download CV</span></span>
         <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
           <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
           <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1151,15 +1153,15 @@
           <article class="card card--lg">
             <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6225 1.63502C9.4271 1.54589 9.2148 1.49976 9 1.49976C8.7852 1.49976 8.5729 1.54589 8.3775 1.63502L1.95 4.56C1.81692 4.6187 1.70376 4.7148 1.62433 4.8367C1.54489 4.9585 1.50259 5.1008 1.50259 5.2463C1.50259 5.3917 1.54489 5.534 1.62433 5.6559C1.70376 5.7777 1.81692 5.8738 1.95 5.9325L8.385 8.865C8.5804 8.9542 8.7927 9.0003 9.0075 9.0003C9.2223 9.0003 9.4346 8.9542 9.63 8.865L16.065 5.94C16.1981 5.8813 16.3112 5.7852 16.3907 5.6634C16.4701 5.5415 16.5124 5.3992 16.5124 5.2538C16.5124 5.1083 16.4701 4.966 16.3907 4.8442C16.3112 4.7223 16.1981 4.6262 16.065 4.5675L9.6225 1.63502Z"/><path d="M16.5 13.2375L9.6225 16.3575C9.4271 16.4467 9.2148 16.4928 9 16.4928C8.7852 16.4928 8.5729 16.4467 8.3775 16.3575L1.5 13.2375"/><path d="M16.5 9.4875L9.6225 12.6075C9.4271 12.6967 9.2148 12.7428 9 12.7428C8.7852 12.7428 8.5729 12.6967 8.3775 12.6075L1.5 9.4875"/></g></svg></span>
             <div class="card__text">
-              <h3>Why I Design</h3>
-              <p>I’m passionate about turning vision into outcomes by aligning design with business goals, user needs, and team growth. For me, design is not just about creating, it’s about enabling meaningful change.</p>
+              <h3>My Edge</h3>
+              <p>The pairing: graphic design craft, product UX and Claude as a constant collaborator. I shape the user flows, the design system and the interaction details; Claude speeds up everything around them, so the work stays polished and quick to ship.</p>
             </div>
           </article>
           <article class="card card--lg">
             <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9.6225 1.63502C9.4271 1.54589 9.2148 1.49976 9 1.49976C8.7852 1.49976 8.5729 1.54589 8.3775 1.63502L1.95 4.56C1.81692 4.6187 1.70376 4.7148 1.62433 4.8367C1.54489 4.9585 1.50259 5.1008 1.50259 5.2463C1.50259 5.3917 1.54489 5.534 1.62433 5.6559C1.70376 5.7777 1.81692 5.8738 1.95 5.9325L8.385 8.865C8.5804 8.9542 8.7927 9.0003 9.0075 9.0003C9.2223 9.0003 9.4346 8.9542 9.63 8.865L16.065 5.94C16.1981 5.8813 16.3112 5.7852 16.3907 5.6634C16.4701 5.5415 16.5124 5.3992 16.5124 5.2538C16.5124 5.1083 16.4701 4.966 16.3907 4.8442C16.3112 4.7223 16.1981 4.6262 16.065 4.5675L9.6225 1.63502Z"/><path d="M16.5 13.2375L9.6225 16.3575C9.4271 16.4467 9.2148 16.4928 9 16.4928C8.7852 16.4928 8.5729 16.4467 8.3775 16.3575L1.5 13.2375"/><path d="M16.5 9.4875L9.6225 12.6075C9.4271 12.6967 9.2148 12.7428 9 12.7428C8.7852 12.7428 8.5729 12.6967 8.3775 12.6075L1.5 9.4875"/></g></svg></span>
             <div class="card__text">
-              <h3>What I Bring</h3>
-              <p>For over 20 years, I’ve focused on creating meaningful user experiences, meeting people where they are and building shared understanding. My work spans advising stakeholders, leading design teams, and contributing hands-on as a UX/Product Designer.</p>
+              <h3>Beyond the Mockup</h3>
+              <p>I don’t stop at the mockup. I build my interfaces in Framer and ship them live, responsive and fast. I lean on AI to move quicker through structure and iterations, so more time goes into the design itself.</p>
             </div>
           </article>
       </div>
@@ -1168,44 +1170,40 @@
         <div class="cards">
           <article class="card card--lg">
             <div class="card__text">
-              <h3>Linnéuniversitetet</h3>
-              <p>Design methodologies for interaction design</p>
-              <p class="card__meta">August 2005 – June 2008</p>
+              <h3>Graphic Design</h3>
+              <p>Degree</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
-              <h3>Jönköpings Ingenjörshögskola</h3>
-              <p>Communication and Information Technology</p>
-              <p class="card__meta">August 2003 – December 2003</p>
+              <h3>Book Publishing</h3>
+              <p>Degree</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
               <h3>Language</h3>
-              <p>Swedish, native or bilingual proficiency<br>English, full professional proficiency</p>
+              <p>Language, level<br>Language, level</p>
             </div>
           </article>
         </div>
         <div class="cards">
           <article class="card card--lg">
             <div class="card__text">
-              <h3>Linnéuniversitetet</h3>
-              <p>Design methodologies for interaction design</p>
-              <p class="card__meta">August 2005 – June 2008</p>
+              <h3>5+ years</h3>
+              <p>Designing digital products since 2020</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
-              <h3>Jönköpings Ingenjörshögskola</h3>
-              <p>Communication and Information Technology</p>
-              <p class="card__meta">August 2003 – December 2003</p>
+              <h3>EdTech &amp; E-commerce</h3>
+              <p>Launches of digital products in both domains</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
-              <h3>Language</h3>
-              <p>Swedish, native or bilingual proficiency<br>English, full professional proficiency</p>
+              <h3>Remote</h3>
+              <p>Indonesia (ID), working with teams across time zones</p>
             </div>
           </article>
         </div>
@@ -1217,34 +1215,34 @@
     <div class="faq__intro">
       <span class="section-label">FAQ</span>
       <div class="faq__headlines">
-        <h2>You asked, <span>I answered</span></h2>
+        <h2>What to expect? Clear answers.</h2>
         <p>Still curious about something? Drop me a line, the contact is at the bottom of the page.</p>
       </div>
     </div>
     <div class="faq__list">
       <div class="accordion is-open">
-        <h3><button class="accordion__trigger" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span>What kind of roles are you looking for?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Product design roles where I own a feature end to end: research, flows, interface and handoff to development.</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span>What kind of projects do you take on?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Pretty much anything in product design: interfaces, web apps, redesigns, MVPs and landing pages. The one thing I care about is that the product is genuinely useful to the people using it. I’m happiest with startups building an interesting SaaS product, especially small, tight-knit teams.</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Do you work remotely?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. I am used to async work across time zones and keep decisions written down, so the team never waits on my schedule.</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Can you take it all the way to a live site?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. Beyond design, I build and deploy live sites in Framer, from a one-pager to a full multi-page site (this portfolio included). With Claude in the loop I can spin up a simple landing in a single day. For heavier builds I hand developers clean, spec-ready files.</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>How do you work with developers?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Early and often. I share flows before pixels, agree on constraints together and hand off components with states, spacing and tokens already named.</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>What’s it like to work with you?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Close and transparent. We sync on a short daily call over Google Meet so nothing drifts, and everything else runs async in Telegram, Slack or straight inside Figma, where comments and files stay in one place. You always know where the project stands.</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Have you built design systems?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a4" role="region" aria-labelledby="faq-q4" inert><div><p>Yes. I start from tokens and a small kit of primitives, then grow it only when a real screen needs something new.</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Can you join an existing team?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a4" role="region" aria-labelledby="faq-q4" inert><div><p>Happily. I prefer working inside a team, plugging in with developers, designers and marketers, though I’m just as fine running things solo. I pick up your context and processes quickly and fit into how you already work.</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>What tools do you use?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>Figma for design and prototyping, plus HTML and CSS: this site is hand coded from my own design system.</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>How long does a project take?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on the scope, so I estimate each project up front and set clear milestones before we start. With Claude I can put together a simple landing page in a day. For anything larger, you’ll have a realistic timeline before any work begins.</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How can I get in touch?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Email is the fastest way. The link is in the footer, and I usually reply within a couple of days.</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How do you work with Claude?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Closely, across the whole process: research, structure, copy, design systems, documentation and even code components in Framer. I make every design call and own the craft; Claude takes the heavy lifting around it, so more of my time goes into the design itself.</p></div></div>
       </div>
     </div>
   </section>
@@ -1252,6 +1250,18 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+<script>
+  // Плавный скролл, как на span.framer.ai: там тот же Lenis (им пользуется Framer).
+  // Колесо не прыгает на 100 px, а страница догоняет его с инерцией: lerp 0.1 = за кадр
+  // проходим 10% оставшегося пути. Ссылки-якоря (#work, #about) тоже едут плавно.
+  // При «уменьшить движение» в системе не включаем.
+  if (window.Lenis && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, anchors: true });
+    const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  }
+</script>
 <script>
   // Карусель Experience: стрелки листают по одному слайду, ползунок шириной 1/N едет следом.
   document.querySelectorAll("[data-carousel]").forEach((root) => {
