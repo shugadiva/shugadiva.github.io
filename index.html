@@ -759,7 +759,7 @@
     gap: var(--space-16);
   }
 
-  /* Accordion, Size=md: Surface/card, Border/subtle, радиус 20, поля 24 и 16, от вопроса до ответа 24.
+  /* Accordion, Size=md: Surface/card, Border/subtle, радиус 20, поля 24 со всех сторон, от вопроса до ответа 24.
      Вопрос и ответ Text/sm: вопрос Text/secondary (при наведении Text/primary), ответ Text/primary.
      hover · background, question и icon color · 150 мс · standard
      click · answer height · 0 → auto · 250 мс · standard (сетка 0fr → 1fr)
@@ -802,7 +802,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-24);
-    padding: var(--space-24) var(--space-16);
+    padding: var(--space-24);         /* поля 24 со всех сторон, как у Card md (23.09.2026) */
     border: 0;
     border-radius: 20px;
     background: none;
@@ -834,7 +834,7 @@
   .accordion__panel > div { overflow: hidden; min-height: 0; }
   .accordion__panel p {
     margin: 0;
-    padding: 0 var(--space-16) var(--space-24);
+    padding: 0 var(--space-24) var(--space-24);
     font-size: var(--text-sm);
     line-height: 20px;
     letter-spacing: -0.01em;
