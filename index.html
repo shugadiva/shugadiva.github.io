@@ -87,8 +87,8 @@
     position: fixed;
     inset: 0;
     background:
-      radial-gradient(85% 55% at 50% 108%, rgb(19 97 199 / 0.5) 0%, rgb(19 97 199 / 0.14) 45%, transparent 72%),
-      radial-gradient(60% 45% at 88% -12%, rgb(19 97 199 / 0.22) 0%, transparent 60%);
+      radial-gradient(85% 55% at 50% 108%, rgb(19 97 199 / 0.5) 0%, rgb(19 97 199 / 0.14) 45%, transparent 72%);
+    /* пятно справа сверху (60% 45% at 88% -12%) убрано 23.09.2026: в макете его нет */
     pointer-events: none;
     z-index: 0;
   }
@@ -1465,6 +1465,13 @@
     const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, anchors: true });
     const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
+    // Lenis запоминает высоту страницы при старте. Если шрифты, картинки или раскрытый ответ FAQ
+    // потом её меняют, скролл упирается раньше низа (та же беда была во Framer). Пересчитываем.
+    const refresh = () => lenis.resize();
+    window.addEventListener("load", refresh);
+    document.fonts?.ready.then(refresh);
+    new ResizeObserver(refresh).observe(document.body);
+    window.lenis = lenis;
   }
 </script>
 <script>
