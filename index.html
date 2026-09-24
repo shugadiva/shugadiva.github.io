@@ -45,6 +45,7 @@
     --label-md: 0.875rem;    /* 14 / 16 / -1% SemiBold */
 
     /* отступы */
+    --space-4: 0.25rem;
     --space-8: 0.5rem;
     --space-10: 0.625rem;
     --space-12: 0.75rem;
@@ -531,7 +532,7 @@
   /* Chip, Size=md: поля 8 и 16, Surface/overlay, Border/subtle, текст Label/md */
   .chips { display: flex; flex-wrap: wrap; gap: var(--space-12); margin: 0; padding: 0; list-style: none; }
   .chip {
-    padding: var(--space-8) var(--space-16);
+    padding: var(--space-4) var(--space-16);   /* сверху и снизу 4, по макету 24.09.2026 */
     border-radius: 100px;
     background: var(--surface-overlay);
     border: 1px solid var(--border-subtle);
@@ -596,7 +597,7 @@
   .section-label {
     display: inline-flex;
     align-items: center;
-    padding: var(--space-8) var(--space-16);
+    padding: var(--space-4) var(--space-16);   /* сверху и снизу 4, по макету 24.09.2026 */
     border-radius: 100px;
     background: var(--surface-overlay);
     border: 1px solid var(--border-subtle);
