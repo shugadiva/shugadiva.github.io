@@ -315,8 +315,7 @@
      96 + 96 = 192 между секциями на десктопе, 64 + 64 = 128 на телефоне (SPACING.md). */
   .statement {
     position: relative;
-    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
-    padding-top: var(--space-128);   /* после первого экрана больше воздуха: 160 → 128 по правке Дианы в макете, 24.09.2026 */
+    padding: var(--space-96) var(--page-margin);   /* поля секций 96, между секциями 192 (24.09.2026, было 64) */
     background: var(--surface-page);
     overflow: hidden;
   }
@@ -396,7 +395,7 @@
   /* ---------- Experience: текст 600 слева, макет продукта справа ---------- */
   .experience {
     position: relative;
-    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
+    padding: var(--space-96) var(--page-margin);   /* поля секций 96, между секциями 192 (24.09.2026, было 64) */
     background: var(--surface-page);
     overflow-x: clip;   /* свечения шире экрана, иначе появляется горизонтальная прокрутка */
   }
@@ -614,7 +613,7 @@
   .about {
     position: relative;
     overflow-x: clip;               /* свечения шире экрана */
-    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
+    padding: var(--space-96) var(--page-margin);   /* поля секций 96, между секциями 192 (24.09.2026, было 64) */
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
@@ -717,7 +716,7 @@
   /* ---------- FAQ: вступление по центру, список Accordion шириной container/md ---------- */
   .faq {
     overflow-x: clip;               /* размытые полосы над списком шире экрана на узких окнах */
-    padding: var(--space-64) var(--page-margin);   /* поля секций 64, между секциями 128 (23.09.2026, было 96) */
+    padding: var(--space-96) var(--page-margin);   /* поля секций 96, между секциями 192 (24.09.2026, было 64) */
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
@@ -857,7 +856,7 @@
   .footer {
     position: relative;
     overflow: clip;
-    padding: var(--space-64) var(--page-margin) 0;
+    padding: var(--space-96) var(--page-margin) 0;   /* сверху 96, как у всех секций (24.09.2026) */
     background: var(--surface-page);
     display: flex;
     flex-direction: column;
