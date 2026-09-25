@@ -421,17 +421,13 @@
   }
   /* Кроссфейд: уходящий слайд гаснет до 30%, приходящий разгорается. Только opacity, без blur. */
   .experience__slide.is-active { opacity: 1; }
-  /* Заголовок секции один на всю карусель, лежит поверх ленты в левой колонке.
-     В каждом слайде на его месте пустое место той же высоты (--experience-headline-h, ставит скрипт карусели). */
-  .experience__headline { position: absolute; top: 0; left: 0; z-index: 2; }
-  .experience__headline-space { height: var(--experience-headline-h, 88px); flex: none; }
   .carousel__track.no-anim, .carousel__track.no-anim .experience__slide { transition: none; }
   .experience__slide {
     opacity: 0.3;
     transition: opacity 800ms cubic-bezier(0.65, 0, 0.35, 1);
     flex: 0 0 100%;
     display: flex;
-    align-items: flex-start;   /* текст прижат к верху: метка Works → заголовок 24, как в других секциях (сверка со span 23.09.2026) */
+    align-items: flex-start;   /* текст прижат к верху колонки */
     gap: var(--space-64);
   }
 
@@ -504,15 +500,15 @@
     flex: 0 0 600px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-48);   /* заголовок → детали 48 (24.09.2026) */
   }
   .experience h2 {
     margin: 0;
-    max-width: 585px;   /* в макете 589, но браузер рисует Manrope чуть уже: строка «driving … Product» выходит ровно 589 и не переносится, как в Figma */
-    font-size: var(--display-sm);   /* Display/sm 36 / 44 / -3% SemiBold */
-    line-height: 44px;
-    letter-spacing: -0.03em;
+    max-width: 589px;
+    font-size: var(--display-md);   /* Display/md 48 / 60 / -3.5% SemiBold */
+    line-height: 60px;
+    letter-spacing: -0.035em;
     font-weight: 600;
+    text-align: center;
     color: var(--text-secondary);
   }
   .experience h2 strong { font-weight: inherit; color: var(--text-primary); }
@@ -599,6 +595,7 @@
   @media (max-width: 768px) {
     .experience { padding-block: var(--space-48); }
     .experience h2 { font-size: 1.75rem; line-height: 36px; }
+    .experience h2 br { display: none; }   /* на телефоне строки переносятся сами */
   }
 
 
@@ -620,8 +617,15 @@
     font-weight: 700;
     color: var(--text-primary);
   }
-  /* Experience: метка по центру над каруселью, до контента space/24 */
-  .experience .section-header { display: flex; justify-content: center; margin-bottom: var(--space-24); }
+  /* Experience: Section header над каруселью, по центру: метка → заголовок 24, шапка → карусель 48 (макет 25.09.2026).
+     Заголовок вне ленты, поэтому при листании не едет и не гаснет. */
+  .experience .section-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-24);
+    margin-bottom: var(--space-48);
+  }
 
   /* ---------- About: вступление по центру, карточки Values и Education ---------- */
   .about {
@@ -1183,13 +1187,14 @@
 
   <section class="experience" id="work" aria-roledescription="carousel" aria-label="Work experience">
     <div class="container" data-carousel>
-      <div class="section-header"><span class="section-label">Works</span></div>
+      <div class="section-header">
+        <span class="section-label">Works</span>
+        <h2>From <strong>SEO platforms</strong><br> to <strong>AI workflow tools</strong></h2>
+      </div>
       <div class="carousel__viewport">
-          <h2 class="experience__headline">Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools</strong></h2>   <!-- один заголовок над лентой: не гаснет и не уезжает при листании (25.09.2026) -->
         <div class="carousel__track">
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
           <div class="experience__text">
-            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Astralis</p>
               <div class="experience__role">
@@ -1226,7 +1231,6 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="2 of 4">
           <div class="experience__text">
-            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Fruit&amp;Vegetable</p>
               <div class="experience__role">
@@ -1263,7 +1267,6 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="3 of 4">
           <div class="experience__text">
-            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Yugai</p>
               <div class="experience__role">
@@ -1300,7 +1303,6 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="4 of 4">
           <div class="experience__text">
-            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Chloe</p>
               <div class="experience__role">
@@ -1569,9 +1571,6 @@
     const track = root.querySelector(".carousel__track");
     const slides = [...track.children];
     const n = slides.length;
-    // Высота общего заголовка уходит в слайды, чтобы текст под ним стоял на своём месте при любом переносе строк
-    const headline = root.querySelector(".experience__headline");
-    if (headline) new ResizeObserver(() => root.style.setProperty("--experience-headline-h", headline.offsetHeight + "px")).observe(headline);
     const clone = slides[0].cloneNode(true);
     clone.setAttribute("aria-hidden", "true");
     clone.inert = true;
