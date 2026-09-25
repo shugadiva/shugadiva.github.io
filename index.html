@@ -421,6 +421,10 @@
   }
   /* Кроссфейд: уходящий слайд гаснет до 30%, приходящий разгорается. Только opacity, без blur. */
   .experience__slide.is-active { opacity: 1; }
+  /* Заголовок секции один на всю карусель, лежит поверх ленты в левой колонке.
+     В каждом слайде на его месте пустое место той же высоты (--experience-headline-h, ставит скрипт карусели). */
+  .experience__headline { position: absolute; top: 0; left: 0; z-index: 2; }
+  .experience__headline-space { height: var(--experience-headline-h, 88px); flex: none; }
   .carousel__track.no-anim, .carousel__track.no-anim .experience__slide { transition: none; }
   .experience__slide {
     opacity: 0.3;
@@ -1112,7 +1116,7 @@
           </svg>
         </a>
 
-        <a class="btn btn--md btn--glass" href="https://www.behance.net/" target="_blank" rel="noopener">
+        <a class="btn btn--md btn--glass" href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">
           <span class="roll"><span>Behance</span><span>Behance</span></span>
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M3 12.7498C2.88537 12.7483 2.77256 12.721 2.67 12.6698C2.54453 12.6083 2.43873 12.513 2.36453 12.3946C2.29032 12.2763 2.25065 12.1395 2.25 11.9998V-0.000216186C2.25065 -0.139931 2.29032 -0.276685 2.36453 -0.395065C2.43873 -0.513445 2.54453 -0.608743 2.67 -0.670216C2.79355 -0.732677 2.93214 -0.759229 3.07002 -0.746854C3.2079 -0.73448 3.33955 -0.683676 3.45 -0.600216L11.45 5.39978C11.5431 5.46964 11.6187 5.56023 11.6708 5.66437C11.7229 5.76852 11.75 5.88335 11.75 5.99978C11.75 6.11622 11.7229 6.23105 11.6708 6.33519C11.6187 6.43934 11.5431 6.52992 11.45 6.59978L3.45 12.5998C3.32052 12.6978 3.1624 12.7505 3 12.7498ZM3.75 1.49978V10.4998L9.75 5.99978L3.75 1.49978Z" fill="currentColor"/>
@@ -1181,10 +1185,11 @@
     <div class="container" data-carousel>
       <div class="section-header"><span class="section-label">Works</span></div>
       <div class="carousel__viewport">
+          <h2 class="experience__headline">Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools</strong></h2>   <!-- один заголовок над лентой: не гаснет и не уезжает при листании (25.09.2026) -->
         <div class="carousel__track">
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
           <div class="experience__text">
-            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools</strong></h2>
+            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Astralis</p>
               <div class="experience__role">
@@ -1221,7 +1226,7 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="2 of 4">
           <div class="experience__text">
-            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools</strong></h2>
+            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Fruit&amp;Vegetable</p>
               <div class="experience__role">
@@ -1258,7 +1263,7 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="3 of 4">
           <div class="experience__text">
-            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools</strong></h2>
+            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Yugai</p>
               <div class="experience__role">
@@ -1295,7 +1300,7 @@
           </div>
           <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="4 of 4">
           <div class="experience__text">
-            <h2>Recent <strong>featured works,</strong> from <strong>SEO platforms</strong> to <strong>AI workflow tools</strong></h2>
+            <div class="experience__headline-space" aria-hidden="true"></div>
             <div class="experience__details">
               <p class="experience__company">Chloe</p>
               <div class="experience__role">
@@ -1564,6 +1569,9 @@
     const track = root.querySelector(".carousel__track");
     const slides = [...track.children];
     const n = slides.length;
+    // Высота общего заголовка уходит в слайды, чтобы текст под ним стоял на своём месте при любом переносе строк
+    const headline = root.querySelector(".experience__headline");
+    if (headline) new ResizeObserver(() => root.style.setProperty("--experience-headline-h", headline.offsetHeight + "px")).observe(headline);
     const clone = slides[0].cloneNode(true);
     clone.setAttribute("aria-hidden", "true");
     clone.inert = true;
