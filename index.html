@@ -1545,6 +1545,12 @@
   // При «уменьшить движение» в системе не включаем.
   if (window.Lenis && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
     const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, anchors: true });
+    // Lenis считает высоту окна по window.innerHeight. В части Chrome (плашка отладки, масштаб экрана 150%) она больше
+    // видимой области на 100-150 px, и прокрутка упиралась раньше низа: надпись в подвале не показывалась (25.09.2026).
+    // Берём видимую высоту и ширину у documentElement, её браузер считает верно.
+    const de = document.documentElement;
+    Object.defineProperty(lenis.dimensions, "height", { get: () => de.clientHeight, set() {}, configurable: true });
+    Object.defineProperty(lenis.dimensions, "width", { get: () => de.clientWidth, set() {}, configurable: true });
     const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
     requestAnimationFrame(raf);
     // Lenis запоминает высоту страницы при старте. Если шрифты, картинки или раскрытый ответ FAQ
