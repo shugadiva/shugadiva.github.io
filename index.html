@@ -561,22 +561,29 @@
 
   .experience__media { position: relative; flex: 1 1 0; min-width: 0; }
 
-  /* iPhone 16 Pro: рамка 297x608 по центру колонки 536, экран 266x578 с отступом 16/15 и радиусом 36, поверх рамка-картинка.
-     Рамка из файла Apple iOS 26 (Device Bezels), PNG выгружен в 3x: 891x1824 */
-  .iphone {
+  /* Два iPhone frame из кита (плоская рамка, Size=md), как в макете: колонка 536x608, телефоны 265x535,
+     первый в 0,0, второй в 289,73 и выходит за колонку на 18. Проценты от группы 554x608.
+     Рамка выгружена из компонента SVG без экрана (assets/iphone-frame.svg, 441x892), экран лежит под ней:
+     24,20 и 393x852 с радиусом 52 в координатах компонента */
+  .phones {
     position: relative;
-    width: 297px;
-    max-width: 100%;
-    aspect-ratio: 297 / 608;
-    margin-inline: auto;
+    width: 103.36%;               /* 554 из колонки 536: ширина от родителя, а не своя, иначе на телефоне распирает слайд */
+    aspect-ratio: 554 / 608;
   }
+  .iphone {
+    position: absolute;
+    width: 47.83%;                /* 265 из 554 */
+    aspect-ratio: 441 / 892;
+  }
+  .iphone:first-child { left: 0; top: 0; }
+  .iphone:last-child { left: 52.17%; top: 12.01%; }   /* 289 из 554, 73 из 608 */
   .iphone__screen {
     position: absolute;
-    left: 5.39%;                  /* 16 из 297 */
-    top: 2.47%;                   /* 15 из 608 */
-    width: 89.56%;                /* 266 из 297 */
-    height: 95.07%;               /* 578 из 608 */
-    border-radius: 36px;
+    left: 5.44%;                  /* 24 из 441 */
+    top: 2.24%;                   /* 20 из 892 */
+    width: 89.12%;                /* 393 из 441 */
+    height: 95.52%;               /* 852 из 892 */
+    border-radius: 13.23% / 6.1%; /* 52 от 393 и от 852 */
     background: var(--surface-raised);
     overflow: hidden;
     display: grid;
@@ -587,6 +594,7 @@
     font-weight: 600;
     color: var(--text-secondary);
   }
+  .iphone__screen img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .iphone__bezel {
     position: absolute;
     inset: 0;
@@ -645,6 +653,7 @@
     .experience__slide { flex-direction: column; align-items: stretch; }
     .experience__text { flex-basis: auto; }
     .experience__media--browser { height: auto; }
+    .phones { width: 100%; max-width: 554px; }
     .browser { position: relative; top: 0; font-size: calc((100vw - 2 * var(--page-margin)) / 1440); }
   }
   @media (max-width: 768px) {
@@ -1162,8 +1171,8 @@
 
     <div class="content">
       <div class="headlines">
-        <h1>Problem-driven design for digital products</h1>
-        <p class="lead">I’m Diana, a UI/UX designer with 5+ years of designing digital products. Available for projects</p>
+        <h1>Problem-driven design for&nbsp;digital products</h1>
+        <p class="lead">I’m Diana, a&nbsp;UI/UX designer with&nbsp;5+ years of&nbsp;designing digital products. Available for&nbsp;projects</p>
       </div>
 
       <div class="actions">
@@ -1206,34 +1215,34 @@
 
   <section class="statement">
     <div class="container">
-    <h2>I turn <strong>user needs</strong> and <strong>business goals</strong> into <strong>interfaces that just work</strong></h2>
+    <h2>I&nbsp;turn <strong>user needs</strong> and <strong>business goals</strong> into <strong>interfaces that just work</strong></h2>
     <div class="cards">
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.652 8.46962C11.5114 8.61027 11.4324 8.801 11.4324 8.99987C11.4324 9.19875 11.5114 9.38948 11.652 9.53012L13.434 11.3129C13.5746 11.4535 13.7654 11.5325 13.9642 11.5325C14.1631 11.5325 14.3538 11.4535 14.4945 11.3129L16.2772 9.53012C16.4178 9.38948 16.4968 9.19875 16.4968 8.99987C16.4968 8.801 16.4178 8.61027 16.2772 8.46962L14.4945 6.68688C14.3538 6.54627 14.1631 6.46729 13.9642 6.46729C13.7654 6.46729 13.5746 6.54627 13.434 6.68688L11.652 8.46962Z"/><path d="M1.72276 8.46962C1.58216 8.61027 1.50317 8.801 1.50317 8.99987C1.50317 9.19875 1.58216 9.38948 1.72276 9.53012L3.50551 11.3129C3.64616 11.4535 3.83689 11.5325 4.03576 11.5325C4.23464 11.5325 4.42537 11.4535 4.56601 11.3129L6.34876 9.53012C6.48937 9.38948 6.56835 9.19875 6.56835 8.99987C6.56835 8.801 6.48937 8.61027 6.34876 8.46962L4.56601 6.68688C4.42537 6.54627 4.23464 6.46729 4.03576 6.46729C3.83689 6.46729 3.64616 6.54627 3.50551 6.68688L1.72276 8.46962Z"/><path d="M6.68701 13.4342C6.61727 13.5039 6.56195 13.5866 6.52421 13.6776C6.48647 13.7687 6.46704 13.8663 6.46704 13.9648C6.46704 14.0634 6.48647 14.161 6.52421 14.252C6.56195 14.3431 6.61727 14.4258 6.68701 14.4955L8.46976 16.2775C8.6104 16.4181 8.80113 16.497 9.00001 16.497C9.19888 16.497 9.38961 16.4181 9.53026 16.2775L11.313 14.4955C11.3827 14.4258 11.4381 14.3431 11.4758 14.252C11.5135 14.161 11.533 14.0634 11.533 13.9648C11.533 13.8663 11.5135 13.7687 11.4758 13.6776C11.4381 13.5866 11.3827 13.5039 11.313 13.4342L9.53026 11.6522C9.38961 11.5116 9.19888 11.4326 9.00001 11.4326C8.80113 11.4326 8.6104 11.5116 8.46976 11.6522L6.68701 13.4342Z"/><path d="M6.687 3.50527C6.54639 3.64592 6.46741 3.83665 6.46741 4.03552C6.46741 4.23439 6.54639 4.42512 6.687 4.56577L8.46975 6.34777C8.61039 6.48837 8.80112 6.56736 9 6.56736C9.19887 6.56736 9.3896 6.48837 9.53025 6.34777L11.313 4.56577C11.4536 4.42512 11.5326 4.23439 11.5326 4.03552C11.5326 3.83665 11.4536 3.64592 11.313 3.50527L9.53025 1.72252C9.3896 1.58192 9.19887 1.50293 9 1.50293C8.80112 1.50293 8.61039 1.58192 8.46975 1.72252L6.687 3.50527Z"/></g></svg></span>
         <div class="card__text">
           <h3>UI/UX</h3>
-          <p>Interfaces built as design systems in Figma: consistent, scalable and handed off dev-ready</p>
+          <p>Interfaces built as&nbsp;design systems in&nbsp;Figma: consistent, scalable and&nbsp;handed off dev-ready</p>
         </div>
       </article>
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.7803 15.9696C11.6396 16.1102 11.4489 16.1892 11.25 16.1892C11.0511 16.1892 10.8604 16.1102 10.7198 15.9696L9.53026 14.7801C9.38966 14.6395 9.31067 14.4488 9.31067 14.2499C9.31067 14.051 9.38966 13.8603 9.53026 13.7196L13.7198 9.53014C13.8604 9.38953 14.0511 9.31055 14.25 9.31055C14.4489 9.31055 14.6396 9.38953 14.7803 9.53014L15.9698 10.7196C16.1104 10.8603 16.1893 11.051 16.1893 11.2499C16.1893 11.4488 16.1104 11.6395 15.9698 11.7801L11.7803 15.9696Z"/><path d="M13.5 9.75L12.4688 4.5945C12.4407 4.45424 12.3731 4.32492 12.274 4.2218C12.1749 4.11868 12.0483 4.04606 11.9093 4.0125L2.42625 1.521C2.30133 1.4908 2.17073 1.49321 2.047 1.528C1.92327 1.56278 1.81055 1.62879 1.71967 1.71967C1.62879 1.81055 1.56278 1.92327 1.528 2.047C1.49321 2.17073 1.4908 2.30133 1.521 2.42625L4.0125 11.9093C4.04606 12.0483 4.11868 12.1749 4.2218 12.274C4.32492 12.3731 4.45424 12.4407 4.5945 12.4688L9.75 13.5"/><path d="M1.72501 1.7251L7.18951 7.1896"/><path d="M8.25 9.75C9.07843 9.75 9.75 9.07843 9.75 8.25C9.75 7.42157 9.07843 6.75 8.25 6.75C7.42157 6.75 6.75 7.42157 6.75 8.25C6.75 9.07843 7.42157 9.75 8.25 9.75Z"/></g></svg></span>
         <div class="card__text">
           <h3>Identity</h3>
-          <p>A graphic design background turned into type, color and components that feel deliberate</p>
+          <p>A&nbsp;graphic design background turned into&nbsp;type, color and&nbsp;components that feel deliberate</p>
         </div>
       </article>
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 2.25V14.25C2.25 14.6478 2.40804 15.0294 2.68934 15.3107C2.97064 15.592 3.35218 15.75 3.75 15.75H15.75"/><path d="M14.25 6.75L10.5 10.5L7.5 7.5L5.25 9.75"/></g></svg></span>
         <div class="card__text">
           <h3>Product Design</h3>
-          <p>Research, user interviews and hypotheses first, then design for the metric that matters</p>
+          <p>Research, user interviews and&nbsp;hypotheses first, then design for&nbsp;the&nbsp;metric that matters</p>
         </div>
       </article>
       <article class="card">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 12L16.5 9L13.5 6"/><path d="M4.5 6L1.5 9L4.5 12"/><path d="M10.875 3L7.125 15"/></g></svg></span>
         <div class="card__text">
           <h3>Web</h3>
-          <p>From mockup to live site: hand-coded, responsive and hosted on its own domain. This site included</p>
+          <p>From&nbsp;mockup to&nbsp;live site: hand-coded, responsive and&nbsp;hosted on&nbsp;its own domain. This site included</p>
         </div>
       </article>
     </div>
@@ -1254,7 +1263,7 @@
               <p class="experience__company">North Star</p>
               <div class="experience__role">
                 <h3>Web animation course platform</h3>
-                <p>Interactive learning platform for a paid web animation course, with video breakdowns, live demos and hands-on tasks</p>
+                <p>Interactive learning platform for&nbsp;a&nbsp;paid web animation course, with&nbsp;video breakdowns, live demos and&nbsp;hands-on tasks</p>
               </div>
               <ul class="chips">
                 <li class="chip">PLATFORM UI</li>
@@ -1296,7 +1305,7 @@
               <p class="experience__company">Lookmerce</p>
               <div class="experience__role">
                 <h3>AI fashion catalog platform</h3>
-                <p>Website UX/UI for an AI service that turns one garment photo into a finished fashion catalog</p>
+                <p>Website UX/UI for&nbsp;an&nbsp;AI service that turns one garment photo into&nbsp;a&nbsp;finished fashion catalog</p>
               </div>
               <ul class="chips">
                 <li class="chip">LANDING PAGE</li>
@@ -1338,7 +1347,7 @@
               <p class="experience__company">Astralis</p>
               <div class="experience__role">
                 <h3>Private SEO platform</h3>
-                <p>Landing page and a Mini App dashboard for an invite-only SEO service, from brand to hand-off</p>
+                <p>Landing page and&nbsp;a&nbsp;Mini App dashboard for&nbsp;an&nbsp;invite-only SEO service, from&nbsp;brand to&nbsp;hand-off</p>
               </div>
               <ul class="chips">
                 <li class="chip">DASHBOARD UI</li>
@@ -1358,9 +1367,15 @@
             </div>
           </div>
           <div class="experience__media">
-            <div class="iphone">
-              <div class="iphone__screen">PRODUCT SCREENSHOT</div>
-              <img class="iphone__bezel" src="assets/iphone-bezel.png" alt="" width="297" height="608">
+            <div class="phones">
+              <div class="iphone">
+                <div class="iphone__screen"><img src="assets/astralis-app-1.png" alt="Astralis Mini App: welcome screen, Private service for website promotion in organic search, with the Get started button" width="787" height="1704" loading="lazy"></div>
+                <img class="iphone__bezel" src="assets/iphone-frame.svg" alt="" width="441" height="892">
+              </div>
+              <div class="iphone">
+                <div class="iphone__screen"><img src="assets/astralis-app-2.png" alt="Astralis Mini App: pricing screen, Choose your perfect plan, with the Standard plan card" width="787" height="1704" loading="lazy"></div>
+                <img class="iphone__bezel" src="assets/iphone-frame.svg" alt="" width="441" height="892">
+              </div>
             </div>
           </div>
           </div>
@@ -1370,7 +1385,7 @@
               <p class="experience__company">Blok B</p>
               <div class="experience__role">
                 <h3>IT Studio Website</h3>
-                <p>B2B landing for an integrations and security studio</p>
+                <p>B2B landing for&nbsp;an&nbsp;integrations and&nbsp;security studio</p>
               </div>
               <ul class="chips">
                 <li class="chip">LANDING PAGE</li>
@@ -1392,9 +1407,15 @@
             </div>
           </div>
           <div class="experience__media">
-            <div class="iphone">
-              <div class="iphone__screen">PRODUCT SCREENSHOT</div>
-              <img class="iphone__bezel" src="assets/iphone-bezel.png" alt="" width="297" height="608">
+            <div class="phones">
+              <div class="iphone">
+                <div class="iphone__screen">393 × 852</div>
+                <img class="iphone__bezel" src="assets/iphone-frame.svg" alt="" width="441" height="892">
+              </div>
+              <div class="iphone">
+                <div class="iphone__screen">393 × 852</div>
+                <img class="iphone__bezel" src="assets/iphone-frame.svg" alt="" width="441" height="892">
+              </div>
             </div>
           </div>
           </div>
@@ -1415,8 +1436,8 @@
       <div class="about__headlines">
         <span class="section-label">About</span>
         <div class="about__title">
-        <h2>I’m Diana, turning<br>ideas into live products</h2>
-        <p>Five years of product design in EdTech and E-commerce, a graphic design background and a habit of taking work all the way to launch</p>
+        <h2>I’m Diana, turning<br>ideas into&nbsp;live products</h2>
+        <p>Five years of&nbsp;product design in&nbsp;EdTech and&nbsp;E-commerce, a&nbsp;graphic design background and&nbsp;a&nbsp;habit of&nbsp;taking work all the&nbsp;way to&nbsp;launch</p>
         </div>
       </div>
       <a class="btn btn--md" href="https://drive.google.com/file/d/1bqPZfGpOYD9Zdko0EAb5hOmjhrwSNbYD/view?usp=sharing" target="_blank" rel="noopener">
@@ -1433,37 +1454,37 @@
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8) scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></g></svg></span>
             <div class="card__text">
               <h3>Graphic Eye, Product Mind</h3>
-              <p>I came to product design from graphic design, so the visuals are never an afterthought. Every flow starts with research and user needs, and every screen is crafted down to the type, color and spacing. The result is a product that works well, looks considered and stays consistent as it grows</p>
+              <p>I&nbsp;came to&nbsp;product design from&nbsp;graphic design, so the&nbsp;visuals are never an&nbsp;afterthought. Every flow starts with&nbsp;research and&nbsp;user needs, and&nbsp;every screen is&nbsp;crafted down to&nbsp;the&nbsp;type, color and&nbsp;spacing. The&nbsp;result is&nbsp;a&nbsp;product that works well, looks considered and&nbsp;stays consistent as&nbsp;it grows</p>
             </div>
           </article>
           <article class="card card--lg">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8) scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></g></svg></span>
             <div class="card__text">
-              <h3>AI in the Loop</h3>
-              <p>AI is built into my process: it speeds up research, structure, copy drafts and code, while every design decision stays mine. That frees time for what AI can’t do: understanding users, finding the real problem and polishing the details. Careful craft at startup speed, without cutting corners</p>
+              <h3>AI in&nbsp;the&nbsp;Loop</h3>
+              <p>AI is&nbsp;built into&nbsp;my&nbsp;process: it speeds up research, structure, copy drafts and&nbsp;code, while every design decision stays mine. That frees time for&nbsp;what AI can’t do: understanding users, finding the&nbsp;real problem and&nbsp;polishing the&nbsp;details. Careful craft at&nbsp;startup speed, without cutting corners</p>
             </div>
           </article>
       </div>
       <div class="about__education">
-        <h3 class="about__heading">I make complex products feel simple to use</h3>
+        <h3 class="about__heading">I&nbsp;make complex products feel simple to&nbsp;use</h3>
         <div class="about__grid">
         <div class="cards">
           <article class="card card--lg">
             <div class="card__text">
               <h3>Landing Pages</h3>
-              <p>One-page sites that explain the product fast and lead to a single clear action</p>
+              <p>One-page sites that explain the&nbsp;product fast and&nbsp;lead to&nbsp;a&nbsp;single clear action</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
               <h3>Multi-page Websites</h3>
-              <p>Company and portfolio sites with a clear structure and easy navigation</p>
+              <p>Company and&nbsp;portfolio sites with&nbsp;a&nbsp;clear structure and&nbsp;easy navigation</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
               <h3>Dashboards &amp; Admin Panels</h3>
-              <p>Dense data turned into screens you can read at a glance and act on</p>
+              <p>Dense data turned into&nbsp;screens you can read at&nbsp;a&nbsp;glance and&nbsp;act on</p>
             </div>
           </article>
         </div>
@@ -1471,19 +1492,19 @@
           <article class="card card--lg">
             <div class="card__text">
               <h3>Web Apps &amp; SaaS</h3>
-              <p>Product interfaces with real flows: sign-up, settings, forms, empty and error states</p>
+              <p>Product interfaces with&nbsp;real flows: sign-up, settings, forms, empty and&nbsp;error states</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
               <h3>Mobile Apps</h3>
-              <p>iOS and Android screens built around one-handed use and short sessions</p>
+              <p>iOS and&nbsp;Android screens built around one-handed use and&nbsp;short sessions</p>
             </div>
           </article>
           <article class="card card--lg">
             <div class="card__text">
               <h3>Design Systems</h3>
-              <p>Component libraries and tokens that keep a product consistent as it grows</p>
+              <p>Component libraries and&nbsp;tokens that keep a&nbsp;product consistent as&nbsp;it grows</p>
             </div>
           </article>
         </div>
@@ -1496,36 +1517,36 @@
     <div class="faq__intro">
       <span class="section-label">FAQ</span>
       <div class="faq__headlines">
-        <h2>What to expect? <strong>Clear answers</strong></h2>
-        <p>Still curious about something? Drop me a line, the contact is at the bottom of the page</p>
+        <h2>What to&nbsp;expect? <strong>Clear answers</strong></h2>
+        <p>Still curious about something? Drop me a&nbsp;line, the&nbsp;contact is&nbsp;at&nbsp;the&nbsp;bottom of&nbsp;the&nbsp;page</p>
       </div>
     </div>
     <div class="faq__list">
       <div class="faq__beams" aria-hidden="true"><span class="beam-wide"></span><span class="beam-mid"></span><span class="beam-core"></span><span class="beam-highlight"></span></div>
       <span class="faq__edge" aria-hidden="true"></span>
       <div class="accordion is-open">
-        <h3><button class="accordion__trigger" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span>What kind of projects do you take on?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Pretty much anything in product design: interfaces, web apps, redesigns, MVPs and landing pages. The one thing I care about is that the product is genuinely useful to the people using it. I’m happiest with startups building an interesting SaaS product, especially small, tight-knit teams</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span>What kind of&nbsp;projects do you take on?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Pretty much anything in&nbsp;product design: interfaces, web apps, redesigns, MVPs and&nbsp;landing pages. The&nbsp;one thing I&nbsp;care about is&nbsp;that the&nbsp;product is&nbsp;genuinely useful to&nbsp;the&nbsp;people using it. I’m happiest with&nbsp;startups building an&nbsp;interesting SaaS product, especially small, tight-knit teams</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Can you take it all the way to a live site?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. Beyond design, I code and deploy live sites myself, from a one-pager to a full multi-page site on its own domain (this portfolio included). For heavier builds I hand developers clean, spec-ready files</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Can you take it all the&nbsp;way to&nbsp;a&nbsp;live site?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. Beyond design, I&nbsp;code and&nbsp;deploy live sites myself, from&nbsp;a&nbsp;one-pager to&nbsp;a&nbsp;full multi-page site on&nbsp;its own domain (this portfolio included). For&nbsp;heavier builds I&nbsp;hand developers clean, spec-ready files</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>What’s it like to work with you?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Close and transparent. We sync on a short daily call over Google Meet so nothing drifts, and everything else runs async in Telegram, Slack or straight inside Figma, where comments and files stay in one place. You always know where the project stands</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>What’s it like to&nbsp;work with&nbsp;you?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Close and&nbsp;transparent. We sync on&nbsp;a&nbsp;short daily call over Google Meet so nothing drifts, and&nbsp;everything else runs async in&nbsp;Telegram, Slack or&nbsp;straight inside Figma, where comments and&nbsp;files stay in&nbsp;one place. You always know where the&nbsp;project stands</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Can you join an existing team?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a4" role="region" aria-labelledby="faq-q4" inert><div><p>Happily. I prefer working inside a team, plugging in with developers, designers and marketers, though I’m just as fine running things solo. I pick up your context and processes quickly and fit into how you already work</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Can you join an&nbsp;existing team?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a4" role="region" aria-labelledby="faq-q4" inert><div><p>Happily. I&nbsp;prefer working inside a&nbsp;team, plugging in&nbsp;with&nbsp;developers, designers and&nbsp;marketers, though I’m just as&nbsp;fine running things solo. I&nbsp;pick up your context and&nbsp;processes quickly and&nbsp;fit into&nbsp;how you already work</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>How long does a project take?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on the scope, so I estimate each project up front and set clear milestones before we start. A simple landing page can be ready in a day. For anything larger, you’ll have a realistic timeline before any work begins</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>How long does a&nbsp;project take?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on&nbsp;the&nbsp;scope, so I&nbsp;estimate each project up front and&nbsp;set clear milestones before we start. A&nbsp;simple landing page can be ready in&nbsp;a&nbsp;day. For&nbsp;anything larger, you’ll have a&nbsp;realistic timeline before any work begins</p></div></div>
       </div>
       <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How do you use AI in your work?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Openly and with care. I use it to explore more options early and to turn approved designs into working code faster. Everything it produces goes through my review, and nothing reaches you that I haven’t checked myself</p></div></div>
+        <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How do you use AI in&nbsp;your work?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
+        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Openly and&nbsp;with&nbsp;care. I&nbsp;use it to&nbsp;explore more options early and&nbsp;to&nbsp;turn approved designs into&nbsp;working code faster. Everything it produces goes through my&nbsp;review, and&nbsp;nothing reaches you that I&nbsp;haven’t checked myself</p></div></div>
       </div>
     </div>
   </section>
@@ -1535,7 +1556,7 @@
     <div class="footer__cta">
       <div class="footer__headlines">
         <span class="section-label">Contact</span>
-        <h2>Have a product that needs clarity? <strong>Let’s talk</strong></h2>
+        <h2>Have a&nbsp;product that needs clarity? <strong>Let’s talk</strong></h2>
       </div>
       <div class="actions">
         <a class="btn btn--md" href="https://t.me/shugdiv" target="_blank" rel="noopener">
