@@ -1020,8 +1020,9 @@
   .footer__link-static { cursor: pointer; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1); }
   .footer__bottom { display: flex; flex-direction: column; gap: var(--space-64); }
   .footer__divider { height: 1px; background: var(--border-subtle); }
-  /* Слово-логотип: стекло по форме букв. Surface/overlay 5% и размытие фона 12 (в CSS blur 6),
-     форма берётся маской из assets/wordmark.svg. Буквы 1200x145, окно 123: низ букв срезан, как в макете. */
+  /* Слово-логотип по образцу lumora-template.framer.ai: Surface/wordmark-fade, #F5F8FF 16% сверху
+     → 0% на 65% высоты букв, размытие фона 12 (в CSS blur 6). Форма маской из assets/wordmark.svg.
+     Буквы 1200x145 сдвинуты вниз на 24 (2% ширины), окно 123: видна верхняя часть, низ срезан. */
   .footer__wordmark {
     aspect-ratio: 1200 / 123;
     overflow: hidden;
@@ -1029,7 +1030,8 @@
   .footer__wordmark span {
     display: block;
     aspect-ratio: 1200 / 144.923;
-    background: rgb(0 77 255 / 0.1);   /* #004DFF 10%, в макете с 23.09.2026 */
+    margin-top: 2%;   /* 24 из 1200: проценты у margin считаются от ширины */
+    background: linear-gradient(to bottom, rgb(245 248 255 / 0.16) 0%, rgb(245 248 255 / 0) 65%);
     -webkit-backdrop-filter: blur(6px);
             backdrop-filter: blur(6px);
     -webkit-mask: url("assets/wordmark.svg") no-repeat 0 0 / 100% 100%;
