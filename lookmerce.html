@@ -1142,14 +1142,12 @@
 
   /* ================= Страница кейса (CASE_PAGE.md), макет: Portfolio DS, лист Landing, Case / Lookmerce ================= */
 
-  /* Case hero: Surface/page-glow, свечение снизу по центру. Радиус 31.25% × 45.45%, как gradientTransform стиля в Figma */
+  /* Case hero: плоский Surface/page. Свечение снизу (Surface/page-glow) Диана убрала из макета 29.09.2026: давало полосу на стыке с Challenge */
   .case-hero {
     min-height: 0;
     gap: var(--space-96);
     padding: calc(var(--header-h, 70px) + var(--space-80)) var(--page-margin) var(--space-96);   /* верх интро 150 = шапка 70 + 80, как в макете */
-    background:
-      radial-gradient(31.25% 45.45% at 50% 100%, rgb(19 97 199 / 0.5) 0%, rgb(19 97 199 / 0.14) 50%, rgb(19 97 199 / 0) 100%),
-      var(--surface-page);
+    background: var(--surface-page);
   }
   .case-hero > main.case-intro {
     width: 100%;
