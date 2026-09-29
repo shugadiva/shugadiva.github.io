@@ -1254,7 +1254,35 @@
   .case-grid .card { min-width: 0; }
 
   /* Screens: окно браузера во всю колонку 1200, масштаб от ширины колонки */
-  .case-shots { display: flex; flex-direction: column; gap: var(--space-48); }
+  .case-shots { position: relative; display: flex; flex-direction: column; gap: var(--space-48); }
+  /* Glow / Behind browser: свет за первым окном. В макете слой 1440×1040 по центру окна 1200×792,
+     радиальный #2E6EE8 70% ровно до 42.3% и в ноль к краю (Диана подобрала яркость 29.09.2026).
+     Масштаб в em как у окна: 1440em = ширина окна. Окно идёт после ::before и ложится сверху */
+  .case-shots::before {
+    content: "";
+    position: absolute;
+    font-size: calc(min(var(--container-xl), 100vw - 2 * var(--page-margin)) / 1440);
+    width: 1728em; height: 1248em;
+    left: 50%; top: calc(475em - 624em);
+    transform: translateX(-50%);
+    background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.7) 42.3%, rgb(46 110 232 / 0) 100%);
+    pointer-events: none;
+  }
+  #screens { overflow-x: clip; }   /* свет шире колонки, на узких окнах иначе горизонтальная прокрутка */
+
+  /* Свет секций из углов по Halo: Surface/section-glow-br, -tr, -bl. Радиус 50% ширины и высоты секции,
+     #2E6EE8 10% → 5% на 36.5% → 0. На стыке Challenge и Solution справа одно пятно поперёк границы */
+  .case-section#challenge {
+    background:
+      radial-gradient(50% 50% at 100% 100%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
+      var(--surface-page);
+  }
+  .case-section#solution {
+    background:
+      radial-gradient(50% 50% at 100% 0%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
+      radial-gradient(50% 50% at 0% 100%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
+      var(--surface-page);
+  }
   .browser.browser--full {
     position: relative;
     top: 0;
