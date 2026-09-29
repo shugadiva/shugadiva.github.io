@@ -1257,25 +1257,27 @@
   .case-grid .card { min-width: 0; }
 
   /* Screens: окно браузера во всю колонку 1200, масштаб от ширины колонки */
-  .case-shots { display: flex; flex-direction: column; gap: var(--space-48); }
+  .case-shots { position: relative; display: flex; flex-direction: column; gap: var(--space-48); }
+  /* Glow / Behind browser (Surface/browser-glow): свет из-за первого окна, по силе как свет секций Halo.
+     Слой 1440×1040 по центру окна 1200×792, #2E6EE8 12% ровно до 75% радиуса и в ноль к краю.
+     Масштаб в em как у окна (1440em = ширина окна); окно идёт после ::before и ложится сверху */
+  .case-shots::before {
+    content: "";
+    position: absolute;
+    font-size: calc(min(var(--container-xl), 100vw - 2 * var(--page-margin)) / 1440);
+    width: 1728em; height: 1248em;
+    left: 50%; top: calc(475em - 624em);
+    transform: translateX(-50%);
+    background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.12) 75%, rgb(46 110 232 / 0) 100%);
+    pointer-events: none;
+  }
+  #screens { overflow-x: clip; }   /* свет шире колонки, на узких окнах иначе горизонтальная прокрутка */
 
   /* Свет секций из углов по Halo: Surface/section-glow-br, -tr, -bl. Радиус 50% ширины и высоты секции,
      #2E6EE8 10% → 5% на 36.5% → 0. На стыке Challenge и Solution справа одно пятно поперёк границы */
   .case-section#challenge {
     background:
       radial-gradient(50% 50% at 100% 100%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
-      var(--surface-page);
-  }
-  /* Стык Outcomes и Screens тем же приёмом (Диана 29.09.2026: свет вокруг окна браузера выглядел плохо).
-     У Screens слой света 660 в высоту сверху, а не на всю секцию: секция 2800, пятно иначе вытянулось бы */
-  .case-section#outcomes {
-    background:
-      radial-gradient(50% 50% at 100% 100%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
-      var(--surface-page);
-  }
-  .case-section#screens {
-    background:
-      radial-gradient(50% 330px at 100% 0%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
       var(--surface-page);
   }
   .case-section#solution {
