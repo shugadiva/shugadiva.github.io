@@ -1228,6 +1228,15 @@
   .case-role .chips { max-width: 500px; }
   .btn--ghost-hidden { visibility: hidden; pointer-events: none; }   /* кнопка без ссылки, как opacity 0 в макете */
   .case-role__media { position: relative; flex: 0 0 536px; height: 608px; }
+  /* Glow в Media (Surface/browser-glow): свет из-за окна, как в Screens. В макете слой 912×665 на -76, -26:
+     на 20% шире и на 31% выше окна 760×507 и по его центру. Окно идёт после ::before и ложится сверху */
+  .case-role__media::before {
+    content: "";
+    position: absolute;
+    left: -76px; top: -26px; width: 912px; height: 665px;
+    background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.12) 75%, rgb(46 110 232 / 0) 100%);
+    pointer-events: none;
+  }
 
   /* Секции кейса: поля 96, шапка секции (метка → заголовок 24), шапка → контент 48 */
   .case-section { position: relative; padding: var(--space-96) var(--page-margin); background: var(--surface-page); }
@@ -1324,6 +1333,7 @@
     .case-role__text { flex-basis: auto; }
     .case-role__media { flex-basis: auto; height: auto; }
     .case-role__media .browser { position: relative; top: 0; font-size: calc((100vw - 2 * var(--page-margin)) / 1440); }
+    .case-role__media::before { left: -10%; top: -15%; width: 120%; height: 131%; }   /* на узком окно в потоке, свет по его размеру */
   }
   @media (max-width: 900px) {
     .case-grid, .case-more__grid { grid-template-columns: 1fr 1fr; }
@@ -1557,7 +1567,7 @@
 <div class="work-card__text"><h3>North Star</h3><p>Web animation course platform</p></div>
 <ul class="chips"><li class="chip">PLATFORM UI</li><li class="chip">LEARNING UX</li></ul>
 </a>
-<a class="work-card" href="https://www.behance.net/gallery/239613305/SaaS-Platform-Landing-Page" target="_blank" rel="noopener">
+<a class="work-card" href="astralis.html">
 <img class="work-card__cover" src="assets/cover-astralis.png?v=20260929" alt="Astralis Mini App screens on two iPhones" width="768" height="576" loading="lazy">
 <div class="work-card__text"><h3>Astralis</h3><p>Private SEO platform</p></div>
 <ul class="chips"><li class="chip">DASHBOARD UI</li><li class="chip">MINI APP</li></ul>

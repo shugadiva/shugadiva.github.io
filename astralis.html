@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Diana Shvedskaia - Portfolio - UI/UX and Product Designer, Design Systems</title>
-<meta name="description" content="UI/UX designer with 5+ years of designing digital products. Problem-driven design, design systems and hand-coded interfaces.">
+<title>Astralis case - Diana Shvedskaia, UI/UX Designer</title>
+<meta name="description" content="Astralis case: brand, landing page and Telegram Mini App dashboard for a private SEO platform for organic website promotion.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Diana Shvedskaia - Portfolio - UI/UX and Product Designer, Design Systems">
-<meta property="og:description" content="UI/UX designer with 5+ years of designing digital products. Problem-driven design, design systems and hand-coded interfaces.">
-<meta property="og:url" content="https://shugadiva.github.io/">
+<meta property="og:title" content="Astralis case - Diana Shvedskaia, UI/UX Designer">
+<meta property="og:description" content="Astralis case: brand, landing page and Telegram Mini App dashboard for a private SEO platform for organic website promotion.">
+<meta property="og:url" content="https://shugadiva.github.io/astralis.html">
 <meta property="og:image" content="https://shugadiva.github.io/assets/og-image.png">   <!-- адрес абсолютный: мессенджеры относительный не понимают; при переезде на домен поменять -->
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -1144,21 +1144,224 @@
     .globe__glow { width: 419px; height: 419px; left: 290.5px; top: 183.5px; }
     .globe__arcs { width: 750px; height: 750px; left: 125px; top: 43px; }
   }
+
+  /* ================= Страница кейса (CASE_PAGE.md), макет: Portfolio DS, лист Landing, Case / Lookmerce ================= */
+
+  /* Case hero: плоский Surface/page. Свечение снизу (Surface/page-glow) Диана убрала из макета 29.09.2026: давало полосу на стыке с Challenge */
+  .case-hero {
+    min-height: 0;
+    gap: var(--space-48);   /* заголовок → My role 48 (было 96, Диана 29.09.2026: слишком далеко) */
+    padding: calc(var(--header-h, 70px) + var(--space-80)) var(--page-margin) var(--space-96);   /* верх интро 150 = шапка 70 + 80, как в макете */
+    background: var(--surface-page);
+  }
+  .case-hero > main.case-intro {
+    width: 100%;
+    max-width: var(--container-xl);
+    margin-inline: auto;
+    padding: 0;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-64);
+  }
+
+  /* Case nav: чипы, активный пункт Primary (Section label), остальные Secondary. Глобальный nav{} из шапки сбрасываем */
+  nav.case-nav { order: 0; justify-self: auto; padding: 0; gap: var(--space-8); flex-wrap: wrap; justify-content: center; }
+  .case-nav a { text-decoration: none; transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1), background-color 150ms cubic-bezier(0.4, 0, 0.2, 1); }
+  .case-nav a::after { content: none; }
+  .case-nav a.chip { font-size: var(--label-md); line-height: 20px; font-weight: 600; }   /* высота как у Section label: 30 */
+  .case-nav a.chip:hover { color: var(--text-primary); }
+
+  .case-title { width: 100%; display: flex; flex-direction: column; gap: var(--space-24); }
+  .case-title h1 {
+    margin: 0;
+    max-width: 840px;
+    font-size: var(--display-lg);   /* Display/lg 60 / 72 / -4% Bold */
+    line-height: 72px;
+    letter-spacing: -0.04em;
+    font-weight: 700;
+  }
+  .case-meta {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    font-size: var(--label-lg);     /* Label/lg 16 / 24 / -1.4% SemiBold */
+    line-height: 24px;
+    letter-spacing: -0.014em;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .case-meta__company { color: var(--text-primary); }
+  .case-meta__divider { width: 1px; height: 16px; background: var(--border-default); }
+
+  /* My role: текст 588 слева, окно браузера со слайда справа, уходит за край экрана */
+  .case-role {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: var(--container-xl);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-48);
+  }
+  .case-role__text { flex: 0 0 588px; display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-40); }
+  .case-role__headlines { display: flex; flex-direction: column; gap: var(--space-16); }
+  .case-role h2 {
+    margin: 0;
+    font-size: var(--heading-lg);   /* Heading/lg 32 / 40 / -2.5% Medium */
+    line-height: 40px;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+  }
+  .case-role p {
+    margin: 0;
+    font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold, как описание на слайде карусели (29.09.2026) */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .case-role .chips { max-width: 500px; }
+  .btn--ghost-hidden { visibility: hidden; pointer-events: none; }   /* кнопка без ссылки, как opacity 0 в макете */
+  .case-role__media { position: relative; flex: 0 0 536px; height: 608px; }
+  /* Glow в Media (Surface/browser-glow): свет из-за окна, как в Screens. В макете слой 912×665 на -76, -26:
+     на 20% шире и на 31% выше окна 760×507 и по его центру. Окно идёт после ::before и ложится сверху */
+  .case-role__media::before {
+    content: "";
+    position: absolute;
+    left: -76px; top: -26px; width: 912px; height: 665px;
+    background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.12) 75%, rgb(46 110 232 / 0) 100%);
+    pointer-events: none;
+  }
+
+  /* Секции кейса: поля 96, шапка секции (метка → заголовок 24), шапка → контент 48 */
+  .case-section { position: relative; padding: var(--space-96) var(--page-margin); background: var(--surface-page); }
+  .case-section__header { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-24); margin-bottom: var(--space-48); }
+  .case-section h2 {
+    margin: 0;
+    max-width: 704px;
+    font-size: var(--display-sm);   /* Display/sm 36 / 44 / -3% SemiBold */
+    line-height: 44px;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+  }
+  /* Абзац прозой под заголовком секции (Challenge, Solution, Obstacle, Outcomes): Text/sm, Text/secondary, 704, как Paragraph в Section header */
+  .case-section__text {
+    margin: 0;
+    max-width: 704px;
+    font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .case-section--text .case-section__header { margin-bottom: 0; }
+  .case-section__body { display: flex; flex-direction: column; gap: var(--space-24); }
+  /* Ряд карточек: ширины колонок из макета (588 / 282 / 384) долями, чтобы ряд сжимался вместе с колонкой */
+  .case-grid { display: grid; grid-template-columns: var(--cols); gap: var(--space-24); }
+  .case-grid .card { min-width: 0; }
+
+  /* Screens: окно браузера во всю колонку 1200, масштаб от ширины колонки */
+  .case-shots { position: relative; display: flex; flex-direction: column; gap: var(--space-48); }
+  /* Glow / Behind browser (Surface/browser-glow): свет из-за первого окна, по силе как свет секций Halo.
+     Слой 1440×1040 по центру окна 1200×792, #2E6EE8 12% ровно до 75% радиуса и в ноль к краю.
+     Масштаб в em как у окна (1440em = ширина окна); окно идёт после ::before и ложится сверху */
+  .case-shots::before {
+    content: "";
+    position: absolute;
+    font-size: calc(min(var(--container-xl), 100vw - 2 * var(--page-margin)) / 1440);
+    width: 1728em; height: 1248em;
+    left: 50%; top: calc(475em - 624em);
+    transform: translateX(-50%);
+    background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.12) 75%, rgb(46 110 232 / 0) 100%);
+    pointer-events: none;
+  }
+  #screens { overflow-x: clip; }   /* свет шире колонки, на узких окнах иначе горизонтальная прокрутка */
+
+  /* Свет секций из углов по Halo: Surface/section-glow-br, -tr, -bl. Радиус 50% ширины и высоты секции,
+     #2E6EE8 10% → 5% на 36.5% → 0. На стыке Challenge и Solution справа одно пятно поперёк границы */
+  .case-section#challenge {
+    background:
+      radial-gradient(50% 50% at 100% 100%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
+      var(--surface-page);
+  }
+  .case-section#solution {
+    background:
+      radial-gradient(50% 50% at 100% 0%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
+      radial-gradient(50% 50% at 0% 100%, rgb(46 110 232 / 0.1) 0%, rgb(46 110 232 / 0.05) 36.4865%, rgb(46 110 232 / 0) 100%),
+      var(--surface-page);
+  }
+  .browser.browser--full {
+    position: relative;
+    top: 0;
+    font-size: calc(min(var(--container-xl), 100vw - 2 * var(--page-margin)) / 1440);
+  }
+
+  /* More work (CTA / 2): три карточки работ, обложка 384×288 радиус 20, под ней название, подпись и чипы, всё через 24 */
+  .case-more__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-24); }
+  .work-card { display: flex; flex-direction: column; gap: var(--space-24); color: inherit; text-decoration: none; }
+  .work-card__cover {
+    display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; border-radius: 20px;
+    transition: opacity 600ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .work-card:hover .work-card__cover { opacity: 0.8; }   /* наведение как у кнопок: мягкий выкат прозрачности */
+  .work-card:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 4px; border-radius: 20px; }
+  .work-card__text { display: flex; flex-direction: column; gap: var(--space-8); }
+  .work-card h3 {
+    margin: 0;
+    font-size: var(--heading-md);   /* Heading/md 24 / 32 / -2% Medium */
+    line-height: 32px;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+  .work-card p {
+    margin: 0;
+    font-size: var(--text-sm);      /* Text/sm 14 / 20 / -1% Bold */
+    line-height: 20px;
+    letter-spacing: -0.01em;
+    font-weight: 700;
+    color: var(--text-secondary);
+  }
+  .work-card .chips { gap: var(--space-8); }
+
+  @media (max-width: 1100px) {
+    .case-role { flex-direction: column; align-items: stretch; }
+    .case-role__text { flex-basis: auto; }
+    .case-role__media { flex-basis: auto; height: auto; }
+    .case-role__media .browser { position: relative; top: 0; font-size: calc((100vw - 2 * var(--page-margin)) / 1440); }
+    .case-role__media::before { left: -10%; top: -15%; width: 120%; height: 131%; }   /* на узком окно в потоке, свет по его размеру */
+  }
+  @media (max-width: 900px) {
+    .case-grid, .case-more__grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 768px) {
+    .case-hero { gap: var(--space-64); padding-top: calc(var(--header-h, 70px) + var(--space-48)); padding-bottom: var(--space-48); }
+    nav.case-nav { order: 0; justify-content: flex-start; }
+    .case-title h1 { font-size: 2.5rem; line-height: 48px; }
+    .case-section { padding-block: var(--space-48); }
+    .case-section h2 { font-size: 1.75rem; line-height: 36px; }
+    .case-grid, .case-more__grid { grid-template-columns: 1fr; }
+  }
+
 </style>
 </head>
 <body>
 <div class="page">
 
-<div class="hero">
+<div class="hero case-hero">
   <header>
     <a class="logo" href="index.html" aria-label="Diana Shvedskaia, home">
       <span class="logo-name">Diana Shvedskaia</span>
     </a>
 
     <nav>
-      <a href="#work">Works</a>
-      <a href="#about">About</a>
-      <a href="#faq">FAQ</a>
+      <a href="index.html#work">Works</a>
+      <a href="index.html#about">About</a>
+      <a href="index.html#faq">FAQ</a>
       <a href="#contact">Contact</a>
     </nav>
 
@@ -1171,208 +1374,43 @@
     </a>
   </header>
 
-  <main>
-    <img class="avatar" src="assets/avatar.png?v=20260928b" alt="Diana Shvedskaia">
-
-    <div class="content">
-      <div class="headlines">
-        <h1>Problem-driven design for&nbsp;digital products</h1>
-        <p class="lead">I’m Diana, a&nbsp;UI/UX designer with&nbsp;5+ years of&nbsp;designing digital products. Available for&nbsp;projects</p>
-      </div>
-
-      <div class="actions">
-        <a class="btn btn--md" href="#contact">
-          <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
-          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-            <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
-            <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
-          </svg>
-        </a>
-
-        <a class="btn btn--md btn--glass" href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">
-          <span class="roll"><span>Behance</span><span>Behance</span></span>
-          <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-            <path d="M3 12.7498C2.88537 12.7483 2.77256 12.721 2.67 12.6698C2.54453 12.6083 2.43873 12.513 2.36453 12.3946C2.29032 12.2763 2.25065 12.1395 2.25 11.9998V-0.000216186C2.25065 -0.139931 2.29032 -0.276685 2.36453 -0.395065C2.43873 -0.513445 2.54453 -0.608743 2.67 -0.670216C2.79355 -0.732677 2.93214 -0.759229 3.07002 -0.746854C3.2079 -0.73448 3.33955 -0.683676 3.45 -0.600216L11.45 5.39978C11.5431 5.46964 11.6187 5.56023 11.6708 5.66437C11.7229 5.76852 11.75 5.88335 11.75 5.99978C11.75 6.11622 11.7229 6.23105 11.6708 6.33519C11.6187 6.43934 11.5431 6.52992 11.45 6.59978L3.45 12.5998C3.32052 12.6978 3.1624 12.7505 3 12.7498ZM3.75 1.49978V10.4998L9.75 5.99978L3.75 1.49978Z" fill="currentColor"/>
-          </svg>
-        </a>
-      </div>
-
+  <main class="case-intro">
+    <nav class="case-nav" aria-label="Case sections">
+      <a class="section-label" href="#role">Key idea</a>
+      <a class="chip" href="#challenge">Challenge</a>
+      <a class="chip" href="#solution">Solution</a>
+      <a class="chip" href="#outcomes">Outcomes</a>
+    </nav>
+    <div class="case-title">
+      <h1>Making a&nbsp;private SEO<br>service easy to&nbsp;trust</h1>
     </div>
-
   </main>
 
-  <div class="globe" aria-hidden="true">
-    <div class="globe__glow"></div>
-    <div class="globe__arcs">
-      <svg viewBox="-751 -738 1580 1580">
-        <path d="M555.5 374.7 A670 670 0 1 1 403.2 -535.1"/>
-        <path d="M715.2 -303.6 A777 777 0 0 1 478.4 612.3"/>
-        <path d="M388.5 672.9 A777 777 0 0 1 -698.4 340.6"/>
-        <path d="M0 575 A575 575 0 0 1 -531.2 -220"/>
-        <path d="M-406.6 -406.6 A575 575 0 0 1 0 -575"/>
-        <path d="M531.6 219.1 A575 575 0 0 1 408 405.2"/>
-      </svg>
-    </div>
-    <div class="globe__ball"><canvas id="globe"></canvas></div>
-  </div>
-</div>
-
-
-  <section class="statement">
-    <div class="container">
-    <h2>I&nbsp;turn <strong>user needs</strong> and <strong>business goals</strong> into <strong>interfaces that just work</strong></h2>
-    <div class="cards">
-      <article class="card">
-        <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.652 8.46962C11.5114 8.61027 11.4324 8.801 11.4324 8.99987C11.4324 9.19875 11.5114 9.38948 11.652 9.53012L13.434 11.3129C13.5746 11.4535 13.7654 11.5325 13.9642 11.5325C14.1631 11.5325 14.3538 11.4535 14.4945 11.3129L16.2772 9.53012C16.4178 9.38948 16.4968 9.19875 16.4968 8.99987C16.4968 8.801 16.4178 8.61027 16.2772 8.46962L14.4945 6.68688C14.3538 6.54627 14.1631 6.46729 13.9642 6.46729C13.7654 6.46729 13.5746 6.54627 13.434 6.68688L11.652 8.46962Z"/><path d="M1.72276 8.46962C1.58216 8.61027 1.50317 8.801 1.50317 8.99987C1.50317 9.19875 1.58216 9.38948 1.72276 9.53012L3.50551 11.3129C3.64616 11.4535 3.83689 11.5325 4.03576 11.5325C4.23464 11.5325 4.42537 11.4535 4.56601 11.3129L6.34876 9.53012C6.48937 9.38948 6.56835 9.19875 6.56835 8.99987C6.56835 8.801 6.48937 8.61027 6.34876 8.46962L4.56601 6.68688C4.42537 6.54627 4.23464 6.46729 4.03576 6.46729C3.83689 6.46729 3.64616 6.54627 3.50551 6.68688L1.72276 8.46962Z"/><path d="M6.68701 13.4342C6.61727 13.5039 6.56195 13.5866 6.52421 13.6776C6.48647 13.7687 6.46704 13.8663 6.46704 13.9648C6.46704 14.0634 6.48647 14.161 6.52421 14.252C6.56195 14.3431 6.61727 14.4258 6.68701 14.4955L8.46976 16.2775C8.6104 16.4181 8.80113 16.497 9.00001 16.497C9.19888 16.497 9.38961 16.4181 9.53026 16.2775L11.313 14.4955C11.3827 14.4258 11.4381 14.3431 11.4758 14.252C11.5135 14.161 11.533 14.0634 11.533 13.9648C11.533 13.8663 11.5135 13.7687 11.4758 13.6776C11.4381 13.5866 11.3827 13.5039 11.313 13.4342L9.53026 11.6522C9.38961 11.5116 9.19888 11.4326 9.00001 11.4326C8.80113 11.4326 8.6104 11.5116 8.46976 11.6522L6.68701 13.4342Z"/><path d="M6.687 3.50527C6.54639 3.64592 6.46741 3.83665 6.46741 4.03552C6.46741 4.23439 6.54639 4.42512 6.687 4.56577L8.46975 6.34777C8.61039 6.48837 8.80112 6.56736 9 6.56736C9.19887 6.56736 9.3896 6.48837 9.53025 6.34777L11.313 4.56577C11.4536 4.42512 11.5326 4.23439 11.5326 4.03552C11.5326 3.83665 11.4536 3.64592 11.313 3.50527L9.53025 1.72252C9.3896 1.58192 9.19887 1.50293 9 1.50293C8.80112 1.50293 8.61039 1.58192 8.46975 1.72252L6.687 3.50527Z"/></g></svg></span>
-        <div class="card__text">
-          <h3>UI/UX</h3>
-          <p>Interfaces built as&nbsp;design systems in&nbsp;Figma: consistent, scalable and&nbsp;handed off dev-ready</p>
-        </div>
-      </article>
-      <article class="card">
-        <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11.7803 15.9696C11.6396 16.1102 11.4489 16.1892 11.25 16.1892C11.0511 16.1892 10.8604 16.1102 10.7198 15.9696L9.53026 14.7801C9.38966 14.6395 9.31067 14.4488 9.31067 14.2499C9.31067 14.051 9.38966 13.8603 9.53026 13.7196L13.7198 9.53014C13.8604 9.38953 14.0511 9.31055 14.25 9.31055C14.4489 9.31055 14.6396 9.38953 14.7803 9.53014L15.9698 10.7196C16.1104 10.8603 16.1893 11.051 16.1893 11.2499C16.1893 11.4488 16.1104 11.6395 15.9698 11.7801L11.7803 15.9696Z"/><path d="M13.5 9.75L12.4688 4.5945C12.4407 4.45424 12.3731 4.32492 12.274 4.2218C12.1749 4.11868 12.0483 4.04606 11.9093 4.0125L2.42625 1.521C2.30133 1.4908 2.17073 1.49321 2.047 1.528C1.92327 1.56278 1.81055 1.62879 1.71967 1.71967C1.62879 1.81055 1.56278 1.92327 1.528 2.047C1.49321 2.17073 1.4908 2.30133 1.521 2.42625L4.0125 11.9093C4.04606 12.0483 4.11868 12.1749 4.2218 12.274C4.32492 12.3731 4.45424 12.4407 4.5945 12.4688L9.75 13.5"/><path d="M1.72501 1.7251L7.18951 7.1896"/><path d="M8.25 9.75C9.07843 9.75 9.75 9.07843 9.75 8.25C9.75 7.42157 9.07843 6.75 8.25 6.75C7.42157 6.75 6.75 7.42157 6.75 8.25C6.75 9.07843 7.42157 9.75 8.25 9.75Z"/></g></svg></span>
-        <div class="card__text">
-          <h3>Identity</h3>
-          <p>A&nbsp;graphic design background turned into&nbsp;type, color and&nbsp;components that feel deliberate</p>
-        </div>
-      </article>
-      <article class="card">
-        <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.25 2.25V14.25C2.25 14.6478 2.40804 15.0294 2.68934 15.3107C2.97064 15.592 3.35218 15.75 3.75 15.75H15.75"/><path d="M14.25 6.75L10.5 10.5L7.5 7.5L5.25 9.75"/></g></svg></span>
-        <div class="card__text">
-          <h3>Product Design</h3>
-          <p>Research, user interviews and&nbsp;hypotheses first, then design for&nbsp;the&nbsp;metric that matters</p>
-        </div>
-      </article>
-      <article class="card">
-        <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 12L16.5 9L13.5 6"/><path d="M4.5 6L1.5 9L4.5 12"/><path d="M10.875 3L7.125 15"/></g></svg></span>
-        <div class="card__text">
-          <h3>Web</h3>
-          <p>From&nbsp;mockup to&nbsp;live site: hand-coded, responsive and&nbsp;hosted on&nbsp;its own domain. This site included</p>
-        </div>
-      </article>
-    </div>
-    </div>
-  </section>
-
-  <section class="experience" id="work" aria-roledescription="carousel" aria-label="Work experience">
-    <div class="container" data-carousel>
-      <div class="section-header">
-        <span class="section-label">Works</span>
-        <h2>From <strong>SEO platforms</strong><br> to <strong>AI workflow tools</strong></h2>
+  <section class="case-role" id="role">
+    <div class="case-role__text">
+      <div class="case-role__headlines">
+        <h2>Key idea</h2>
+        <p>Astralis is&nbsp;a&nbsp;private platform for&nbsp;organic website promotion: analytics, automation and&nbsp;SEO tools for&nbsp;businesses. In&nbsp;four weeks I&nbsp;took it&nbsp;from&nbsp;brief to&nbsp;hand-off: the&nbsp;brand identity, the&nbsp;landing page and&nbsp;the&nbsp;dashboard flow</p>
+        <p>The&nbsp;people who pay for&nbsp;SEO are rarely SEO experts, so&nbsp;the&nbsp;work was about turning rankings into&nbsp;something a&nbsp;business owner can read and&nbsp;act on</p>
       </div>
-      <div class="carousel__viewport">
-        <div class="carousel__track">
-          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="1 of 4">
-          <div class="experience__text">
-            <div class="experience__details">
-              <p class="experience__company">North Star</p>
-              <div class="experience__role">
-                <h3>Web animation course platform</h3>
-                <p>Interactive learning platform for&nbsp;a&nbsp;paid web animation course, with&nbsp;video breakdowns, live demos and&nbsp;hands-on tasks</p>
-              </div>
-              <ul class="chips">
-                <li class="chip">PLATFORM UI</li>
-                <li class="chip">LEARNING UX</li>
-                <li class="chip">INTERACTIVE DEMOS</li>
-                <li class="chip">USER FLOWS</li>
-                <li class="chip">DESIGN SYSTEMS</li>
-                <li class="chip">PROTOTYPING</li>
-              </ul>
-              <a class="btn btn--md" href="northstar.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
-                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
+      <ul class="chips">
+        <li class="chip">DASHBOARD UI</li>
+        <li class="chip">MINI APP</li>
+        <li class="chip">JTBD</li>
+        <li class="chip">USER RESEARCH</li>
+        <li class="chip">USER FLOWS</li>
+        <li class="chip">HAND-OFF</li>
+      </ul>
+      <a class="btn btn--md" href="https://www.behance.net/gallery/239613305/SaaS-Platform-Landing-Page" target="_blank" rel="noopener">
+        <span class="roll"><span>View on Behance</span><span>View on Behance</span></span>
+        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
                   <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
                 </svg>
-              </a>
-            </div>
-          </div>
-          <div class="experience__media experience__media--browser">
-            <div class="browser">
-              <div class="browser__toolbar" aria-hidden="true">
-                <div class="browser__left">
-                  <span class="browser__dots"><i></i><i></i><i></i></span>
-                  <svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.49219 17.0857H16.5078C18.149 17.0857 19 16.2347 19 14.6163V5.3694C19 3.74339 18.149 2.9 16.5078 2.9H3.49219C1.85099 2.9 1 3.74339 1 5.3694V14.6163C1 16.2423 1.85099 17.0857 3.49219 17.0857ZM3.58337 15.5965C2.87674 15.5965 2.48924 15.2242 2.48924 14.4872V5.49097C2.48924 4.75395 2.87674 4.38924 3.58337 4.38924H7.04052V15.5965H3.58337ZM16.4166 4.38924C17.1157 4.38924 17.5108 4.75395 17.5108 5.49097V14.4872C17.5108 15.2242 17.1157 15.5965 16.4166 15.5965H8.45378V4.38924H16.4166ZM5.55129 7.17016C5.81722 7.17016 6.04517 6.94221 6.04517 6.68388C6.04517 6.42554 5.81722 6.20519 5.55129 6.20519H3.99367C3.72014 6.20519 3.49219 6.42554 3.49219 6.68388C3.49219 6.94221 3.72014 7.17016 3.99367 7.17016H5.55129ZM5.55129 9.20646C5.81722 9.20646 6.04517 8.97851 6.04517 8.72018C6.04517 8.46184 5.81722 8.24149 5.55129 8.24149H3.99367C3.72014 8.24149 3.49219 8.46184 3.49219 8.72018C3.49219 8.97851 3.72014 9.20646 3.99367 9.20646H5.55129ZM5.55129 11.2352C5.81722 11.2352 6.04517 11.0148 6.04517 10.7565C6.04517 10.4981 5.81722 10.2778 5.55129 10.2778H3.99367C3.72014 10.2778 3.49219 10.4981 3.49219 10.7565C3.49219 11.0148 3.72014 11.2352 3.99367 11.2352H5.55129Z"/></svg>
-                  <span class="browser__nav"><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.6 10.3516C2.6 10.5859 2.70156 10.8125 2.88125 10.9844L8.02969 16.1328C8.21719 16.3125 8.42812 16.3984 8.63906 16.3984C9.13125 16.3984 9.48281 16.0469 9.48281 15.5781C9.48281 15.3359 9.38906 15.125 9.23281 14.9766L7.48281 13.2031L5.17031 11.0938L6.99844 11.2031H16.4984C17.0062 11.2031 17.3656 10.8516 17.3656 10.3516C17.3656 9.84375 17.0062 9.5 16.4984 9.5H6.99844L5.17812 9.60938L7.48281 7.5L9.23281 5.72656C9.38906 5.57031 9.48281 5.35938 9.48281 5.11719C9.48281 4.64844 9.13125 4.30469 8.63906 4.30469C8.42812 4.30469 8.21719 4.38281 8.01406 4.57812L2.88125 9.71875C2.70156 9.88281 2.6 10.1172 2.6 10.3516Z"/></svg><svg class="browser__icon browser__icon--dim" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.3656 10.3516C17.3656 10.1172 17.2641 9.88281 17.0844 9.71875L11.9437 4.57812C11.7484 4.38281 11.5375 4.30469 11.3187 4.30469C10.8344 4.30469 10.4828 4.64844 10.4828 5.11719C10.4828 5.35938 10.5766 5.57031 10.7328 5.72656L12.4828 7.5L14.7797 9.60938L12.9672 9.5H3.46719C2.95156 9.5 2.6 9.84375 2.6 10.3516C2.6 10.8516 2.95156 11.2031 3.46719 11.2031H12.9672L14.7875 11.0938L12.4828 13.2031L10.7328 14.9766C10.5766 15.125 10.4828 15.3359 10.4828 15.5781C10.4828 16.0469 10.8344 16.3984 11.3187 16.3984C11.5375 16.3984 11.7406 16.3125 11.9281 16.1328L17.0844 10.9844C17.2641 10.8125 17.3656 10.5859 17.3656 10.3516Z"/></svg><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10.9141C3 14.7891 6.10938 17.9062 9.97656 17.9062C13.8438 17.9062 16.9531 14.7891 16.9531 10.9141C16.9531 10.4531 16.6328 10.125 16.1719 10.125C15.7266 10.125 15.4297 10.4531 15.4297 10.9141C15.4297 13.9453 13 16.375 9.97656 16.375C6.95312 16.375 4.53125 13.9453 4.53125 10.9141C4.53125 7.86719 6.9375 5.45312 9.95312 5.45312C10.4688 5.45312 10.9453 5.49219 11.3438 5.57812L9.21875 7.6875C9.07812 7.83594 9.00781 8 9.00781 8.20312C9.00781 8.63281 9.32812 8.96094 9.75 8.96094C9.96875 8.96094 10.1484 8.89062 10.2812 8.75L13.4922 5.51562C13.6562 5.35156 13.7344 5.16406 13.7344 4.95312C13.7344 4.75 13.6484 4.54688 13.4922 4.39062L10.2812 1.13281C10.1484 0.984375 9.96875 0.90625 9.75 0.90625C9.32812 0.90625 9.00781 1.25 9.00781 1.67188C9.00781 1.875 9.07812 2.05469 9.21094 2.19531L11.1016 4.0625C10.7578 3.99219 10.3594 3.95312 9.95312 3.95312C6.09375 3.95312 3 7.04688 3 10.9141Z"/></svg></span>
-                </div>
-                <div class="browser__address"><svg class="browser__icon browser__icon--sm" viewBox="0 0 14 14" aria-hidden="true"><path d="M4.48096 12.332H9.51367C10.3301 12.332 10.7544 11.897 10.7544 11.0161V7.20801C10.7544 6.43457 10.4214 6.00488 9.77686 5.91895V4.64062C9.77686 2.65869 8.46631 1.63281 7 1.63281C5.53369 1.63281 4.22314 2.65869 4.22314 4.64062V5.91895C3.57861 6.00488 3.24023 6.43457 3.24023 7.20801V11.0161C3.24023 11.897 3.66455 12.332 4.48096 12.332ZM5.22754 4.54395C5.22754 3.28174 6.03857 2.59424 7 2.59424C7.95605 2.59424 8.77246 3.28174 8.77246 4.54395V5.89746H5.22754V4.54395Z"/></svg><span>northstar.school</span><svg class="browser__icon browser__icon--sm" viewBox="0 0 14 14" aria-hidden="true"><path d="M6.63956 9.37881L7.53018 8.48232C6.82706 8.41787 6.33487 8.19521 5.97159 7.83193C4.98135 6.8417 4.98135 5.43545 5.96573 4.45107L7.91104 2.50576C8.90128 1.51553 10.3017 1.51553 11.2919 2.50576C12.288 3.50771 12.2821 4.90225 11.2978 5.88662L10.2899 6.89443C10.4774 7.32217 10.536 7.84365 10.4364 8.29482L12.1181 6.61904C13.5595 5.1835 13.5653 3.14443 12.1122 1.69131C10.6591 0.232324 8.62003 0.244043 7.18448 1.67959L5.14542 3.72451C3.70987 5.16006 3.69815 7.19912 5.15128 8.65225C5.49698 8.99209 5.95987 9.2499 6.63956 9.37881ZM7.15518 4.43936L6.27042 5.33584C6.96768 5.40029 7.46573 5.62881 7.82315 5.98623C8.81924 6.98232 8.81924 8.38271 7.82901 9.36709L5.8837 11.3124C4.89346 12.3026 3.49893 12.3026 2.50284 11.3124C1.50674 10.3163 1.5126 8.91592 2.50284 7.93154L3.50479 6.92373C3.32315 6.496 3.2587 5.98037 3.35831 5.52334L1.68253 7.19912C0.241119 8.63467 0.23526 10.6796 1.68839 12.1327C3.14151 13.5858 5.18057 13.5741 6.61612 12.1386L8.64932 10.0995C10.0907 8.65811 10.0966 6.61904 8.64346 5.17178C8.30362 4.82607 7.84073 4.56826 7.15518 4.43936Z"/></svg></div>
-                <div class="browser__right"><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18.4736C14.6318 18.4736 18.4668 14.6304 18.4668 10.0068C18.4668 5.375 14.6235 1.54004 9.9917 1.54004C5.36816 1.54004 1.5332 5.375 1.5332 10.0068C1.5332 14.6304 5.37646 18.4736 10 18.4736ZM10 17.0625C6.08203 17.0625 2.95264 13.9248 2.95264 10.0068C2.95264 6.08887 6.07373 2.95117 9.9917 2.95117C13.9097 2.95117 17.0557 6.08887 17.0557 10.0068C17.0557 13.9248 13.918 17.0625 10 17.0625ZM10 5.78174C9.64307 5.78174 9.37744 6.03906 9.37744 6.4043V10.5547L9.44385 12.3062L8.61377 11.3101L7.62598 10.314C7.50977 10.1978 7.36035 10.1313 7.18604 10.1313C6.8457 10.1313 6.58838 10.3887 6.58838 10.729C6.58838 10.9033 6.63818 11.0527 6.74609 11.1606L9.51855 13.9165C9.68457 14.0825 9.82568 14.1572 10 14.1572C10.1826 14.1572 10.332 14.0742 10.4897 13.9165L13.2539 11.1606C13.3618 11.0527 13.4282 10.9033 13.4282 10.729C13.4282 10.3887 13.1626 10.1313 12.8223 10.1313C12.6396 10.1313 12.4902 10.1895 12.3823 10.314L11.4028 11.3101L10.5562 12.3145L10.6226 10.5547V6.4043C10.6226 6.03906 10.3652 5.78174 10 5.78174Z"/></svg><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.15186 10.0068C3.15186 10.4136 3.49219 10.7456 3.89062 10.7456H9.26123V16.1162C9.26123 16.5146 9.59326 16.855 10 16.855C10.4067 16.855 10.7471 16.5146 10.7471 16.1162V10.7456H16.1094C16.5078 10.7456 16.8481 10.4136 16.8481 10.0068C16.8481 9.6001 16.5078 9.25977 16.1094 9.25977H10.7471V3.89746C10.7471 3.49902 10.4067 3.15869 10 3.15869C9.59326 3.15869 9.26123 3.49902 9.26123 3.89746V9.25977H3.89062C3.49219 9.25977 3.15186 9.6001 3.15186 10.0068Z"/></svg></div>
-              </div>
-              <div class="browser__screen">
-                <img src="assets/northstar-browser.png?v=20260928" alt="North Star: student dashboard with the Continue learning section and two course modules with butterfly and rose covers, Easing and duration and Spring animations" width="1920" height="1214" loading="lazy">
-              </div>
-            </div>
-          </div>
-          </div>
-          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="2 of 4">
-          <div class="experience__text">
-            <div class="experience__details">
-              <p class="experience__company">Lookmerce</p>
-              <div class="experience__role">
-                <h3>AI fashion catalog platform</h3>
-                <p>Website UX/UI for&nbsp;an&nbsp;AI service that turns one garment photo into&nbsp;a&nbsp;finished fashion catalog</p>
-              </div>
-              <ul class="chips">
-                <li class="chip">LANDING PAGE</li>
-                <li class="chip">AI PRODUCT UX</li>
-                <li class="chip">USER FLOWS</li>
-                <li class="chip">LOCALIZATION</li>
-                <li class="chip">DESIGN SYSTEMS</li>
-                <li class="chip">HAND-OFF</li>
-              </ul>
-              <a class="btn btn--md" href="lookmerce.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
-                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
-                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="experience__media experience__media--browser">
-            <div class="browser">
-              <div class="browser__toolbar" aria-hidden="true">
-                <div class="browser__left">
-                  <span class="browser__dots"><i></i><i></i><i></i></span>
-                  <svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.49219 17.0857H16.5078C18.149 17.0857 19 16.2347 19 14.6163V5.3694C19 3.74339 18.149 2.9 16.5078 2.9H3.49219C1.85099 2.9 1 3.74339 1 5.3694V14.6163C1 16.2423 1.85099 17.0857 3.49219 17.0857ZM3.58337 15.5965C2.87674 15.5965 2.48924 15.2242 2.48924 14.4872V5.49097C2.48924 4.75395 2.87674 4.38924 3.58337 4.38924H7.04052V15.5965H3.58337ZM16.4166 4.38924C17.1157 4.38924 17.5108 4.75395 17.5108 5.49097V14.4872C17.5108 15.2242 17.1157 15.5965 16.4166 15.5965H8.45378V4.38924H16.4166ZM5.55129 7.17016C5.81722 7.17016 6.04517 6.94221 6.04517 6.68388C6.04517 6.42554 5.81722 6.20519 5.55129 6.20519H3.99367C3.72014 6.20519 3.49219 6.42554 3.49219 6.68388C3.49219 6.94221 3.72014 7.17016 3.99367 7.17016H5.55129ZM5.55129 9.20646C5.81722 9.20646 6.04517 8.97851 6.04517 8.72018C6.04517 8.46184 5.81722 8.24149 5.55129 8.24149H3.99367C3.72014 8.24149 3.49219 8.46184 3.49219 8.72018C3.49219 8.97851 3.72014 9.20646 3.99367 9.20646H5.55129ZM5.55129 11.2352C5.81722 11.2352 6.04517 11.0148 6.04517 10.7565C6.04517 10.4981 5.81722 10.2778 5.55129 10.2778H3.99367C3.72014 10.2778 3.49219 10.4981 3.49219 10.7565C3.49219 11.0148 3.72014 11.2352 3.99367 11.2352H5.55129Z"/></svg>
-                  <span class="browser__nav"><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.6 10.3516C2.6 10.5859 2.70156 10.8125 2.88125 10.9844L8.02969 16.1328C8.21719 16.3125 8.42812 16.3984 8.63906 16.3984C9.13125 16.3984 9.48281 16.0469 9.48281 15.5781C9.48281 15.3359 9.38906 15.125 9.23281 14.9766L7.48281 13.2031L5.17031 11.0938L6.99844 11.2031H16.4984C17.0062 11.2031 17.3656 10.8516 17.3656 10.3516C17.3656 9.84375 17.0062 9.5 16.4984 9.5H6.99844L5.17812 9.60938L7.48281 7.5L9.23281 5.72656C9.38906 5.57031 9.48281 5.35938 9.48281 5.11719C9.48281 4.64844 9.13125 4.30469 8.63906 4.30469C8.42812 4.30469 8.21719 4.38281 8.01406 4.57812L2.88125 9.71875C2.70156 9.88281 2.6 10.1172 2.6 10.3516Z"/></svg><svg class="browser__icon browser__icon--dim" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.3656 10.3516C17.3656 10.1172 17.2641 9.88281 17.0844 9.71875L11.9437 4.57812C11.7484 4.38281 11.5375 4.30469 11.3187 4.30469C10.8344 4.30469 10.4828 4.64844 10.4828 5.11719C10.4828 5.35938 10.5766 5.57031 10.7328 5.72656L12.4828 7.5L14.7797 9.60938L12.9672 9.5H3.46719C2.95156 9.5 2.6 9.84375 2.6 10.3516C2.6 10.8516 2.95156 11.2031 3.46719 11.2031H12.9672L14.7875 11.0938L12.4828 13.2031L10.7328 14.9766C10.5766 15.125 10.4828 15.3359 10.4828 15.5781C10.4828 16.0469 10.8344 16.3984 11.3187 16.3984C11.5375 16.3984 11.7406 16.3125 11.9281 16.1328L17.0844 10.9844C17.2641 10.8125 17.3656 10.5859 17.3656 10.3516Z"/></svg><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10.9141C3 14.7891 6.10938 17.9062 9.97656 17.9062C13.8438 17.9062 16.9531 14.7891 16.9531 10.9141C16.9531 10.4531 16.6328 10.125 16.1719 10.125C15.7266 10.125 15.4297 10.4531 15.4297 10.9141C15.4297 13.9453 13 16.375 9.97656 16.375C6.95312 16.375 4.53125 13.9453 4.53125 10.9141C4.53125 7.86719 6.9375 5.45312 9.95312 5.45312C10.4688 5.45312 10.9453 5.49219 11.3438 5.57812L9.21875 7.6875C9.07812 7.83594 9.00781 8 9.00781 8.20312C9.00781 8.63281 9.32812 8.96094 9.75 8.96094C9.96875 8.96094 10.1484 8.89062 10.2812 8.75L13.4922 5.51562C13.6562 5.35156 13.7344 5.16406 13.7344 4.95312C13.7344 4.75 13.6484 4.54688 13.4922 4.39062L10.2812 1.13281C10.1484 0.984375 9.96875 0.90625 9.75 0.90625C9.32812 0.90625 9.00781 1.25 9.00781 1.67188C9.00781 1.875 9.07812 2.05469 9.21094 2.19531L11.1016 4.0625C10.7578 3.99219 10.3594 3.95312 9.95312 3.95312C6.09375 3.95312 3 7.04688 3 10.9141Z"/></svg></span>
-                </div>
-                <div class="browser__address"><svg class="browser__icon browser__icon--sm" viewBox="0 0 14 14" aria-hidden="true"><path d="M4.48096 12.332H9.51367C10.3301 12.332 10.7544 11.897 10.7544 11.0161V7.20801C10.7544 6.43457 10.4214 6.00488 9.77686 5.91895V4.64062C9.77686 2.65869 8.46631 1.63281 7 1.63281C5.53369 1.63281 4.22314 2.65869 4.22314 4.64062V5.91895C3.57861 6.00488 3.24023 6.43457 3.24023 7.20801V11.0161C3.24023 11.897 3.66455 12.332 4.48096 12.332ZM5.22754 4.54395C5.22754 3.28174 6.03857 2.59424 7 2.59424C7.95605 2.59424 8.77246 3.28174 8.77246 4.54395V5.89746H5.22754V4.54395Z"/></svg><span>lookmerce.com</span><svg class="browser__icon browser__icon--sm" viewBox="0 0 14 14" aria-hidden="true"><path d="M6.63956 9.37881L7.53018 8.48232C6.82706 8.41787 6.33487 8.19521 5.97159 7.83193C4.98135 6.8417 4.98135 5.43545 5.96573 4.45107L7.91104 2.50576C8.90128 1.51553 10.3017 1.51553 11.2919 2.50576C12.288 3.50771 12.2821 4.90225 11.2978 5.88662L10.2899 6.89443C10.4774 7.32217 10.536 7.84365 10.4364 8.29482L12.1181 6.61904C13.5595 5.1835 13.5653 3.14443 12.1122 1.69131C10.6591 0.232324 8.62003 0.244043 7.18448 1.67959L5.14542 3.72451C3.70987 5.16006 3.69815 7.19912 5.15128 8.65225C5.49698 8.99209 5.95987 9.2499 6.63956 9.37881ZM7.15518 4.43936L6.27042 5.33584C6.96768 5.40029 7.46573 5.62881 7.82315 5.98623C8.81924 6.98232 8.81924 8.38271 7.82901 9.36709L5.8837 11.3124C4.89346 12.3026 3.49893 12.3026 2.50284 11.3124C1.50674 10.3163 1.5126 8.91592 2.50284 7.93154L3.50479 6.92373C3.32315 6.496 3.2587 5.98037 3.35831 5.52334L1.68253 7.19912C0.241119 8.63467 0.23526 10.6796 1.68839 12.1327C3.14151 13.5858 5.18057 13.5741 6.61612 12.1386L8.64932 10.0995C10.0907 8.65811 10.0966 6.61904 8.64346 5.17178C8.30362 4.82607 7.84073 4.56826 7.15518 4.43936Z"/></svg></div>
-                <div class="browser__right"><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18.4736C14.6318 18.4736 18.4668 14.6304 18.4668 10.0068C18.4668 5.375 14.6235 1.54004 9.9917 1.54004C5.36816 1.54004 1.5332 5.375 1.5332 10.0068C1.5332 14.6304 5.37646 18.4736 10 18.4736ZM10 17.0625C6.08203 17.0625 2.95264 13.9248 2.95264 10.0068C2.95264 6.08887 6.07373 2.95117 9.9917 2.95117C13.9097 2.95117 17.0557 6.08887 17.0557 10.0068C17.0557 13.9248 13.918 17.0625 10 17.0625ZM10 5.78174C9.64307 5.78174 9.37744 6.03906 9.37744 6.4043V10.5547L9.44385 12.3062L8.61377 11.3101L7.62598 10.314C7.50977 10.1978 7.36035 10.1313 7.18604 10.1313C6.8457 10.1313 6.58838 10.3887 6.58838 10.729C6.58838 10.9033 6.63818 11.0527 6.74609 11.1606L9.51855 13.9165C9.68457 14.0825 9.82568 14.1572 10 14.1572C10.1826 14.1572 10.332 14.0742 10.4897 13.9165L13.2539 11.1606C13.3618 11.0527 13.4282 10.9033 13.4282 10.729C13.4282 10.3887 13.1626 10.1313 12.8223 10.1313C12.6396 10.1313 12.4902 10.1895 12.3823 10.314L11.4028 11.3101L10.5562 12.3145L10.6226 10.5547V6.4043C10.6226 6.03906 10.3652 5.78174 10 5.78174Z"/></svg><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.15186 10.0068C3.15186 10.4136 3.49219 10.7456 3.89062 10.7456H9.26123V16.1162C9.26123 16.5146 9.59326 16.855 10 16.855C10.4067 16.855 10.7471 16.5146 10.7471 16.1162V10.7456H16.1094C16.5078 10.7456 16.8481 10.4136 16.8481 10.0068C16.8481 9.6001 16.5078 9.25977 16.1094 9.25977H10.7471V3.89746C10.7471 3.49902 10.4067 3.15869 10 3.15869C9.59326 3.15869 9.26123 3.49902 9.26123 3.89746V9.25977H3.89062C3.49219 9.25977 3.15186 9.6001 3.15186 10.0068Z"/></svg></div>
-              </div>
-              <div class="browser__screen">
-                <img src="assets/lookmerce-browser.png" alt="Lookmerce: dark landing hero, The Future of Fashion Production is AI, with a model in a magenta satin suit" width="1920" height="1200" loading="lazy">
-              </div>
-            </div>
-          </div>
-          </div>
-          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="3 of 4">
-          <div class="experience__text">
-            <div class="experience__details">
-              <p class="experience__company">Astralis</p>
-              <div class="experience__role">
-                <h3>Private SEO platform</h3>
-                <p>Landing page and&nbsp;a&nbsp;Mini App dashboard for&nbsp;an&nbsp;invite-only SEO service, from&nbsp;brand to&nbsp;hand-off</p>
-              </div>
-              <ul class="chips">
-                <li class="chip">DASHBOARD UI</li>
-                <li class="chip">MINI APP</li>
-                <li class="chip">JTBD</li>
-                <li class="chip">USER RESEARCH</li>
-                <li class="chip">USER FLOWS</li>
-                <li class="chip">HAND-OFF</li>
-              </ul>
-              <a class="btn btn--md" href="astralis.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
-                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
-                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="experience__media">
-            <div class="phones">
+      </a>
+    </div>
+    <div class="case-role__media">
+<div class="phones">
               <div class="iphone">
                 <div class="iphone__screen"><img src="assets/astralis-app-1.png" alt="Astralis Mini App: welcome screen, Private service for website promotion in organic search, with the Get started button" width="787" height="1704" loading="lazy"></div>
                 <img class="iphone__bezel" src="assets/iphone-frame-1.svg" alt="" width="441" height="892">
@@ -1382,179 +1420,161 @@
                 <img class="iphone__bezel" src="assets/iphone-frame-2.svg" alt="" width="441" height="892">
               </div>
             </div>
-          </div>
-          </div>
-          <div class="experience__slide" role="group" aria-roledescription="slide" aria-label="4 of 4">
-          <div class="experience__text">
-            <div class="experience__details">
-              <p class="experience__company">Blok B</p>
-              <div class="experience__role">
-                <h3>IT Studio Website</h3>
-                <p>B2B landing for&nbsp;an&nbsp;integrations and&nbsp;security studio</p>
-              </div>
-              <ul class="chips">
-                <li class="chip">LANDING PAGE</li>
-                <li class="chip">UX WRITING</li>
-                <li class="chip">INFORMATION ARCHITECTURE</li>
-                <li class="chip">VISUAL SYSTEMS</li>
-                <li class="chip">TYPOGRAPHY</li>
-                <li class="chip">DESIGN SYSTEMS</li>
-                <li class="chip">TRUST PATTERNS</li>
-                <li class="chip">HAND-OFF</li>
-              </ul>
-              <a class="btn btn--md" href="blokb.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
-                <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-                  <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
-                  <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
-                </svg>
-              </a>
-            </div>
-          </div>
-          <div class="experience__media">
-            <div class="phones">
-              <div class="iphone">
-                <div class="iphone__screen"><img src="assets/blokb-app-1.png" alt="Blok B Mini App: home screen, Development you pay for after approval, with the Discuss project button" width="787" height="1704" loading="lazy"></div>
-                <img class="iphone__bezel" src="assets/iphone-frame-1.svg" alt="" width="441" height="892">
-              </div>
-              <div class="iphone">
-                <div class="iphone__screen"><img src="assets/blokb-app-2.png" alt="Blok B Mini App: brief form, Tell us about the task, with company, systems and task fields" width="787" height="1704" loading="lazy"></div>
-                <img class="iphone__bezel" src="assets/iphone-frame-2.svg" alt="" width="441" height="892">
-              </div>
-            </div>
-          </div>
-          </div>
-        </div>
-      </div>
-      <div class="carousel-controls">
-        <div class="carousel-controls__arrows">
-          <button class="icon-button" type="button" data-prev aria-label="Previous company"><svg viewBox="0 0 16 16" aria-hidden="true" style="transform: scaleX(-1)"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
-          <button class="icon-button" type="button" data-next aria-label="Next company"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
-        </div>
-        <div class="progress" aria-hidden="true"><div class="progress__thumb"></div></div>
-      </div>
     </div>
   </section>
+</div>
 
-  <section class="about" id="about">
-    <div class="about__intro">
-      <div class="about__headlines">
-        <span class="section-label">About</span>
-        <div class="about__title">
-        <h2>I’m Diana, turning<br>ideas into&nbsp;live products</h2>
-        <p>Five years of&nbsp;product design in&nbsp;EdTech and&nbsp;E-commerce, a&nbsp;graphic design background and&nbsp;a&nbsp;habit of&nbsp;taking work all the&nbsp;way to&nbsp;launch</p>
-        </div>
-      </div>
-      <a class="btn btn--md" href="https://drive.google.com/file/d/1bqPZfGpOYD9Zdko0EAb5hOmjhrwSNbYD/view?usp=sharing" target="_blank" rel="noopener">
-        <span class="roll"><span>Download CV</span><span>Download CV</span></span>
-        <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
-          <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
-          <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
-        </svg>
-      </a>
-    </div>
-    <div class="container">
-      <div class="cards">
-          <article class="card card--lg">
-        <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8) scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></g></svg></span>
-            <div class="card__text">
-              <h3>Graphic Eye, Product Mind</h3>
-              <p>I&nbsp;came to&nbsp;product design from&nbsp;graphic design, so the&nbsp;visuals are never an&nbsp;afterthought. Every flow starts with&nbsp;research and&nbsp;user needs, and&nbsp;every screen is&nbsp;crafted down to&nbsp;the&nbsp;type, color and&nbsp;spacing. The&nbsp;result is&nbsp;a&nbsp;product that works well, looks considered and&nbsp;stays consistent as&nbsp;it grows</p>
-            </div>
-          </article>
-          <article class="card card--lg">
-        <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8) scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></g></svg></span>
-            <div class="card__text">
-              <h3>AI in&nbsp;the&nbsp;Loop</h3>
-              <p>AI is&nbsp;built into&nbsp;my&nbsp;process: it speeds up research, structure, copy drafts and&nbsp;code, while every design decision stays mine. That frees time for&nbsp;what AI can’t do: understanding users, finding the&nbsp;real problem and&nbsp;polishing the&nbsp;details. Careful craft at&nbsp;startup speed, without cutting corners</p>
-            </div>
-          </article>
-      </div>
-      <div class="about__education">
-        <h3 class="about__heading">I&nbsp;make complex products feel simple to&nbsp;use</h3>
-        <div class="about__grid">
-        <div class="cards">
-          <article class="card card--lg">
-            <div class="card__text">
-              <h3>Landing Pages</h3>
-              <p>One-page sites that explain the&nbsp;product fast and&nbsp;lead to&nbsp;a&nbsp;single clear action</p>
-            </div>
-          </article>
-          <article class="card card--lg">
-            <div class="card__text">
-              <h3>Multi-page Websites</h3>
-              <p>Company and&nbsp;portfolio sites with&nbsp;a&nbsp;clear structure and&nbsp;easy navigation</p>
-            </div>
-          </article>
-          <article class="card card--lg">
-            <div class="card__text">
-              <h3>Dashboards &amp; Admin Panels</h3>
-              <p>Dense data turned into&nbsp;screens you can read at&nbsp;a&nbsp;glance and&nbsp;act on</p>
-            </div>
-          </article>
-        </div>
-        <div class="cards">
-          <article class="card card--lg">
-            <div class="card__text">
-              <h3>Web Apps &amp; SaaS</h3>
-              <p>Product interfaces with&nbsp;real flows: sign-up, settings, forms, empty and&nbsp;error states</p>
-            </div>
-          </article>
-          <article class="card card--lg">
-            <div class="card__text">
-              <h3>Mobile Apps</h3>
-              <p>iOS and&nbsp;Android screens built around one-handed use and&nbsp;short sessions</p>
-            </div>
-          </article>
-          <article class="card card--lg">
-            <div class="card__text">
-              <h3>Design Systems</h3>
-              <p>Component libraries and&nbsp;tokens that keep a&nbsp;product consistent as&nbsp;it grows</p>
-            </div>
-          </article>
-        </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<section class="case-section" id="challenge">
+<div class="container">
+<div class="case-section__header">
+<span class="section-label">Challenge</span>
+<h2>SEO results are hard to&nbsp;trust from&nbsp;the&nbsp;outside</h2>
+<p class="case-section__text">Organic traffic keeps getting harder to&nbsp;win: competition grows, manual work eats time, and&nbsp;ready-made services rarely show what they actually do</p>
+</div>
+<div class="case-section__body">
+<div class="case-grid" style="--cols:588fr 282fr 282fr">
+<article class="card card--lg">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></g></g></svg></span>
+<div class="card__text">
+<h3>Reports nobody can read</h3>
+<p>Agency reports feel vague or&nbsp;too technical, so&nbsp;an&nbsp;operations lead can’t connect rankings to&nbsp;leads and&nbsp;revenue</p>
+</div>
+</article>
+<article class="card">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></g></g></svg></span>
+<div class="card__text">
+<h3>Trust before the&nbsp;first click</h3>
+<p>Clients hand their site and&nbsp;data to&nbsp;a&nbsp;private service they can’t look inside. The&nbsp;landing page had to&nbsp;prove value, privacy and&nbsp;expertise before anyone asked to&nbsp;join</p>
+</div>
+</article>
+<article class="card">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M12 3v3"/><path d="M18.172 6a2 2 0 0 1 1.414.586l2.06 2.06a1.207 1.207 0 0 1 0 1.708l-2.06 2.06a2 2 0 0 1-1.414.586H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1z"/></g></g></svg></span>
+<div class="card__text">
+<h3>Four weeks from&nbsp;brief to&nbsp;hand-off</h3>
+<p>Analysis, research, UX, UI and&nbsp;testing had to&nbsp;overlap, and&nbsp;a&nbsp;remote team built straight from&nbsp;the&nbsp;layouts</p>
+</div>
+</article>
+</div>
+</div>
+</div>
+</section>
 
-  <section class="faq" id="faq">
-    <div class="faq__intro">
-      <span class="section-label">FAQ</span>
-      <div class="faq__headlines">
-        <h2>What to&nbsp;expect? <strong>Clear answers</strong></h2>
-        <p>Still curious about something? Drop me a&nbsp;line, the&nbsp;contact is&nbsp;at&nbsp;the&nbsp;bottom of&nbsp;the&nbsp;page</p>
-      </div>
+<section class="case-section" id="solution">
+<div class="container">
+<div class="case-section__header">
+<span class="section-label">Solution</span>
+<h2>Show the&nbsp;result first, then the&nbsp;method</h2>
+<p class="case-section__text">I&nbsp;started with&nbsp;the&nbsp;brief, jobs to&nbsp;be done and&nbsp;interviews, built a&nbsp;persona around a&nbsp;business owner who isn’t an&nbsp;SEO expert, and&nbsp;designed every section to&nbsp;answer one of&nbsp;their questions</p>
+</div>
+<div class="case-section__body">
+<div class="case-grid" style="--cols:1fr 1fr 1fr">
+<article class="card">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 12L16.5 9L13.5 6"/><path d="M4.5 6L1.5 9L4.5 12"/><path d="M10.875 3L7.125 15"/></g></g></svg></span>
+<div class="card__text">
+<h3>Sections that follow the&nbsp;doubt</h3>
+<p>The&nbsp;page moves from&nbsp;problem to&nbsp;proof: what you get, a&nbsp;free SEO analysis, how the&nbsp;work goes and&nbsp;what clients say. Each block answers the&nbsp;question the&nbsp;previous one raises</p>
+</div>
+</article>
+<article class="card">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></g></g></svg></span>
+<div class="card__text">
+<h3>Data a&nbsp;business owner can read</h3>
+<p>The&nbsp;dashboard speaks in&nbsp;traffic, positions and&nbsp;conversions with&nbsp;short trend labels, and&nbsp;reports arrive on&nbsp;their own instead of&nbsp;by&nbsp;request</p>
+</div>
+</article>
+<article class="card">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></g></g></svg></span>
+<div class="card__text">
+<h3>An&nbsp;identity built on&nbsp;privacy</h3>
+<p>A&nbsp;calm dark palette with&nbsp;cerulean and&nbsp;mint accents and&nbsp;one geometric typeface, borrowing the&nbsp;confidence of&nbsp;crypto and&nbsp;SaaS products</p>
+</div>
+</article>
+</div>
+</div>
+</div>
+</section>
+
+<section class="case-section case-section--text" id="obstacle">
+<div class="container">
+<div class="case-section__header">
+<span class="section-label">Obstacle</span>
+<h2>Sold on&nbsp;the&nbsp;page, lost in&nbsp;the&nbsp;app</h2>
+<p class="case-section__text">Tests showed a&nbsp;gap I&nbsp;didn’t expect. The&nbsp;landing page sold a&nbsp;calm, premium private service, but after the&nbsp;invite people landed in&nbsp;a&nbsp;technical dashboard full of&nbsp;metrics, statuses and&nbsp;SEO terms, and&nbsp;started looking for&nbsp;what the&nbsp;numbers meant instead of&nbsp;starting work. I&nbsp;rebuilt the&nbsp;step between the&nbsp;page and&nbsp;the&nbsp;product: one set of&nbsp;terms and&nbsp;one visual system for&nbsp;both, a&nbsp;short onboarding inside the&nbsp;dashboard, and&nbsp;an&nbsp;obvious first action, running the&nbsp;first SEO check</p>
+</div>
+</div>
+</section>
+
+<section class="case-section" id="outcomes">
+<div class="container">
+<div class="case-section__header">
+<span class="section-label">Outcomes</span>
+<h2>Where it&nbsp;landed</h2>
+<p class="case-section__text">After the&nbsp;rework more people activated their accounts, and&nbsp;more of&nbsp;them ran their first SEO check in&nbsp;the&nbsp;very first session</p>
+</div>
+<div class="case-section__body">
+<div class="case-grid" style="--cols:1fr 1fr">
+<article class="card card--lg">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></g></g></svg></span>
+<div class="card__text">
+<h3>A&nbsp;landing page that explains itself</h3>
+<p>Value, privacy and&nbsp;the&nbsp;next step are clear without a&nbsp;sales call, and&nbsp;the&nbsp;free analysis gives a&nbsp;low-risk way in</p>
+</div>
+</article>
+<article class="card card--lg">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></g></g></svg></span>
+<div class="card__text">
+<h3>A&nbsp;first step nobody misses</h3>
+<p>A&nbsp;short onboarding inside the&nbsp;dashboard leads straight to&nbsp;the&nbsp;first SEO check, so&nbsp;new clients start working instead of&nbsp;decoding metrics</p>
+</div>
+</article>
+</div>
+<div class="case-grid" style="--cols:1fr 1fr">
+<article class="card card--lg">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z"/><path d="m21.854 2.147-10.94 10.939"/></g></g></svg></span>
+<div class="card__text">
+<h3>A&nbsp;clean hand-off</h3>
+<p>Desktop and&nbsp;mobile layouts, a&nbsp;UI kit and&nbsp;a&nbsp;specification went to&nbsp;the&nbsp;developers along with&nbsp;an&nbsp;interactive prototype of&nbsp;the&nbsp;main flow</p>
+</div>
+</article>
+<article class="card card--lg">
+<span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8)"><g transform="scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.536 11.293a1 1 0 0 0 0 1.414l2.376 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/><path d="M2.297 11.293a1 1 0 0 0 0 1.414l2.377 2.377a1 1 0 0 0 1.414 0l2.377-2.377a1 1 0 0 0 0-1.414L6.088 8.916a1 1 0 0 0-1.414 0z"/><path d="M8.916 17.912a1 1 0 0 0 0 1.415l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.415l-2.377-2.376a1 1 0 0 0-1.414 0z"/><path d="M8.916 4.674a1 1 0 0 0 0 1.414l2.377 2.376a1 1 0 0 0 1.414 0l2.377-2.376a1 1 0 0 0 0-1.414l-2.377-2.377a1 1 0 0 0-1.414 0z"/></g></g></svg></span>
+<div class="card__text">
+<h3>One language from&nbsp;page to&nbsp;product</h3>
+<p>The&nbsp;landing page and&nbsp;the&nbsp;Mini App share the&nbsp;same terms and&nbsp;visual system, so&nbsp;the&nbsp;product feels like the&nbsp;service people asked to&nbsp;join</p>
+</div>
+</article>
+</div>
+</div>
+</div>
+</section>
+
+
+
+<section class="case-section case-more" id="more">
+  <div class="container">
+    <div class="case-section__header">
+      <span class="section-label">More work</span>
+      <h2>More projects</h2>
     </div>
-    <div class="faq__list">
-      <div class="faq__beams" aria-hidden="true"><span class="beam-wide"></span><span class="beam-mid"></span><span class="beam-core"></span><span class="beam-highlight"></span></div>
-      <span class="faq__edge" aria-hidden="true"></span>
-      <div class="accordion is-open">
-        <h3><button class="accordion__trigger" type="button" id="faq-q1" aria-expanded="true" aria-controls="faq-a1"><span>What kind of&nbsp;projects do you take on?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a1" role="region" aria-labelledby="faq-q1"><div><p>Pretty much anything in&nbsp;product design: interfaces, web apps, redesigns, MVPs and&nbsp;landing pages. The&nbsp;one thing I&nbsp;care about is&nbsp;that the&nbsp;product is&nbsp;genuinely useful to&nbsp;the&nbsp;people using it. I’m happiest with&nbsp;startups building an&nbsp;interesting SaaS product, especially small, tight-knit teams</p></div></div>
-      </div>
-      <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q2" aria-expanded="false" aria-controls="faq-a2"><span>Can you take it all the&nbsp;way to&nbsp;a&nbsp;live site?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a2" role="region" aria-labelledby="faq-q2" inert><div><p>Yes. Beyond design, I&nbsp;code and&nbsp;deploy live sites myself, from&nbsp;a&nbsp;one-pager to&nbsp;a&nbsp;full multi-page site on&nbsp;its own domain (this portfolio included). For&nbsp;heavier builds I&nbsp;hand developers clean, spec-ready files</p></div></div>
-      </div>
-      <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>What’s it like to&nbsp;work with&nbsp;you?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Close and&nbsp;transparent. We sync on&nbsp;a&nbsp;short daily call over Google Meet so nothing drifts, and&nbsp;everything else runs async in&nbsp;Telegram, Slack or&nbsp;straight inside Figma, where comments and&nbsp;files stay in&nbsp;one place. You always know where the&nbsp;project stands</p></div></div>
-      </div>
-      <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Can you join an&nbsp;existing team?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a4" role="region" aria-labelledby="faq-q4" inert><div><p>Happily. I&nbsp;prefer working inside a&nbsp;team, plugging in&nbsp;with&nbsp;developers, designers and&nbsp;marketers, though I’m just as&nbsp;fine running things solo. I&nbsp;pick up your context and&nbsp;processes quickly and&nbsp;fit into&nbsp;how you already work</p></div></div>
-      </div>
-      <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>How long does a&nbsp;project take?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on&nbsp;the&nbsp;scope, so I&nbsp;estimate each project up front and&nbsp;set clear milestones before we start. A&nbsp;simple landing page can be ready in&nbsp;a&nbsp;day. For&nbsp;anything larger, you’ll have a&nbsp;realistic timeline before any work begins</p></div></div>
-      </div>
-      <div class="accordion">
-        <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How do you use AI in&nbsp;your work?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a6" role="region" aria-labelledby="faq-q6" inert><div><p>Openly and&nbsp;with&nbsp;care. I&nbsp;use it to&nbsp;explore more options early and&nbsp;to&nbsp;turn approved designs into&nbsp;working code faster. Everything it produces goes through my&nbsp;review, and&nbsp;nothing reaches you that I&nbsp;haven’t checked myself</p></div></div>
-      </div>
+    <div class="case-more__grid">
+<a class="work-card" href="lookmerce.html">
+<img class="work-card__cover" src="assets/cover-lookmerce.png" alt="Lookmerce dark landing hero in a browser window" width="768" height="576" loading="lazy">
+<div class="work-card__text"><h3>Lookmerce</h3><p>AI fashion catalog platform</p></div>
+<ul class="chips"><li class="chip">LANDING PAGE</li><li class="chip">AI PRODUCT UX</li></ul>
+</a>
+<a class="work-card" href="northstar.html">
+<img class="work-card__cover" src="assets/cover-northstar.png?v=20260929" alt="North Star student dashboard in a browser window" width="768" height="576" loading="lazy">
+<div class="work-card__text"><h3>North Star</h3><p>Web animation course platform</p></div>
+<ul class="chips"><li class="chip">PLATFORM UI</li><li class="chip">LEARNING UX</li></ul>
+</a>
+<a class="work-card" href="blokb.html">
+<img class="work-card__cover" src="assets/cover-blokb.png?v=20260929" alt="Blok B Mini App screens on two iPhones" width="768" height="576" loading="lazy">
+<div class="work-card__text"><h3>Blok B</h3><p>IT&nbsp;Studio Website</p></div>
+<ul class="chips"><li class="chip">LANDING PAGE</li><li class="chip">UX WRITING</li></ul>
+</a>
     </div>
-  </section>
+  </div>
+</section>
 
   <footer class="footer" id="contact">
     <div class="footer__glow" aria-hidden="true"></div>
@@ -1589,9 +1609,9 @@
           <div class="footer__column">
             <h3>Navigation</h3>
             <ul class="footer__links">
-              <li><a href="#work">Works</a></li>
-              <li><a href="#about">About</a></li>
-              <li><a href="#faq">FAQ</a></li>
+              <li><a href="index.html#work">Works</a></li>
+              <li><a href="index.html#about">About</a></li>
+              <li><a href="index.html#faq">FAQ</a></li>
               <li><a href="#contact">Contact</a></li>
             </ul>
           </div>
@@ -1619,8 +1639,6 @@
       </div>
     </div>
   </footer>
-
-
 
 </div>
 
@@ -1663,158 +1681,14 @@
   })();
 </script>
 <script>
-  // Карусель Experience: бесконечная. Стрелки листают по одному слайду, после последнего идёт первый,
-  // перед первым последний. Для бесшовного перехода в конец ленты добавлена копия первого слайда:
-  // доехали до копии, и без анимации перескакиваем на настоящий первый. Ползунок шириной 1/N едет следом.
-  document.querySelectorAll("[data-carousel]").forEach((root) => {
-    const track = root.querySelector(".carousel__track");
-    const slides = [...track.children];
-    const n = slides.length;
-    const clone = slides[0].cloneNode(true);
-    clone.setAttribute("aria-hidden", "true");
-    clone.inert = true;
-    track.appendChild(clone);
-    const prev = root.querySelector("[data-prev]");
-    const next = root.querySelector("[data-next]");
-    const thumb = root.querySelector(".progress__thumb");
-    let index = 0;
-    let busy = false;
-    thumb.style.width = `${100 / n}%`;
-    const all = [...track.children];            // слайды плюс копия
-    const mark = (i) => all.forEach((el, k) => el.classList.toggle("is-active", k === i));
-    const jump = (i) => {                       // перестановка без анимации, и сдвиг, и прозрачность
-      track.classList.add("no-anim");
-      track.style.transform = `translateX(calc(${-i} * (100% + var(--slide-gap))))`;
-      mark(i);
-      track.offsetHeight;                       // применить сразу
-      track.classList.remove("no-anim");
-    };
-    const render = () => {
-      track.style.transform = `translateX(calc(${-index} * (100% + var(--slide-gap))))`;
-      thumb.style.transform = `translateX(${(index % n) * 100}%)`;
-      mark(index);
-      slides.forEach((s, i) => { s.inert = i !== index % n; });   // скрытые слайды не ловят Tab
-    };
-    track.addEventListener("transitionend", (e) => {
-      if (e.target !== track || e.propertyName !== "transform") return;
-      busy = false;
-      if (index === n) { index = 0; jump(0); }
-    });
-    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const go = (dir) => {
-      if (busy) return;
-      if (dir < 0 && index === 0) { index = n; jump(n); }   // с первого назад: встаём на копию и едем к последнему
-      index += dir;
-      if (reduced && index === n) index = 0;                // без анимации transitionend не придёт
-      busy = !reduced;
-      render();
-    };
-    prev.addEventListener("click", () => go(-1));
-    next.addEventListener("click", () => go(1));
-    render();
-  });
-
-  // FAQ: Accordion, как на scalable.framer.website: открыта не больше одной строки.
-  // Открываешь строку, остальные закрываются; клик по открытой закрывает её. Закрытый ответ inert, чтобы не ловил Tab.
-  const faqTriggers = [...document.querySelectorAll(".accordion__trigger")];
-  const setOpen = (btn, open) => {
-    btn.setAttribute("aria-expanded", String(open));
-    btn.closest(".accordion").classList.toggle("is-open", open);
-    document.getElementById(btn.getAttribute("aria-controls")).inert = !open;
-  };
-  faqTriggers.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const open = btn.getAttribute("aria-expanded") !== "true";
-      faqTriggers.forEach((other) => { if (other !== btn) setOpen(other, false); });
-      setOpen(btn, open);
-    });
-  });
-</script>
-<script type="module">
-  // cobe с CDN. Для проекта ставится локально: npm i cobe.
-  import createGlobe from "https://esm.sh/cobe@0.6.4";
-
-  const canvas = document.getElementById("globe");
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-  // DPR всегда 2, как у оригинала: на обычном мониторе с DPR 1 иначе
-  // канвас рисуется в 575 px и точки выходят крупнее и рванее.
-  const dpr = 2;
-  // Шар на всех экранах 575, поэтому плотность одна.
-  const samples = 20000;
-
-  let size = canvas.offsetWidth || 575;
-  let phi = 0;            // текущий поворот
-  let theta = 0.3;        // наклон к северу
-  let spin = 0;           // скорость от броска мышью, гасится трением
-  let dragging = false;
-  let lastX = 0;
-  let lastY = 0;
-
-  const globe = createGlobe(canvas, {
-    devicePixelRatio: dpr,
-    width: size * dpr,
-    height: size * dpr,
-    phi: 0,
-    theta,
-    dark: 1,              // максимально тёмная ночная сторона
-    diffuse: 2,           // жёсткий терминатор, шар читается объёмным
-    mapSamples: samples,
-    mapBrightness: 12,
-    // Точки материков берут цвет из baseColor, умноженного на mapBrightness.
-    // Чёрная база даёт чёрный шар вообще без материков, проверено в Chrome.
-    // База белая, а тёмным шар делает dark: 1 — ночная сторона гасится отдельно.
-    baseColor: [1, 1, 1],
-    markerColor: [1, 1, 1],
-    glowColor: [0.92, 0.914, 0.91],   // светлый ореол по краю, #EBE9E8
-    markers: [],
-    opacity: 1,
-    onRender: (state) => {
-      if (!dragging && !reduced) phi += 0.003;   // автовращение
-      phi += spin;
-      spin *= 0.94;                              // инерция после броска
-      state.phi = phi;
-      state.theta = theta;
-      state.width = size * dpr;
-      state.height = size * dpr;
-    },
-  });
-
-  // Перетаскивание мышью и пальцем.
-  const onDown = (e) => {
-    dragging = true;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    canvas.classList.add("dragging");
-    canvas.setPointerCapture(e.pointerId);
-  };
-  const onMove = (e) => {
-    if (!dragging) return;
-    const dx = e.clientX - lastX;
-    const dy = e.clientY - lastY;
-    lastX = e.clientX;
-    lastY = e.clientY;
-    phi += dx * 0.005;
-    theta = Math.max(-0.6, Math.min(0.9, theta + dy * 0.005));  // не даём шару перевернуться
-    spin = dx * 0.0015;
-  };
-  const onUp = (e) => {
-    dragging = false;
-    canvas.classList.remove("dragging");
-    if (e.pointerId !== undefined && canvas.hasPointerCapture?.(e.pointerId)) {
-      canvas.releasePointerCapture(e.pointerId);
-    }
-  };
-  canvas.addEventListener("pointerdown", onDown);
-  canvas.addEventListener("pointermove", onMove);
-  canvas.addEventListener("pointerup", onUp);
-  canvas.addEventListener("pointercancel", onUp);
-
-  const onResize = () => { size = canvas.offsetWidth || size; };
-  window.addEventListener("resize", onResize);
-
-  // Без destroy в dev-режиме накапливаются WebGL-контексты.
-  window.addEventListener("pagehide", () => globe.destroy());
+  // Навигация по разделам кейса: активный пункт становится Section label (Chip Primary), как у Qapital.
+  (() => {
+    const links = [...document.querySelectorAll(".case-nav a")];
+    const byId = new Map(links.map((a) => [a.getAttribute("href").slice(1), a]));
+    const set = (id) => links.forEach((a) => { a.className = a === byId.get(id) ? "section-label" : "chip"; });
+    const io = new IntersectionObserver((es) => es.forEach((e) => e.isIntersecting && set(e.target.id)), { rootMargin: "-45% 0px -50% 0px" });
+    byId.forEach((_, id) => { const el = document.getElementById(id); if (el) io.observe(el); });
+  })();
 </script>
 </body>
 </html>
