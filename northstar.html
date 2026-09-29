@@ -138,6 +138,8 @@
   }
 
   .logo { justify-self: start; display: flex; align-items: center; gap: var(--space-8); }
+  /* Лого и имя в подвале ведут на главную (29.09.2026) */
+  .logo, .footer__name { color: inherit; text-decoration: none; }
   .logo-name {
     font-size: 1.75rem;     /* 28 / 38 / -4% Bold — задано в макете вручную */
     line-height: 38px;
@@ -989,6 +991,7 @@
   }
   .footer__brand { display: flex; flex-direction: column; gap: var(--space-16); }
   .footer__name {
+    display: block;
     margin: 0;
     font-size: var(--heading-md);   /* Heading/md 24 / 32 / -2% Medium */
     line-height: 32px;
@@ -1339,9 +1342,9 @@
 
 <div class="hero case-hero">
   <header>
-    <div class="logo">
+    <a class="logo" href="index.html" aria-label="Diana Shvedskaia, home">
       <span class="logo-name">Diana Shvedskaia</span>
-    </div>
+    </a>
 
     <nav>
       <a href="index.html#work">Works</a>
@@ -1643,7 +1646,7 @@
     <div class="container footer__body">
       <div class="footer__row">
         <div class="footer__brand">
-          <p class="footer__name">Diana Shvedskaia</p>
+          <a class="footer__name" href="index.html">Diana Shvedskaia</a>
           <p class="footer__copy">© 2026 Diana Shvedskaia. All rights reserved</p>
         </div>
         <nav class="footer__columns" aria-label="Footer links">
