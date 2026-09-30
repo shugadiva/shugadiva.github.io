@@ -965,7 +965,7 @@
      гуще всего у края кольца, к краям экрана и к телу подвала редеют. Все 1px. Яркость ступенями: 5 ярких (1, со свечением Glow/star:
      белый ореол 4 + Blue/400 90% размытием 12), 20 средних (0.5), остальные тусклые (0.2-0.3). Треть звёзд Blue/200, их больше внизу, ближе к свету.
      Холст 1440x480 по центру подвала: на узком экране боковые звёзды уходят за край.
-     Мерцание (MOTION.md, п.7): 14 звёзд (20%) · opacity звезды своя → 1 и свечения 0 → 1 → обратно · вспышка с 62% цикла до конца, пик на 75% · цикл 4-7 с · ease-in-out, бесконечно, сдвиг у каждой свой. */
+     Мерцание (MOTION.md, п.7): 14 звёзд (20%) · opacity звезды своя → 1 и свечения 0 → 1 → обратно · вспышка с 58% до 90% цикла (около 1.5-2 с), пик на 72%: точка до 1, свечение 9px и лучи ✦ 15px из scale 0.3 · цикл 4-7 с · ease-in-out, бесконечно, сдвиг у каждой свой. */
   .footer__stars {
     position: absolute;
     top: 0;
@@ -1060,26 +1060,49 @@
     animation: star-twinkle var(--d) ease-in-out var(--delay) infinite;
   }
   .footer__stars i.is-blue { background: var(--blue-200); }
-  /* Вспышка: свечение Glow/star отдельным слоем, у него анимируется только прозрачность */
+  /* Вспышка: звезда разгорается, вокруг проступает круглое свечение 9px и четыре луча ✦ 15px (как искры у GitHub).
+     Лучи и свечение отдельными слоями, анимируются только opacity и transform (MOTION.md, правило 3) */
+  .footer__stars i::before,
   .footer__stars i::after {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    box-shadow: 0 0 4px 0.5px rgb(245 248 255 / 1), 0 0 12px 0 rgb(90 148 245 / 0.9);
+    left: 50%;
+    top: 50%;
     opacity: 0;
+    pointer-events: none;
     animation: star-flare var(--d) ease-in-out var(--delay) infinite;
   }
+  .footer__stars i::after {   /* свечение: Text/primary в центре, Blue/400 к краю */
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(245 248 255 / 0.9) 0, rgb(90 148 245 / 0.45) 35%, rgb(90 148 245 / 0) 70%);
+  }
+  .footer__stars i::before {  /* лучи: две линии 1px, к концам гаснут */
+    width: 15px;
+    height: 15px;
+    margin: -7.5px 0 0 -7.5px;
+    background:
+      linear-gradient(90deg, rgb(245 248 255 / 0), rgb(245 248 255 / 0.85) 50%, rgb(245 248 255 / 0)) center / 100% 1px no-repeat,
+      linear-gradient(0deg, rgb(245 248 255 / 0), rgb(245 248 255 / 0.85) 50%, rgb(245 248 255 / 0)) center / 1px 100% no-repeat;
+  }
+  .footer__stars i.is-blue::before {
+    background:
+      linear-gradient(90deg, rgb(184 215 255 / 0), rgb(184 215 255 / 0.85) 50%, rgb(184 215 255 / 0)) center / 100% 1px no-repeat,
+      linear-gradient(0deg, rgb(184 215 255 / 0), rgb(184 215 255 / 0.85) 50%, rgb(184 215 255 / 0)) center / 1px 100% no-repeat;
+  }
   @keyframes star-twinkle {
-    0%, 62%, 100% { opacity: var(--o); }
-    75% { opacity: 1; }
+    0%, 58%, 100% { opacity: var(--o); }
+    72% { opacity: 1; }
+    90% { opacity: var(--o); }
   }
   @keyframes star-flare {
-    0%, 62%, 100% { opacity: 0; }
-    75% { opacity: 1; }
+    0%, 58%, 90%, 100% { opacity: 0; transform: scale(0.3); }
+    72% { opacity: 1; transform: scale(1); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .footer__stars i, .footer__stars i::after { animation: none; }
+    .footer__stars i, .footer__stars i::before, .footer__stars i::after { animation: none; }
   }
   /* Bottom glow (Surface/bottom-glow): градиент снизу во всю ширину, 762 высотой, прижат к низу подвала.
      Blue/500 прозрачный до 63%, к низу 23%. Заменил синее пятно слева, 23.09.2026. */
