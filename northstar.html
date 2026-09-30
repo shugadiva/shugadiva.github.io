@@ -218,7 +218,7 @@
   header.is-menu-open .menu-toggle .icon-menu { display: none; }
   header.is-menu-open .menu-toggle .icon-close { display: block; }
 
-  /* Mobile menu (UI Kit, черновик Claude): Surface/page, Border/subtle, r24, поля 24, группы через 32.
+  /* Mobile menu (UI Kit, черновик Claude): Surface/card + Blur/glass, Border/subtle, r24, поля 24, группы через 32.
      Выпадает под шапкой: tap · opacity, translateY · 0, −8 → 1, 0 · 250 мс · standard */
   .mobile-menu {
     position: absolute;
@@ -231,7 +231,9 @@
     gap: var(--space-32);
     padding: var(--space-24);
     border-radius: 24px;
-    background: var(--surface-page);
+    background: var(--surface-card);   /* Surface/card, как у карточек About (30.09.2026, было Surface/page) */
+    -webkit-backdrop-filter: blur(16px);   /* Blur/glass: под полупрозрачной плашкой не читается текст героя */
+            backdrop-filter: blur(16px);
     border: 1px solid var(--border-subtle);   /* в макете обводка входит в автолейаут (strokes included), поэтому border, а не тень */
     opacity: 0;
     visibility: hidden;
