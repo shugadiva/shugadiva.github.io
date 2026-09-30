@@ -229,6 +229,7 @@
     line-height: 20px;
     letter-spacing: -0.01em;
     text-decoration: none;
+    white-space: nowrap;       /* на телефоне «Let's Connect» переносился, и в окне прокрутки .roll оставалось одно «Let's» (30.09.2026) */
     cursor: pointer;
     /* мягкий выкат как на span: три четверти пути за 180 мс, дальше долгий хвост */
     transition: opacity 600ms cubic-bezier(0.25, 1, 0.5, 1);
@@ -503,7 +504,7 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .carousel__track, .progress__thumb, .experience__slide { transition: none; }
+    .carousel__track, .progress__thumb, .experience__slide, .carousel__viewport { transition: none; }
   }
   .experience__text {
     flex: 0 0 600px;
@@ -654,6 +655,13 @@
   @media (max-width: 1100px) {
     .experience__slide { flex-direction: column; align-items: stretch; }
     .experience__text { flex-basis: auto; }
+    /* в колонке flex: 1 растягивал блок макета на всю высоту слайда, и под окном браузера оставалась пустота (30.09.2026) */
+    .experience__media { flex: none; }
+    /* Слайды разной высоты (окно браузера ниже двух телефонов), поэтому окно ленты берёт высоту текущего слайда,
+       иначе под коротким слайдом дыра до стрелок. Высоту ставит скрипт карусели.
+       слайд · height · высота прошлого → высота нового · 1000 мс · cubic-bezier(0.65, 0, 0.35, 1), вместе со сдвигом ленты */
+    .carousel__track { align-items: flex-start; }
+    .carousel__viewport { transition: height 1000ms cubic-bezier(0.65, 0, 0.35, 1); }
     .experience__media--browser { height: auto; }
     .phones { width: 100%; max-width: 554px; }
     .browser { position: relative; top: 0; font-size: calc((100vw - 2 * var(--page-margin)) / 1440); }
@@ -1134,7 +1142,8 @@
   @media (max-width: 768px) {
     :root { --page-margin: 1.5rem; }
     header { grid-template-columns: auto auto; row-gap: var(--space-16); }
-    .logo-name { font-size: 1.75rem; line-height: 36px; }
+    /* имя в одну строку рядом с кнопкой: Text/lg 20 / 28, было 28 / 36 и переносилось на две (30.09.2026) */
+    .logo-name { font-size: var(--text-lg); line-height: 28px; }
     nav { grid-column: 1 / -1; order: 3; justify-self: stretch; justify-content: center; gap: var(--space-16); }
     h1 { font-size: 2.5rem; line-height: 48px; }
     .headlines { width: 100%; }
