@@ -425,6 +425,10 @@
     --slide-gap: max(var(--bleed), 224px);   /* окно 760 от колонки 664 выступает за слайд на 224: зазор не меньше, иначе край окна виден на соседнем слайде */
   }
   .carousel__viewport { position: relative; z-index: 1; overflow: clip; margin-right: calc(-1 * var(--bleed)); padding-right: var(--bleed); }   /* слайды выше свечения полосы */
+  /* Ленту можно тянуть мышью и пальцем: рука на широких экранах с мышью, вертикальная прокрутка страницы пальцем остаётся */
+  .carousel__viewport { touch-action: pan-y; }
+  @media (pointer: fine) { .carousel__viewport { cursor: grab; } }
+  .carousel__viewport.is-dragging { cursor: grabbing; user-select: none; -webkit-user-select: none; }
   .carousel__track {
     display: flex;
     gap: var(--slide-gap);
@@ -1879,6 +1883,61 @@
     };
     prev.addEventListener("click", () => go(-1));
     next.addEventListener("click", () => go(1));
+
+    // Перетаскивание мышью и пальцем (30.09.2026, просьба Дианы). Лента едет за указателем без анимации;
+    // отпустили дальше 15% ширины слайда или коротким быстрым рывком, листаем на соседний, иначе возвращаем на место.
+    // drag · translateX · за указателем → к слайду · 1000 мс · cubic-bezier(0.65, 0, 0.35, 1), та же кривая, что у стрелок
+    const at = (i, dx) => `translateX(calc(${-i} * (100% + var(--slide-gap)) + ${dx}px))`;
+    let drag = null;
+    let dragged = false;
+    viewport.addEventListener("pointerdown", (e) => {
+      if (busy || e.button !== 0) return;
+      drag = { x: e.clientX, y: e.clientY, t: e.timeStamp, dx: 0, on: false, id: e.pointerId };
+      dragged = false;
+    });
+    viewport.addEventListener("pointermove", (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const dx = e.clientX - drag.x;
+      const dy = e.clientY - drag.y;
+      if (!drag.on) {
+        // вертикальный жест отдаём прокрутке страницы, горизонтальный забираем себе
+        if (Math.abs(dy) > 10 && Math.abs(dy) > Math.abs(dx)) { drag = null; return; }
+        if (Math.abs(dx) < 6) return;
+        drag.on = true;
+        dragged = true;
+        viewport.setPointerCapture(e.pointerId);
+        viewport.classList.add("is-dragging");
+        if (index === 0 && dx > 0) { index = n; mark(n); }   // с первого вправо: тянем от копии в конце ленты
+        track.classList.add("no-anim");
+      }
+      drag.dx = dx;
+      track.style.transform = at(index, dx);
+    });
+    const release = (e) => {
+      if (!drag || e.pointerId !== drag.id) return;
+      const d = drag;
+      drag = null;
+      if (!d.on) return;
+      viewport.classList.remove("is-dragging");
+      track.offsetHeight;
+      track.classList.remove("no-anim");
+      const w = all[0].offsetWidth;
+      const speed = Math.abs(d.dx) / Math.max(1, e.timeStamp - d.t);   // px/мс
+      if (Math.abs(d.dx) > w * 0.15 || (Math.abs(d.dx) > 30 && speed > 0.5)) {
+        go(d.dx < 0 ? 1 : -1);
+      } else {
+        if (reduced && index === n) index = 0;
+        busy = !reduced && d.dx !== 0;   // без сдвига transitionend не придёт
+        render();
+      }
+    };
+    viewport.addEventListener("pointerup", release);
+    viewport.addEventListener("pointercancel", release);
+    // после перетаскивания клик по See More не срабатывает, картинки и ссылки не утаскиваются браузером
+    viewport.addEventListener("click", (e) => { if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; } }, true);
+    viewport.addEventListener("dragstart", (e) => e.preventDefault());
+    // ссылка и картинка по умолчанию перетаскиваются как файл и съедают жест: запрещаем
+    viewport.querySelectorAll("a, img").forEach((el) => { el.draggable = false; });
     render();
   });
 

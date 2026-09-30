@@ -425,6 +425,10 @@
     --slide-gap: max(var(--bleed), 224px);   /* окно 760 от колонки 664 выступает за слайд на 224: зазор не меньше, иначе край окна виден на соседнем слайде */
   }
   .carousel__viewport { position: relative; z-index: 1; overflow: clip; margin-right: calc(-1 * var(--bleed)); padding-right: var(--bleed); }   /* слайды выше свечения полосы */
+  /* Ленту можно тянуть мышью и пальцем: рука на широких экранах с мышью, вертикальная прокрутка страницы пальцем остаётся */
+  .carousel__viewport { touch-action: pan-y; }
+  @media (pointer: fine) { .carousel__viewport { cursor: grab; } }
+  .carousel__viewport.is-dragging { cursor: grabbing; user-select: none; -webkit-user-select: none; }
   .carousel__track {
     display: flex;
     gap: var(--slide-gap);
