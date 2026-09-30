@@ -210,8 +210,77 @@
     transition: none;
   }
 
+  /* ---------- мобильное меню: приём span.framer.ai, до 1099 ряд ссылок и CTA уходят в карточку ---------- */
+  /* Кнопка Menu: Icon button md Secondary с иконкой Menu, при открытом меню иконка Close.
+     tap · icon · Menu → Close · 150 мс · standard */
+  header .menu-toggle { display: none; justify-self: end; }
+  .menu-toggle .icon-close,
+  header.is-menu-open .menu-toggle .icon-menu { display: none; }
+  header.is-menu-open .menu-toggle .icon-close { display: block; }
+
+  /* Mobile menu (UI Kit, черновик Claude): Surface/page, Border/subtle, r24, поля 24, группы через 32.
+     Выпадает под шапкой: tap · opacity, translateY · 0, −8 → 1, 0 · 250 мс · standard */
+  .mobile-menu {
+    position: absolute;
+    top: calc(100% - var(--space-4));   /* карточка на 4 выше низа шапки: в макете y 60 при шапке 64 */
+    right: max(var(--page-margin), calc((100% - var(--container-xl)) / 2));
+    width: min(400px, calc(100% - 2 * var(--page-margin)));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-32);
+    padding: var(--space-24);
+    border-radius: 24px;
+    background: var(--surface-page);
+    border: 1px solid var(--border-subtle);   /* в макете обводка входит в автолейаут (strokes included), поэтому border, а не тень */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 250ms;
+  }
+  header.is-menu-open .mobile-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .mobile-menu ul { list-style: none; margin: 0; padding: 0; }
+  .mobile-menu li { display: flex; }   /* без строки-подпорки у li: высота ссылки ровно её line-height, как в макете */
+  .mobile-menu__links { display: flex; flex-direction: column; gap: var(--space-8); }
+  .mobile-menu__links a {
+    font-size: var(--heading-lg);   /* Heading/lg 32 / 40 / -2.5% Medium */
+    line-height: 40px;
+    letter-spacing: -0.025em;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+  .mobile-menu__social { display: flex; flex-direction: column; gap: var(--space-12); }
+  .mobile-menu__label {
+    margin: 0;
+    font-size: var(--label-md);     /* Label/md 14 / 16 / -1% SemiBold */
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+  .mobile-menu__social ul { display: flex; flex-wrap: wrap; gap: var(--space-8) var(--space-16); }
+  .mobile-menu__social a {
+    font-size: var(--label-lg);     /* Label/lg 16 / 24 SemiBold */
+    line-height: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  @media (max-width: 1099px) {
+    header { grid-template-columns: 1fr auto; }
+    header > nav, header > .btn { display: none; }
+    header .menu-toggle { display: grid; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    nav a::after, .btn, .btn .roll span, header, header::after { transition: none; }
+    nav a::after, .btn, .btn .roll span, header, header::after, .mobile-menu { transition: none; }
   }
 
   /* ---------- кнопка из компонента: 122x38, 9/10, r12, 14 SemiBold ---------- */
@@ -1294,10 +1363,8 @@
 
   @media (max-width: 768px) {
     :root { --page-margin: 1.5rem; }
-    header { grid-template-columns: auto auto; row-gap: var(--space-16); }
     /* имя в одну строку рядом с кнопкой: Text/lg 20 / 28, было 28 / 36 и переносилось на две (30.09.2026) */
     .logo-name { font-size: var(--text-lg); line-height: 28px; }
-    nav { grid-column: 1 / -1; order: 3; justify-self: stretch; justify-content: center; gap: var(--space-16); }
     /* Display/sm 36 / 44 SemiBold -3%, как в Content / Mobile 375 (30.09.2026, было 40 / 48 Bold вне шкалы) */
     h1 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; font-weight: 600; }
     .headlines { width: 100%; }
@@ -1562,6 +1629,36 @@
         <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
       </svg>
     </a>
+
+    <button class="icon-button menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+      <svg class="icon-menu" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 5.5h11M2.5 10.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <svg class="icon-close" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <ul class="mobile-menu__links">
+        <li><a href="index.html#work">Works</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#faq">FAQ</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="mobile-menu__social">
+        <p class="mobile-menu__label">Social</p>
+        <ul>
+          <li><a href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">Behance</a></li>
+          <li><a href="https://www.linkedin.com/in/diana-shvedskaia-b34124288/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://t.me/shugdiv" target="_blank" rel="noopener">Telegram</a></li>
+        </ul>
+      </div>
+      <a class="btn btn--md" href="#contact">
+        <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+        <svg width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true">
+          <path d="M6.77423 10.4371C6.69794 10.4375 6.62234 10.4226 6.55188 10.3934C6.48142 10.3641 6.41751 10.3211 6.3639 10.2668C6.25517 10.1579 6.19409 10.0104 6.19409 9.85648C6.19409 9.70261 6.25517 9.55503 6.3639 9.44616L10.5987 5.21132L6.3639 0.976484C6.26134 0.866413 6.2055 0.720829 6.20815 0.570402C6.21081 0.419975 6.27175 0.276451 6.37813 0.170067C6.48452 0.0636827 6.62804 0.00274457 6.77847 9.04625e-05C6.92889 -0.00256364 7.07448 0.0532735 7.18455 0.155839L11.8297 4.801C11.9384 4.90987 11.9995 5.05745 11.9995 5.21132C11.9995 5.36519 11.9384 5.51277 11.8297 5.62164L7.18455 10.2668C7.13094 10.3211 7.06703 10.3641 6.99657 10.3934C6.92611 10.4226 6.85052 10.4375 6.77423 10.4371Z" fill="currentColor"/>
+          <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
+
   </header>
 
   <main class="case-intro">
@@ -1925,6 +2022,22 @@
     const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 16);
     window.addEventListener("scroll", onScroll, { passive: true });
     onScroll();
+
+    // Мобильное меню: кнопка Menu открывает карточку, закрывают ссылка, кнопка Close, тап мимо и Esc.
+    const toggle = header.querySelector(".menu-toggle");
+    const menu = header.querySelector(".mobile-menu");
+    if (toggle && menu) {
+      const setOpen = (open) => {
+        header.classList.toggle("is-menu-open", open);
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      };
+      toggle.addEventListener("click", () => setOpen(!header.classList.contains("is-menu-open")));
+      menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
+      document.addEventListener("click", (e) => { if (!header.contains(e.target)) setOpen(false); });
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && header.classList.contains("is-menu-open")) { setOpen(false); toggle.focus(); } });
+      matchMedia("(min-width: 1100px)").addEventListener("change", (e) => { if (e.matches) setOpen(false); });
+    }
   })();
 </script>
 <script>
