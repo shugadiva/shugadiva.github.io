@@ -239,6 +239,10 @@
     transform: translateY(-8px);
     transition: opacity 250ms cubic-bezier(0.4, 0, 0.2, 1), transform 250ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 250ms;
   }
+  /* Линия под шапкой (после прокрутки) рисовалась поверх карточки: ::after идёт в разметке позже меню.
+     При открытом меню линия сжимается к центру, как при возврате наверх, а карточка лежит над ней (30.09.2026) */
+  header.is-menu-open::after { width: 0; }
+  .mobile-menu { z-index: 1; }
   header.is-menu-open .mobile-menu {
     opacity: 1;
     visibility: visible;
