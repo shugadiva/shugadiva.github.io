@@ -27,6 +27,7 @@
     --surface-page: #000309;
     --surface-raised: #0e1f42;
     --surface-card: rgb(5 9 16 / 0.5);   /* Surface/card = #050910 50%, как в макете, заливка плашек */
+    --surface-card-solid: #050910;       /* Surface/card-solid = тот же цвет 100%, мобильное меню */
     --surface-overlay: rgb(0 77 255 / 0.05);   /* #004DFF 5%, в макете с 24.09.2026 (было #F5F8FF 5%) */
     --surface-inverse: #f5f8ff;
     --text-primary: #f5f8ff;
@@ -218,7 +219,7 @@
   header.is-menu-open .menu-toggle .icon-menu { display: none; }
   header.is-menu-open .menu-toggle .icon-close { display: block; }
 
-  /* Mobile menu (UI Kit, черновик Claude): Surface/card + Blur/glass, Border/subtle, r24, поля 24, группы через 32.
+  /* Mobile menu (UI Kit, черновик Claude): Surface/card-solid, Border/subtle, r24, поля 24, группы через 32.
      Выпадает под шапкой: tap · opacity, translateY · 0, −8 → 1, 0 · 250 мс · standard */
   .mobile-menu {
     position: absolute;
@@ -231,9 +232,7 @@
     gap: var(--space-32);
     padding: var(--space-24);
     border-radius: 24px;
-    background: var(--surface-card);   /* Surface/card, как у карточек About (30.09.2026, было Surface/page) */
-    -webkit-backdrop-filter: blur(16px);   /* Blur/glass: под полупрозрачной плашкой не читается текст героя */
-            backdrop-filter: blur(16px);
+    background: var(--surface-card-solid);   /* Surface/card-solid: цвет карточек About, но 100% (30.09.2026) */
     border: 1px solid var(--border-subtle);   /* в макете обводка входит в автолейаут (strokes included), поэтому border, а не тень */
     opacity: 0;
     visibility: hidden;
