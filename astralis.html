@@ -1439,7 +1439,33 @@
     background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.12) 75%, rgb(46 110 232 / 0) 100%);
     pointer-events: none;
   }
-  #screens { overflow-x: clip; }   /* свет шире колонки, на узких окнах иначе горизонтальная прокрутка */
+  #screens { overflow-x: clip; }
+
+  /* Panel / Mini App (Astralis, 30.09.2026): экраны мини-эппа в iPhone frame на плашке той же ширины, что окна браузера.
+     Плашка Surface/card, радиус 20, 1200×792; телефоны 316×640 в ряд через space/48 по центру.
+     Свет за каждым телефоном (Glow / Behind phone, Surface/browser-glow): на 20% шире и на 31% выше телефона, по его центру.
+     isolation держит свет под телефоном, но над заливкой плашки */
+  .case-shots--phones::before { content: none; }
+  .case-phones {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-48);
+    aspect-ratio: 1200 / 792;
+    border-radius: 20px;
+    background: var(--surface-card);
+  }
+  .case-phones .iphone { position: relative; left: auto; top: auto; width: calc(316 / 1200 * 100%); }
+  .case-phones .iphone::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    left: -10%; top: -15.5%; width: 120%; height: 131%;
+    background: radial-gradient(50% 50% at 50% 50%, rgb(46 110 232 / 0.12) 75%, rgb(46 110 232 / 0) 100%);
+    pointer-events: none;
+  }   /* свет шире колонки, на узких окнах иначе горизонтальная прокрутка */
 
   /* Свет секций из углов по Halo: Surface/section-glow-br, -tr, -bl. Радиус 50% ширины и высоты секции,
      #2E6EE8 10% → 5% на 36.5% → 0. На стыке Challenge и Solution справа одно пятно поперёк границы */
@@ -1498,6 +1524,9 @@
     .case-grid, .case-more__grid { grid-template-columns: 1fr 1fr; }
   }
   @media (max-width: 768px) {
+    /* телефоны на узком экране в колонку, плашка по высоте содержимого */
+    .case-phones { flex-direction: column; aspect-ratio: auto; padding: var(--space-48) var(--space-24); }
+    .case-phones .iphone { width: min(280px, 80%); }
     .case-hero { gap: var(--space-64); padding-top: calc(var(--header-h, 70px) + var(--space-48)); padding-bottom: var(--space-48); }
     nav.case-nav { order: 0; justify-content: flex-start; }
     .case-title h1 { font-size: 2.5rem; line-height: 48px; }
@@ -1707,7 +1736,26 @@
 </div>
 </section>
 
-
+<section class="case-section" id="screens">
+  <div class="container">
+    <div class="case-section__header">
+      <span class="section-label">Screens</span>
+      <h2>From&nbsp;the&nbsp;first screen to&nbsp;the&nbsp;client dashboard</h2>
+    </div>
+    <div class="case-shots case-shots--phones">
+    <div class="case-phones">
+      <div class="iphone">
+        <div class="iphone__screen"><img src="assets/astralis-app-1.png" alt="Astralis Mini App: welcome screen, Private service for website promotion in organic search, with the Get started button" width="787" height="1704" loading="lazy"></div>
+        <img class="iphone__bezel" src="assets/iphone-frame-1.svg" alt="" width="441" height="892">
+      </div>
+      <div class="iphone">
+        <div class="iphone__screen"><img src="assets/astralis-app-2.png" alt="Astralis Mini App: pricing screen, Choose your perfect plan, with the Standard plan card" width="787" height="1704" loading="lazy"></div>
+        <img class="iphone__bezel" src="assets/iphone-frame-2.svg" alt="" width="441" height="892">
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
 
 <section class="case-section case-more" id="more">
   <div class="container">
