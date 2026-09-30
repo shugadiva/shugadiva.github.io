@@ -441,14 +441,15 @@
     gap: var(--space-64);
   }
 
-  /* Carousel controls: стрелки и полоска прогресса, от контента space/48 */
+  /* Carousel controls: стрелки и полоска прогресса вплотную к слайду, как в макете (30.09.2026, было space/48).
+     Видимый зазор 48 даёт сам блок Media: окно браузера 507 стоит на 53 от верха колонки 608 */
   .carousel-controls {
     position: relative;
     z-index: 0;                     /* свой слой: свечение уходит под стрелки, но не под фон секции */
     display: flex;
     align-items: center;
     gap: var(--space-24);
-    margin-top: var(--space-48);
+    margin-top: 0;
   }
   /* Glow / progress: свет от полосы прогресса. Окно 885x333 с обрезкой, внутри пятно 885x665
      (Surface/rise-glow: Blue/500 70% в центре → 0 у края, слой 40%), видна верхняя половина.
@@ -662,6 +663,8 @@
        слайд · height · высота прошлого → высота нового · 1000 мс · cubic-bezier(0.65, 0, 0.35, 1), вместе со сдвигом ленты */
     .carousel__track { align-items: flex-start; }
     .carousel__viewport { transition: height 1000ms cubic-bezier(0.65, 0, 0.35, 1); }
+    /* в колонке у слайда нет своего запаса снизу, поэтому зазор до стрелок задаём явно */
+    .carousel-controls { margin-top: var(--space-48); }
     .experience__media--browser { height: auto; }
     .phones { width: 100%; max-width: 554px; }
     .browser { position: relative; top: 0; font-size: calc((100vw - 2 * var(--page-margin)) / 1440); }
