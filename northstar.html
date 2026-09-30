@@ -1150,8 +1150,8 @@
   /* Case hero: плоский Surface/page. Свечение снизу (Surface/page-glow) Диана убрала из макета 29.09.2026: давало полосу на стыке с Challenge */
   .case-hero {
     min-height: 0;
-    gap: var(--space-48);   /* заголовок → My role 48 (было 96, Диана 29.09.2026: слишком далеко) */
-    padding: calc(var(--header-h, 70px) + var(--space-80)) var(--page-margin) var(--space-96);   /* верх интро 150 = шапка 70 + 80, как в макете */
+    gap: 0;   /* заголовок → My role 0: в макете Intro и My role в Container с gap 0 (Диана 30.09.2026; было 48, до того 96) */
+    padding: calc(var(--header-h, 70px) + var(--space-80)) var(--page-margin) calc(var(--space-48) + var(--space-96));   /* верх интро 150 = шапка 70 + 80; низ 144: Container фиксированной высоты 942 оставляет 48 под My role, плюс паддинг секции 96 */
     background: var(--surface-page);
   }
   .case-hero > main.case-intro {
