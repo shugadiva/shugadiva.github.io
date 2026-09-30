@@ -672,7 +672,7 @@
   }
   @media (max-width: 768px) {
     .experience { padding-block: var(--space-48); }
-    .experience h2 { font-size: 1.75rem; line-height: 36px; }
+    .experience h2 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; }   /* Display/sm, как в Content / Mobile 375 (30.09.2026, было 28 / 36) */
     .experience h2 br { display: none; }   /* на телефоне строки переносятся сами */
   }
 
@@ -806,7 +806,7 @@
   }
   @media (max-width: 768px) {
     .about { padding-block: var(--space-48); }
-    .about h2 { font-size: var(--display-sm); line-height: 44px; }
+    .about h2 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; }
   }
 
   /* ---------- FAQ: вступление по центру, список Accordion шириной container/md ---------- */
@@ -942,7 +942,7 @@
   }
   @media (max-width: 768px) {
     .faq { padding-block: var(--space-48); }
-    .faq h2 { font-size: var(--display-sm); line-height: 44px; }
+    .faq h2 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; }
   }
 
 
@@ -1058,7 +1058,7 @@
   }
   @media (max-width: 768px) {
     .footer { padding-top: var(--space-48); gap: var(--space-96); }
-    .footer__cta h2 { font-size: var(--display-sm); line-height: 44px; }
+    .footer__cta h2 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; }
   }
 
 
@@ -1149,7 +1149,8 @@
     /* имя в одну строку рядом с кнопкой: Text/lg 20 / 28, было 28 / 36 и переносилось на две (30.09.2026) */
     .logo-name { font-size: var(--text-lg); line-height: 28px; }
     nav { grid-column: 1 / -1; order: 3; justify-self: stretch; justify-content: center; gap: var(--space-16); }
-    h1 { font-size: 2.5rem; line-height: 48px; }
+    /* Display/sm 36 / 44 SemiBold -3%, как в Content / Mobile 375 (30.09.2026, было 40 / 48 Bold вне шкалы) */
+    h1 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; font-weight: 600; }
     .headlines { width: 100%; }
     .avatar { width: 112px; height: 112px; }
     .statement { padding-block: var(--space-96) var(--space-48); }
