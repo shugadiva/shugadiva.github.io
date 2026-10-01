@@ -798,6 +798,15 @@
     .carousel-controls { display: none; }
     .works-more { display: flex; justify-content: center; margin-top: var(--space-48); }
     .experience.is-expanded .works-more { display: none; }
+    /* Проект на телефоне (макет Works stacked, Header, 01.10.2026): название, под ним мокап, ниже роль, чипы и кнопка.
+       Обёртки текста растворяются (display: contents), и порядок задаёт order. Название → мокап 20, дальше по 40 */
+    .experience__slide { gap: 0; }
+    .experience__text, .experience__details { display: contents; }
+    .experience__company { order: 0; }
+    .experience__media { order: 1; margin-top: var(--space-20); }
+    .experience__role { order: 2; margin-top: var(--space-40); max-width: none; }
+    .experience__slide .chips { order: 3; margin-top: var(--space-40); }
+    .experience__slide .btn { order: 4; margin-top: var(--space-40); align-self: flex-start; }
   }
   @keyframes works-in { from { opacity: 0; transform: translateY(16px); } }
   @media (prefers-reduced-motion: reduce) { .experience.is-expanded .experience__slide { animation: none; } }
