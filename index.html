@@ -783,6 +783,45 @@
     .phones { width: 100%; max-width: 554px; }
     .browser { position: relative; top: 0; font-size: calc((100vw - 2 * var(--page-margin)) / 1440); }
   }
+  /* Works до 1100 без карусели (решение Дианы 01.10.2026, макет Content / Mobile 375 → Experience): виден первый проект,
+     под ним Scroll cue, тап раскрывает остальные три друг под другом. Карусель на телефоне меняла высоту окна во время
+     сдвига, и всё ниже ездило вверх-вниз. Между проектами 96, текст → мокап 64, проект → кнопка 48.
+     tap · остальные проекты opacity, translateY · 0, 16 → 1, 0 · 600 мс · cubic-bezier(0.2, 0, 0, 1) */
+  .works-more { display: none; }
+  @media (max-width: 1100px) {
+    .carousel__viewport { height: auto; overflow: visible; margin-right: 0; padding-right: 0; transition: none; touch-action: auto; cursor: auto; }
+    .carousel__track { transform: none !important; flex-direction: column; align-items: stretch; gap: var(--space-96); transition: none; }
+    .experience__slide { flex: none; opacity: 1; transition: none; }
+    .experience__slide[aria-hidden="true"] { display: none; }   /* копия первого слайда для бесконечной карусели */
+    .experience:not(.is-expanded) .experience__slide:not(:first-child) { display: none; }
+    .experience.is-expanded .experience__slide:not(:first-child) { animation: works-in 600ms cubic-bezier(0.2, 0, 0, 1) both; }
+    .carousel-controls { display: none; }
+    .works-more { display: flex; justify-content: center; margin-top: var(--space-48); }
+    .experience.is-expanded .works-more { display: none; }
+  }
+  @keyframes works-in { from { opacity: 0; transform: translateY(16px); } }
+  @media (prefers-reduced-motion: reduce) { .experience.is-expanded .experience__slide { animation: none; } }
+
+  /* Scroll cue (UI Kit): круг 46, Blue/950, стрелка вниз 13 × 6.5 линией 2 Neutral/300.
+     hover · background · Blue/950 → Blue/900 · 150 мс · standard; hover · arrow translateY · 0 → 2 · 150 мс · standard */
+  .scroll-cue {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--blue-950);
+    color: var(--neutral-300);
+    cursor: pointer;
+    transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .scroll-cue svg { display: block; transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1); }
+  .scroll-cue:hover { background: var(--blue-900); color: var(--text-primary); }
+  .scroll-cue:hover svg { transform: translateY(2px); }
+  .scroll-cue:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
   @media (max-width: 768px) {
     .experience { padding-block: var(--space-48); }
     .experience h2 { font-size: var(--display-sm); line-height: 44px; letter-spacing: -0.03em; }   /* Display/sm, как в Content / Mobile 375 (30.09.2026, было 28 / 36) */
@@ -1732,6 +1771,9 @@
         </div>
         <div class="progress" aria-hidden="true"><div class="progress__thumb"></div></div>
       </div>
+      <div class="works-more">
+        <button class="scroll-cue" type="button" data-works-more aria-expanded="false" aria-label="Show all works"><svg width="15" height="9" viewBox="0 0 15 8.5" aria-hidden="true"><path d="M1 1l6.5 6.5L14 1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div>
     </div>
   </section>
 
@@ -2014,11 +2056,9 @@
     const all = [...track.children];            // слайды плюс копия
     const viewport = root.querySelector(".carousel__viewport");
     const narrow = window.matchMedia("(max-width: 1100px)");
-    // на узком экране окно ленты по высоте текущего слайда, на широком высоту задаёт CSS
-    const fit = () => { viewport.style.height = narrow.matches ? `${all[index].offsetHeight}px` : ""; };
-    const ro = new ResizeObserver(fit);        // картинки догружаются и меняют высоту слайда
-    all.forEach((el) => ro.observe(el));
-    narrow.addEventListener("change", fit);
+    // До 1100 карусели нет: проекты друг под другом, CSS гасит сдвиг ленты (01.10.2026).
+    // Раньше окно ленты подстраивалось по высоте под текущий слайд, и страница ниже ездила при листании.
+    const fit = () => { viewport.style.height = ""; };
     const mark = (i) => all.forEach((el, k) => el.classList.toggle("is-active", k === i));
     const jump = (i) => {                       // перестановка без анимации, и сдвиг, и прозрачность
       track.classList.add("no-anim");
@@ -2031,7 +2071,7 @@
       track.style.transform = `translateX(calc(${-index} * (100% + var(--slide-gap))))`;
       thumb.style.transform = `translateX(${(index % n) * 100}%)`;
       mark(index);
-      slides.forEach((s, i) => { s.inert = i !== index % n; });   // скрытые слайды не ловят Tab
+      slides.forEach((s, i) => { s.inert = !narrow.matches && i !== index % n; });   // скрытые слайды не ловят Tab; до 1100 видны все
       fit();
     };
     track.addEventListener("transitionend", (e) => {
@@ -2058,7 +2098,7 @@
     let drag = null;
     let dragged = false;
     viewport.addEventListener("pointerdown", (e) => {
-      if (busy || e.button !== 0) return;
+      if (narrow.matches || busy || e.button !== 0) return;
       drag = { x: e.clientX, y: e.clientY, t: e.timeStamp, dx: 0, on: false, id: e.pointerId };
       dragged = false;
     });
@@ -2105,6 +2145,15 @@
     viewport.addEventListener("dragstart", (e) => e.preventDefault());
     // ссылка и картинка по умолчанию перетаскиваются как файл и съедают жест: запрещаем
     viewport.querySelectorAll("a, img").forEach((el) => { el.draggable = false; });
+    narrow.addEventListener("change", render);
+    // Scroll cue до 1100: раскрывает остальные проекты и исчезает, фокус переходит на второй проект
+    const more = root.querySelector("[data-works-more]");
+    if (more) more.addEventListener("click", () => {
+      root.closest(".experience").classList.add("is-expanded");
+      more.setAttribute("aria-expanded", "true");
+      const t = slides[1] && slides[1].querySelector(".experience__company");
+      if (t) { t.tabIndex = -1; t.focus({ preventScroll: true }); }
+    });
     render();
   });
 
