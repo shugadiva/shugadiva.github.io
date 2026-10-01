@@ -718,12 +718,14 @@
   /* Browser frame: окно браузера из кита (Craftwork, Dark mode, на токенах). Все размеры в em от натуральной величины 1440:
      1em = 1px макета, а font-size окна задаёт масштаб. На десктопе окно 760 (K 0.528), прибито к левому краю колонки
      на 53 от верха и уходит за правый край экрана. Скриншот 1424 × 900 кладётся один к одному. */
-  .experience__media--browser { height: 608px; }
+  /* С 01.10.2026 окно целиком в колонке медиа на любой ширине (решение Дианы): раньше окно 760 уходило за правый край экрана,
+     и на ноутбуках срезалось, а с 1728 было видно целиком. Масштаб окна от ширины колонки через единицы контейнера cqw. */
+  .experience__media--browser { height: 608px; container-type: inline-size; }
   .browser {
     position: absolute;
     left: 0;
     top: 53px;
-    font-size: calc(760px / 1440);
+    font-size: calc(100cqw / 1440);
     width: 1440em;
     border-radius: 12em;
     border: 1em solid var(--border-subtle);
@@ -1490,7 +1492,7 @@
   }
   .case-role .chips { max-width: 500px; }
   .btn--ghost-hidden { visibility: hidden; pointer-events: none; }   /* кнопка без ссылки, как opacity 0 в макете */
-  .case-role__media { position: relative; flex: 0 0 536px; height: 608px; }
+  .case-role__media { position: relative; flex: 0 0 536px; height: 608px; container-type: inline-size; }   /* окно целиком в колонке, масштаб от её ширины (01.10.2026) */
   /* Glow в Media (Surface/browser-glow): свет из-за окна, как в Screens. В макете слой 912×665 на -76, -26:
      на 20% шире и на 31% выше окна 760×507 и по его центру. Окно идёт после ::before и ложится сверху */
   .case-role__media::before {
@@ -1938,7 +1940,7 @@
 <a class="work-card" href="lookmerce.html">
 <img class="work-card__cover" src="assets/cover-lookmerce.webp" alt="Lookmerce dark landing hero in a browser window" width="768" height="576" loading="lazy">
 <div class="work-card__text"><h3>Lookmerce</h3><p>AI fashion catalog platform</p></div>
-<ul class="chips"><li class="chip">LANDING PAGE</li><li class="chip">AI PRODUCT UX</li></ul>
+<ul class="chips"><li class="chip">LANDING PAGE</li><li class="chip">GENERATION FLOW</li></ul>
 </a>
 <a class="work-card" href="astralis.html">
 <img class="work-card__cover" src="assets/cover-astralis.webp?v=20260929" alt="Astralis Mini App screens on two iPhones" width="768" height="576" loading="lazy">
@@ -1948,7 +1950,7 @@
 <a class="work-card" href="blokb.html">
 <img class="work-card__cover" src="assets/cover-blokb.webp?v=20260929" alt="Blok B Mini App screens on two iPhones" width="768" height="576" loading="lazy">
 <div class="work-card__text"><h3>Blok B</h3><p>IT&nbsp;Studio Website</p></div>
-<ul class="chips"><li class="chip">LANDING PAGE</li><li class="chip">UX WRITING</li></ul>
+<ul class="chips"><li class="chip">LANDING PAGE</li><li class="chip">MINI APP</li></ul>
 </a>
     </div>
   </div>

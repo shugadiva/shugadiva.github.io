@@ -718,12 +718,14 @@
   /* Browser frame: окно браузера из кита (Craftwork, Dark mode, на токенах). Все размеры в em от натуральной величины 1440:
      1em = 1px макета, а font-size окна задаёт масштаб. На десктопе окно 760 (K 0.528), прибито к левому краю колонки
      на 53 от верха и уходит за правый край экрана. Скриншот 1424 × 900 кладётся один к одному. */
-  .experience__media--browser { height: 608px; }
+  /* С 01.10.2026 окно целиком в колонке медиа на любой ширине (решение Дианы): раньше окно 760 уходило за правый край экрана,
+     и на ноутбуках срезалось, а с 1728 было видно целиком. Масштаб окна от ширины колонки через единицы контейнера cqw. */
+  .experience__media--browser { height: 608px; container-type: inline-size; }
   .browser {
     position: absolute;
     left: 0;
     top: 53px;
-    font-size: calc(760px / 1440);
+    font-size: calc(100cqw / 1440);
     width: 1440em;
     border-radius: 12em;
     border: 1em solid var(--border-subtle);
@@ -1567,11 +1569,11 @@
               </div>
               <ul class="chips">
                 <li class="chip">PLATFORM UI</li>
-                <li class="chip">LEARNING UX</li>
+                <li class="chip">LEARNING FLOW</li>
                 <li class="chip">INTERACTIVE DEMOS</li>
-                <li class="chip">USER FLOWS</li>
-                <li class="chip">DESIGN SYSTEMS</li>
-                <li class="chip">PROTOTYPING</li>
+                <li class="chip">INTERACTION DESIGN</li>
+                <li class="chip">UX RESEARCH</li>
+                <li class="chip">DESIGN SYSTEM</li>
               </ul>
               <a class="btn btn--md" href="northstar.html">
                 <span class="roll"><span>See More</span><span aria-hidden="true">See More</span></span>
@@ -1609,11 +1611,11 @@
               </div>
               <ul class="chips">
                 <li class="chip">LANDING PAGE</li>
-                <li class="chip">AI PRODUCT UX</li>
-                <li class="chip">USER FLOWS</li>
+                <li class="chip">GENERATION FLOW</li>
+                <li class="chip">AI MODEL TUNING</li>
+                <li class="chip">UX RESEARCH</li>
                 <li class="chip">LOCALIZATION</li>
-                <li class="chip">DESIGN SYSTEMS</li>
-                <li class="chip">HAND-OFF</li>
+                <li class="chip">DESIGN SYSTEM</li>
               </ul>
               <a class="btn btn--md" href="lookmerce.html">
                 <span class="roll"><span>See More</span><span aria-hidden="true">See More</span></span>
@@ -1689,11 +1691,9 @@
               </div>
               <ul class="chips">
                 <li class="chip">LANDING PAGE</li>
-                <li class="chip">UX WRITING</li>
-                <li class="chip">INFORMATION ARCHITECTURE</li>
-                <li class="chip">VISUAL SYSTEMS</li>
-                <li class="chip">TYPOGRAPHY</li>
-                <li class="chip">DESIGN SYSTEMS</li>
+                <li class="chip">MINI APP</li>
+                <li class="chip">OFFER STRUCTURE</li>
+                <li class="chip">PRICING MODEL</li>
                 <li class="chip">TRUST PATTERNS</li>
                 <li class="chip">HAND-OFF</li>
               </ul>
