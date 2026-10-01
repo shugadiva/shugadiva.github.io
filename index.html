@@ -9,11 +9,11 @@
 <meta property="og:title" content="Diana Shvedskaia - Portfolio - UI/UX and Product Designer, Design Systems">
 <meta property="og:description" content="UI/UX designer with 5+ years of designing digital products. Problem-driven design, design systems and hand-coded interfaces.">
 <meta property="og:url" content="https://shugadiva.github.io/">
-<meta property="og:image" content="https://shugadiva.github.io/assets/og-image.png">   <!-- адрес абсолютный: мессенджеры относительный не понимают; при переезде на домен поменять -->
+<meta property="og:image" content="https://shugadiva.github.io/assets/og-image.png?v=20261001">   <!-- адрес абсолютный: мессенджеры относительный не понимают; при переезде на домен поменять -->
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://shugadiva.github.io/assets/og-image.png">
+<meta name="twitter:image" content="https://shugadiva.github.io/assets/og-image.png?v=20261001">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&display=swap" rel="stylesheet">
@@ -203,6 +203,8 @@
     transform: translateX(-50%);
     transition: width 250ms cubic-bezier(0.2, 0, 0, 1);
   }
+  .nowrap { white-space: nowrap; }   /* слово с дефисом не рвём: «E-» / «commerce» на 375 (QA 01.10.2026) */
+
   nav a:hover::after,
   nav a:focus-visible::after { width: 100%; }
 
@@ -586,6 +588,9 @@
     cursor: pointer;
     transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
   }
+  /* Зона нажатия 44 при видимой кнопке 32 (Apple HIG): невидимое поле по 6 вокруг, вид не меняется (QA 01.10.2026) */
+  .icon-button { position: relative; }
+  .icon-button::after { content: ""; position: absolute; inset: -6px; border-radius: 50%; }
   .icon-button:hover:not(:disabled) { background: var(--surface-overlay); }
   .icon-button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
   .icon-button:disabled { opacity: 0.4; cursor: default; }
@@ -1421,7 +1426,7 @@
     </nav>
 
     <a class="btn" href="#contact">
-      <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+      <span class="roll"><span>Let’s Connect</span><span aria-hidden="true">Let’s Connect</span></span>
       <svg width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true">
         <path d="M6.77423 10.4371C6.69794 10.4375 6.62234 10.4226 6.55188 10.3934C6.48142 10.3641 6.41751 10.3211 6.3639 10.2668C6.25517 10.1579 6.19409 10.0104 6.19409 9.85648C6.19409 9.70261 6.25517 9.55503 6.3639 9.44616L10.5987 5.21132L6.3639 0.976484C6.26134 0.866413 6.2055 0.720829 6.20815 0.570402C6.21081 0.419975 6.27175 0.276451 6.37813 0.170067C6.48452 0.0636827 6.62804 0.00274457 6.77847 9.04625e-05C6.92889 -0.00256364 7.07448 0.0532735 7.18455 0.155839L11.8297 4.801C11.9384 4.90987 11.9995 5.05745 11.9995 5.21132C11.9995 5.36519 11.9384 5.51277 11.8297 5.62164L7.18455 10.2668C7.13094 10.3211 7.06703 10.3641 6.99657 10.3934C6.92611 10.4226 6.85052 10.4375 6.77423 10.4371Z" fill="currentColor"/>
         <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
@@ -1451,7 +1456,7 @@
         </ul>
       </div>
       <a class="btn btn--md" href="#contact">
-        <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+        <span class="roll"><span>Let’s Connect</span><span aria-hidden="true">Let’s Connect</span></span>
         <svg width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true">
           <path d="M6.77423 10.4371C6.69794 10.4375 6.62234 10.4226 6.55188 10.3934C6.48142 10.3641 6.41751 10.3211 6.3639 10.2668C6.25517 10.1579 6.19409 10.0104 6.19409 9.85648C6.19409 9.70261 6.25517 9.55503 6.3639 9.44616L10.5987 5.21132L6.3639 0.976484C6.26134 0.866413 6.2055 0.720829 6.20815 0.570402C6.21081 0.419975 6.27175 0.276451 6.37813 0.170067C6.48452 0.0636827 6.62804 0.00274457 6.77847 9.04625e-05C6.92889 -0.00256364 7.07448 0.0532735 7.18455 0.155839L11.8297 4.801C11.9384 4.90987 11.9995 5.05745 11.9995 5.21132C11.9995 5.36519 11.9384 5.51277 11.8297 5.62164L7.18455 10.2668C7.13094 10.3211 7.06703 10.3641 6.99657 10.3934C6.92611 10.4226 6.85052 10.4375 6.77423 10.4371Z" fill="currentColor"/>
           <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
@@ -1462,7 +1467,7 @@
   </header>
 
   <main>
-    <img class="avatar" src="assets/avatar.png?v=20260928b" alt="Diana Shvedskaia">
+    <img class="avatar" src="assets/avatar.webp?v=20260928b" alt="Diana Shvedskaia">
 
     <div class="content">
       <div class="headlines">
@@ -1472,7 +1477,7 @@
 
       <div class="actions">
         <a class="btn btn--md" href="#contact">
-          <span class="roll"><span>Let's Connect</span><span>Let's Connect</span></span>
+          <span class="roll"><span>Let’s Connect</span><span aria-hidden="true">Let’s Connect</span></span>
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
             <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1480,7 +1485,7 @@
         </a>
 
         <a class="btn btn--md btn--glass" href="https://www.behance.net/dianashvedskaya" target="_blank" rel="noopener">
-          <span class="roll"><span>Behance</span><span>Behance</span></span>
+          <span class="roll"><span>Behance</span><span aria-hidden="true">Behance</span></span>
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M3 12.7498C2.88537 12.7483 2.77256 12.721 2.67 12.6698C2.54453 12.6083 2.43873 12.513 2.36453 12.3946C2.29032 12.2763 2.25065 12.1395 2.25 11.9998V-0.000216186C2.25065 -0.139931 2.29032 -0.276685 2.36453 -0.395065C2.43873 -0.513445 2.54453 -0.608743 2.67 -0.670216C2.79355 -0.732677 2.93214 -0.759229 3.07002 -0.746854C3.2079 -0.73448 3.33955 -0.683676 3.45 -0.600216L11.45 5.39978C11.5431 5.46964 11.6187 5.56023 11.6708 5.66437C11.7229 5.76852 11.75 5.88335 11.75 5.99978C11.75 6.11622 11.7229 6.23105 11.6708 6.33519C11.6187 6.43934 11.5431 6.52992 11.45 6.59978L3.45 12.5998C3.32052 12.6978 3.1624 12.7505 3 12.7498ZM3.75 1.49978V10.4998L9.75 5.99978L3.75 1.49978Z" fill="currentColor"/>
           </svg>
@@ -1569,7 +1574,7 @@
                 <li class="chip">PROTOTYPING</li>
               </ul>
               <a class="btn btn--md" href="northstar.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
+                <span class="roll"><span>See More</span><span aria-hidden="true">See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
                   <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1589,7 +1594,7 @@
                 <div class="browser__right"><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18.4736C14.6318 18.4736 18.4668 14.6304 18.4668 10.0068C18.4668 5.375 14.6235 1.54004 9.9917 1.54004C5.36816 1.54004 1.5332 5.375 1.5332 10.0068C1.5332 14.6304 5.37646 18.4736 10 18.4736ZM10 17.0625C6.08203 17.0625 2.95264 13.9248 2.95264 10.0068C2.95264 6.08887 6.07373 2.95117 9.9917 2.95117C13.9097 2.95117 17.0557 6.08887 17.0557 10.0068C17.0557 13.9248 13.918 17.0625 10 17.0625ZM10 5.78174C9.64307 5.78174 9.37744 6.03906 9.37744 6.4043V10.5547L9.44385 12.3062L8.61377 11.3101L7.62598 10.314C7.50977 10.1978 7.36035 10.1313 7.18604 10.1313C6.8457 10.1313 6.58838 10.3887 6.58838 10.729C6.58838 10.9033 6.63818 11.0527 6.74609 11.1606L9.51855 13.9165C9.68457 14.0825 9.82568 14.1572 10 14.1572C10.1826 14.1572 10.332 14.0742 10.4897 13.9165L13.2539 11.1606C13.3618 11.0527 13.4282 10.9033 13.4282 10.729C13.4282 10.3887 13.1626 10.1313 12.8223 10.1313C12.6396 10.1313 12.4902 10.1895 12.3823 10.314L11.4028 11.3101L10.5562 12.3145L10.6226 10.5547V6.4043C10.6226 6.03906 10.3652 5.78174 10 5.78174Z"/></svg><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.15186 10.0068C3.15186 10.4136 3.49219 10.7456 3.89062 10.7456H9.26123V16.1162C9.26123 16.5146 9.59326 16.855 10 16.855C10.4067 16.855 10.7471 16.5146 10.7471 16.1162V10.7456H16.1094C16.5078 10.7456 16.8481 10.4136 16.8481 10.0068C16.8481 9.6001 16.5078 9.25977 16.1094 9.25977H10.7471V3.89746C10.7471 3.49902 10.4067 3.15869 10 3.15869C9.59326 3.15869 9.26123 3.49902 9.26123 3.89746V9.25977H3.89062C3.49219 9.25977 3.15186 9.6001 3.15186 10.0068Z"/></svg></div>
               </div>
               <div class="browser__screen">
-                <img src="assets/northstar-browser.png?v=20260928" alt="North Star: student dashboard with the Continue learning section and two course modules with butterfly and rose covers, Easing and duration and Spring animations" width="1920" height="1214" loading="lazy">
+                <img src="assets/northstar-browser.webp?v=20260928" alt="North Star: student dashboard with the Continue learning section and two course modules with butterfly and rose covers, Easing and duration and Spring animations" width="1920" height="1214" loading="lazy">
               </div>
             </div>
           </div>
@@ -1611,7 +1616,7 @@
                 <li class="chip">HAND-OFF</li>
               </ul>
               <a class="btn btn--md" href="lookmerce.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
+                <span class="roll"><span>See More</span><span aria-hidden="true">See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
                   <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1631,7 +1636,7 @@
                 <div class="browser__right"><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 18.4736C14.6318 18.4736 18.4668 14.6304 18.4668 10.0068C18.4668 5.375 14.6235 1.54004 9.9917 1.54004C5.36816 1.54004 1.5332 5.375 1.5332 10.0068C1.5332 14.6304 5.37646 18.4736 10 18.4736ZM10 17.0625C6.08203 17.0625 2.95264 13.9248 2.95264 10.0068C2.95264 6.08887 6.07373 2.95117 9.9917 2.95117C13.9097 2.95117 17.0557 6.08887 17.0557 10.0068C17.0557 13.9248 13.918 17.0625 10 17.0625ZM10 5.78174C9.64307 5.78174 9.37744 6.03906 9.37744 6.4043V10.5547L9.44385 12.3062L8.61377 11.3101L7.62598 10.314C7.50977 10.1978 7.36035 10.1313 7.18604 10.1313C6.8457 10.1313 6.58838 10.3887 6.58838 10.729C6.58838 10.9033 6.63818 11.0527 6.74609 11.1606L9.51855 13.9165C9.68457 14.0825 9.82568 14.1572 10 14.1572C10.1826 14.1572 10.332 14.0742 10.4897 13.9165L13.2539 11.1606C13.3618 11.0527 13.4282 10.9033 13.4282 10.729C13.4282 10.3887 13.1626 10.1313 12.8223 10.1313C12.6396 10.1313 12.4902 10.1895 12.3823 10.314L11.4028 11.3101L10.5562 12.3145L10.6226 10.5547V6.4043C10.6226 6.03906 10.3652 5.78174 10 5.78174Z"/></svg><svg class="browser__icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M3.15186 10.0068C3.15186 10.4136 3.49219 10.7456 3.89062 10.7456H9.26123V16.1162C9.26123 16.5146 9.59326 16.855 10 16.855C10.4067 16.855 10.7471 16.5146 10.7471 16.1162V10.7456H16.1094C16.5078 10.7456 16.8481 10.4136 16.8481 10.0068C16.8481 9.6001 16.5078 9.25977 16.1094 9.25977H10.7471V3.89746C10.7471 3.49902 10.4067 3.15869 10 3.15869C9.59326 3.15869 9.26123 3.49902 9.26123 3.89746V9.25977H3.89062C3.49219 9.25977 3.15186 9.6001 3.15186 10.0068Z"/></svg></div>
               </div>
               <div class="browser__screen">
-                <img src="assets/lookmerce-browser.png" alt="Lookmerce: dark landing hero, The Future of Fashion Production is AI, with a model in a magenta satin suit" width="1920" height="1200" loading="lazy">
+                <img src="assets/lookmerce-browser.webp" alt="Lookmerce: dark landing hero, The Future of Fashion Production is AI, with a model in a magenta satin suit" width="1920" height="1200" loading="lazy">
               </div>
             </div>
           </div>
@@ -1653,7 +1658,7 @@
                 <li class="chip">HAND-OFF</li>
               </ul>
               <a class="btn btn--md" href="astralis.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
+                <span class="roll"><span>See More</span><span aria-hidden="true">See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
                   <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1664,11 +1669,11 @@
           <div class="experience__media">
             <div class="phones">
               <div class="iphone">
-                <div class="iphone__screen"><img src="assets/astralis-app-1.png" alt="Astralis Mini App: welcome screen, Private service for website promotion in organic search, with the Get started button" width="787" height="1704" loading="lazy"></div>
+                <div class="iphone__screen"><img src="assets/astralis-app-1.webp" alt="Astralis Mini App: welcome screen, Private service for website promotion in organic search, with the Get started button" width="787" height="1704" loading="lazy"></div>
                 <img class="iphone__bezel" src="assets/iphone-frame-1.svg" alt="" width="441" height="892">
               </div>
               <div class="iphone">
-                <div class="iphone__screen"><img src="assets/astralis-app-2.png" alt="Astralis Mini App: pricing screen, Choose your perfect plan, with the Standard plan card" width="787" height="1704" loading="lazy"></div>
+                <div class="iphone__screen"><img src="assets/astralis-app-2.webp" alt="Astralis Mini App: pricing screen, Choose your perfect plan, with the Standard plan card" width="787" height="1704" loading="lazy"></div>
                 <img class="iphone__bezel" src="assets/iphone-frame-2.svg" alt="" width="441" height="892">
               </div>
             </div>
@@ -1693,7 +1698,7 @@
                 <li class="chip">HAND-OFF</li>
               </ul>
               <a class="btn btn--md" href="blokb.html">
-                <span class="roll"><span>See More</span><span>See More</span></span>
+                <span class="roll"><span>See More</span><span aria-hidden="true">See More</span></span>
                 <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
                   <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
                   <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1704,11 +1709,11 @@
           <div class="experience__media">
             <div class="phones">
               <div class="iphone">
-                <div class="iphone__screen"><img src="assets/blokb-app-1.png" alt="Blok B Mini App: home screen, Development you pay for after approval, with the Discuss project button" width="787" height="1704" loading="lazy"></div>
+                <div class="iphone__screen"><img src="assets/blokb-app-1.webp" alt="Blok B Mini App: home screen, Development you pay for after approval, with the Discuss project button" width="787" height="1704" loading="lazy"></div>
                 <img class="iphone__bezel" src="assets/iphone-frame-1.svg" alt="" width="441" height="892">
               </div>
               <div class="iphone">
-                <div class="iphone__screen"><img src="assets/blokb-app-2.png" alt="Blok B Mini App: brief form, Tell us about the task, with company, systems and task fields" width="787" height="1704" loading="lazy"></div>
+                <div class="iphone__screen"><img src="assets/blokb-app-2.webp" alt="Blok B Mini App: brief form, Tell us about the task, with company, systems and task fields" width="787" height="1704" loading="lazy"></div>
                 <img class="iphone__bezel" src="assets/iphone-frame-2.svg" alt="" width="441" height="892">
               </div>
             </div>
@@ -1718,8 +1723,8 @@
       </div>
       <div class="carousel-controls">
         <div class="carousel-controls__arrows">
-          <button class="icon-button" type="button" data-prev aria-label="Previous company"><svg viewBox="0 0 16 16" aria-hidden="true" style="transform: scaleX(-1)"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
-          <button class="icon-button" type="button" data-next aria-label="Next company"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
+          <button class="icon-button" type="button" data-prev aria-label="Previous project"><svg viewBox="0 0 16 16" aria-hidden="true" style="transform: scaleX(-1)"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
+          <button class="icon-button" type="button" data-next aria-label="Next project"><svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="m5.5 1.94.53.53 4.82 4.82a1 1 0 0 1 0 1.42l-4.82 4.82-.53.53L4.44 13l.53-.53L9.44 8 4.97 3.53 4.44 3z"/></svg></button>
         </div>
         <div class="progress" aria-hidden="true"><div class="progress__thumb"></div></div>
       </div>
@@ -1732,11 +1737,11 @@
         <span class="section-label">About</span>
         <div class="about__title">
         <h2>I’m Diana, turning<br>ideas into&nbsp;live products</h2>
-        <p>Five years of&nbsp;product design in&nbsp;EdTech and&nbsp;E-commerce, a&nbsp;graphic design background and&nbsp;a&nbsp;habit of&nbsp;taking work all the&nbsp;way to&nbsp;launch</p>
+        <p>Five years of&nbsp;product design in&nbsp;EdTech and&nbsp;<span class="nowrap">E-commerce</span>, a&nbsp;graphic design background and&nbsp;a&nbsp;habit of&nbsp;taking work all the&nbsp;way to&nbsp;launch</p>
         </div>
       </div>
       <a class="btn btn--md" href="https://drive.google.com/file/d/1bqPZfGpOYD9Zdko0EAb5hOmjhrwSNbYD/view?usp=sharing" target="_blank" rel="noopener">
-        <span class="roll"><span>Download CV</span><span>Download CV</span></span>
+        <span class="roll"><span>Download CV</span><span aria-hidden="true">Download CV</span></span>
         <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
           <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
           <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
@@ -1749,14 +1754,14 @@
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8) scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.707 21.293a1 1 0 0 1-1.414 0l-1.586-1.586a1 1 0 0 1 0-1.414l5.586-5.586a1 1 0 0 1 1.414 0l1.586 1.586a1 1 0 0 1 0 1.414z"/><path d="m18 13-1.375-6.874a1 1 0 0 0-.746-.776L3.235 2.028a1 1 0 0 0-1.207 1.207L5.35 15.879a1 1 0 0 0 .776.746L13 18"/><path d="m2.3 2.3 7.286 7.286"/><circle cx="11" cy="11" r="2"/></g></svg></span>
             <div class="card__text">
               <h3>Graphic Eye, Product Mind</h3>
-              <p>I&nbsp;came to&nbsp;product design from&nbsp;graphic design, so the&nbsp;visuals are never an&nbsp;afterthought. Every flow starts with&nbsp;research and&nbsp;user needs, and&nbsp;every screen is&nbsp;crafted down to&nbsp;the&nbsp;type, color and&nbsp;spacing. The&nbsp;result is&nbsp;a&nbsp;product that works well, looks considered and&nbsp;stays consistent as&nbsp;it grows</p>
+              <p>I&nbsp;came to&nbsp;product design from&nbsp;graphic design, so&nbsp;the&nbsp;visuals are never an&nbsp;afterthought. Every flow starts with&nbsp;research and&nbsp;user needs, and&nbsp;every screen is&nbsp;crafted down to&nbsp;the&nbsp;type, color and&nbsp;spacing. The&nbsp;result is&nbsp;a&nbsp;product that works well, looks considered and&nbsp;stays consistent as&nbsp;it grows</p>
             </div>
           </article>
           <article class="card card--lg">
         <span class="card__icon"><svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><g transform="translate(8 8) scale(0.75)" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"/><path d="M20 2v4"/><path d="M22 4h-4"/><circle cx="4" cy="20" r="2"/></g></svg></span>
             <div class="card__text">
               <h3>AI in&nbsp;the&nbsp;Loop</h3>
-              <p>AI is&nbsp;built into&nbsp;my&nbsp;process: it speeds up research, structure, copy drafts and&nbsp;code, while every design decision stays mine. That frees time for&nbsp;what AI can’t do: understanding users, finding the&nbsp;real problem and&nbsp;polishing the&nbsp;details. Careful craft at&nbsp;startup speed, without cutting corners</p>
+              <p>AI is&nbsp;built into&nbsp;my&nbsp;process: it speeds up&nbsp;research, structure, copy drafts and&nbsp;code, while every design decision stays mine. That frees time for&nbsp;what AI can’t do: understanding users, finding the&nbsp;real problem and&nbsp;polishing the&nbsp;details. Careful craft at&nbsp;startup speed, without cutting corners</p>
             </div>
           </article>
       </div>
@@ -1829,7 +1834,7 @@
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q3" aria-expanded="false" aria-controls="faq-a3"><span>What’s it like to&nbsp;work with&nbsp;you?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Close and&nbsp;transparent. We sync on&nbsp;a&nbsp;short daily call over Google Meet so nothing drifts, and&nbsp;everything else runs async in&nbsp;Telegram, Slack or&nbsp;straight inside Figma, where comments and&nbsp;files stay in&nbsp;one place. You always know where the&nbsp;project stands</p></div></div>
+        <div class="accordion__panel" id="faq-a3" role="region" aria-labelledby="faq-q3" inert><div><p>Close and&nbsp;transparent. We sync on&nbsp;a&nbsp;short daily call over Google Meet so&nbsp;nothing drifts, and&nbsp;everything else runs async in&nbsp;Telegram, Slack or&nbsp;straight inside Figma, where comments and&nbsp;files stay in&nbsp;one place. You always know where the&nbsp;project stands</p></div></div>
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q4" aria-expanded="false" aria-controls="faq-a4"><span>Can you join an&nbsp;existing team?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
@@ -1837,7 +1842,7 @@
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q5" aria-expanded="false" aria-controls="faq-a5"><span>How long does a&nbsp;project take?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
-        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on&nbsp;the&nbsp;scope, so I&nbsp;estimate each project up front and&nbsp;set clear milestones before we start. A&nbsp;simple landing page can be ready in&nbsp;a&nbsp;day. For&nbsp;anything larger, you’ll have a&nbsp;realistic timeline before any work begins</p></div></div>
+        <div class="accordion__panel" id="faq-a5" role="region" aria-labelledby="faq-q5" inert><div><p>It depends on&nbsp;the&nbsp;scope, so&nbsp;I&nbsp;estimate each project up front and&nbsp;set clear milestones before we start. A&nbsp;simple landing page can be ready in&nbsp;a&nbsp;day. For&nbsp;anything larger, you’ll have a&nbsp;realistic timeline before any work begins</p></div></div>
       </div>
       <div class="accordion">
         <h3><button class="accordion__trigger" type="button" id="faq-q6" aria-expanded="false" aria-controls="faq-a6"><span>How do you use AI in&nbsp;your work?</span><svg class="accordion__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="2" rx="1"/><rect class="accordion__bar-v" x="11" y="5" width="2" height="14" rx="1"/></svg></button></h3>
@@ -1856,14 +1861,14 @@
       </div>
       <div class="actions">
         <a class="btn btn--md" href="https://t.me/shugdiv" target="_blank" rel="noopener">
-          <span class="roll"><span>Telegram</span><span>Telegram</span></span>
+          <span class="roll"><span>Telegram</span><span aria-hidden="true">Telegram</span></span>
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M7.90326 12.0883C7.81426 12.0888 7.72607 12.0714 7.64386 12.0373C7.56166 12.0031 7.4871 11.953 7.42455 11.8896C7.2977 11.7626 7.22644 11.5904 7.22644 11.4109C7.22644 11.2314 7.2977 11.0592 7.42455 10.9322L12.3652 5.99156L7.42455 1.05091C7.30489 0.922498 7.23975 0.752649 7.24285 0.577151C7.24594 0.401653 7.31704 0.234209 7.44115 0.110094C7.56527 -0.0140214 7.73271 -0.0851159 7.90821 -0.0882123C8.08371 -0.0913088 8.25356 -0.0261655 8.38197 0.0934939L13.8013 5.51285C13.9282 5.63987 13.9994 5.81204 13.9994 5.99156C13.9994 6.17108 13.9282 6.34325 13.8013 6.47027L8.38197 11.8896C8.31943 11.953 8.24487 12.0031 8.16266 12.0373C8.08046 12.0714 7.99227 12.0888 7.90326 12.0883Z" fill="currentColor"/>
             <path d="M13.3226 6.66954H0.677419C0.497757 6.66954 0.325452 6.59816 0.198411 6.47112C0.0713707 6.34408 0 6.17178 0 5.99212C0 5.81245 0.0713707 5.64015 0.198411 5.51311C0.325452 5.38607 0.497757 5.3147 0.677419 5.3147H13.3226C13.5022 5.3147 13.6745 5.38607 13.8016 5.51311C13.9286 5.64015 14 5.81245 14 5.99212C14 6.17178 13.9286 6.34408 13.8016 6.47112C13.6745 6.59816 13.5022 6.66954 13.3226 6.66954Z" fill="currentColor"/>
           </svg>
         </a>
         <a class="btn btn--md btn--glass" href="mailto:mockbirdds@gmail.com">
-          <span class="roll"><span>Email</span><span>Email</span></span>
+          <span class="roll"><span>Email</span><span aria-hidden="true">Email</span></span>
           <svg width="14" height="12" viewBox="0 0 14 12" fill="none" aria-hidden="true">
             <path d="M3 12.7498C2.88537 12.7483 2.77256 12.721 2.67 12.6698C2.54453 12.6083 2.43873 12.513 2.36453 12.3946C2.29032 12.2763 2.25065 12.1395 2.25 11.9998V-0.000216186C2.25065 -0.139931 2.29032 -0.276685 2.36453 -0.395065C2.43873 -0.513445 2.54453 -0.608743 2.67 -0.670216C2.79355 -0.732677 2.93214 -0.759229 3.07002 -0.746854C3.2079 -0.73448 3.33955 -0.683676 3.45 -0.600216L11.45 5.39978C11.5431 5.46964 11.6187 5.56023 11.6708 5.66437C11.7229 5.76852 11.75 5.88335 11.75 5.99978C11.75 6.11622 11.7229 6.23105 11.6708 6.33519C11.6187 6.43934 11.5431 6.52992 11.45 6.59978L3.45 12.5998C3.32052 12.6978 3.1624 12.7505 3 12.7498ZM3.75 1.49978V10.4998L9.75 5.99978L3.75 1.49978Z" fill="currentColor"/>
           </svg>
@@ -1922,7 +1927,19 @@
   // проходим 10% оставшегося пути. Ссылки-якоря (#work, #about) тоже едут плавно.
   // При «уменьшить движение» в системе не включаем.
   if (window.Lenis && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true, anchors: true });
+    // Якоря ведём сами, а не через anchors: true. До 1099 у секций поле сверху 48, а шапка 64, и подпись секции
+    // уезжала под шапку наполовину (QA 01.10.2026). Сдвиг: подпись встаёт на 16 ниже шапки, на десктопе сдвига нет.
+    const lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
+    document.addEventListener("click", (e) => {
+      const a = e.target.closest('a[href*="#"]');
+      if (!a || a.pathname !== location.pathname || a.origin !== location.origin) return;
+      const el = a.hash.length > 1 && document.getElementById(a.hash.slice(1));
+      if (!el) return;
+      e.preventDefault();
+      const head = document.querySelector(".hero > header");
+      const pad = parseFloat(getComputedStyle(el).paddingTop) || 0;
+      lenis.scrollTo(el, { offset: Math.min(0, pad - ((head ? head.offsetHeight : 0) + 16)) });
+    });
     // Lenis считает высоту окна по window.innerHeight. В части Chrome (плашка отладки, масштаб экрана 150%) она больше
     // видимой области на 100-150 px, и прокрутка упиралась раньше низа: надпись в подвале не показывалась (25.09.2026).
     // Берём видимую высоту и ширину у documentElement, её браузер считает верно.
@@ -1960,6 +1977,9 @@
         header.classList.toggle("is-menu-open", open);
         toggle.setAttribute("aria-expanded", String(open));
         toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+        // Страница под открытым меню не прокручивается, как у span: колесо и палец раньше уводили её вниз (QA 01.10.2026)
+        document.documentElement.style.overflow = open ? "hidden" : "";
+        if (window.lenis) open ? window.lenis.stop() : window.lenis.start();
       };
       toggle.addEventListener("click", () => setOpen(!header.classList.contains("is-menu-open")));
       menu.addEventListener("click", (e) => { if (e.target.closest("a")) setOpen(false); });
