@@ -2299,9 +2299,23 @@ html.lenis,html.lenis body{height:auto}.lenis:not(.lenis-autoToggle).lenis-stopp
     // Без destroy в dev-режиме накапливаются WebGL-контексты.
     window.addEventListener("pagehide", () => globe.destroy());
   };
+  // Без видеокарты (программный WebGL: SwiftShader, llvmpipe) шар рисуется процессором
+  // и вешает страницу на минуты. Так тестирует PageSpeed, так же будет на слабых устройствах.
+  // В этом случае шар не запускаем, свечение и дуги вокруг остаются.
+  const softwareGL = () => {
+    try {
+      const gl = document.createElement("canvas").getContext("webgl");
+      if (!gl) return true;
+      const ext = gl.getExtension("WEBGL_debug_renderer_info");
+      const renderer = ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)) : "";
+      gl.getExtension("WEBGL_lose_context")?.loseContext();
+      return /swiftshader|llvmpipe|softpipe|software|basic render/i.test(renderer);
+    } catch (e) { return true; }
+  };
   const idle = window.requestIdleCallback || ((f) => setTimeout(f, 300));
-  if (document.readyState === "complete") idle(start);
-  else window.addEventListener("load", () => idle(start), { once: true });
+  const boot = () => { if (!softwareGL()) start(); };
+  if (document.readyState === "complete") idle(boot);
+  else window.addEventListener("load", () => idle(boot), { once: true });
 </script>
 </body>
 </html>
