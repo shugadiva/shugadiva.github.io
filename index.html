@@ -3,6 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Google Analytics 4 (G-R2LDQHKCWG): просмотры + клики по контактам и кейсам, план событий в «Тетради» → Метрики -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R2LDQHKCWG"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-R2LDQHKCWG');
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href]'); if (!a) return;
+    var h = a.getAttribute('href');
+    if (/^https:\/\/t\.me\//.test(h)) gtag('event', 'contact_click', { method: 'telegram' });
+    else if (/^mailto:/.test(h)) gtag('event', 'contact_click', { method: 'email' });
+    else if (/^(northstar|lookmerce|astralis|blokb)\.html/.test(h)) gtag('event', 'case_open', { case: h.replace('.html', '') });
+  });
+</script>
 <title>Diana Shvedskaia - Portfolio - UI/UX and Product Designer, Design Systems</title>
 <meta name="description" content="UI/UX designer with 5+ years of designing digital products. Problem-driven design, design systems and hand-coded interfaces.">
 <meta property="og:type" content="website">
