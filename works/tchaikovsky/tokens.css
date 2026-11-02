@@ -1,0 +1,76 @@
+/* Музей Чайковского, киоск 1920×1080. Токены сняты с Figma nZu6G3SkaDDSzVW5NJLK0R (стили и переменные), 02.11.2026.
+   Значения только отсюда, в страницах чисел пипеткой не пишем. */
+
+@font-face {
+  font-family: "NauryzRedKeds";
+  src: url("assets/fonts/NauryzRedKeds-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-display: block;
+}
+
+:root {
+  /* Surface */
+  --surface-page: #EBEFEB;
+  --surface-glass-button: rgba(254, 253, 251, .95);
+  --surface-glass-card: rgba(254, 253, 251, .70);
+  --surface-glass-pressed: rgba(239, 233, 223, .95);
+  --surface-dark: #372F2F;
+  --surface-success: #E3EDD9;
+  --surface-error: #F6DEDA;
+  --surface-scrim-accent: linear-gradient(to top, rgba(220, 77, 6, 1) 1%, rgba(220, 77, 6, 0) 100%);
+  --surface-scrim-dark: linear-gradient(to top, rgba(55, 47, 47, .3) 1%, rgba(55, 47, 47, 0) 100%);
+  --surface-scrim-text: linear-gradient(to top, rgba(55, 47, 47, .6) 0%, rgba(55, 47, 47, 0) 100%);
+  --surface-card-fade: linear-gradient(to bottom, rgba(254, 253, 251, .5) 20%, rgba(254, 253, 251, 0) 100%);
+
+  /* Text */
+  --text-primary: #372F2F;
+  --text-accent: #E46F25;
+  --text-on-accent: #FEFDFB;
+  --text-disabled: rgba(55, 47, 47, .4);
+  --text-success: #3F7D32;
+  --text-error: #B8322B;
+
+  /* Border */
+  --border-glass: rgba(254, 253, 251, .70);
+  --border-selected: #E46F25;
+  --border-success: #3F7D32;
+  --border-error: #B8322B;
+
+  /* Accent */
+  --accent-primary: #E46F25;
+  --accent-deep: #DC4D06;
+  --accent-pressed: #C95A17;
+  --accent-disabled: #EDBB98;
+  --accent-success: #3F7D32;
+  --accent-error: #B8322B;
+
+  /* Effects */
+  --shadow-card: 0 4px 60px rgba(55, 47, 47, .08);
+  --shadow-arrow: 0 0 30px rgba(55, 47, 47, .04);
+  --glass-blur: blur(50px); /* Figma Glass 100 */
+
+  /* Spacing (коллекция Spacing) */
+  --space-4: 4px; --space-8: 8px; --space-16: 16px; --space-20: 20px; --space-24: 24px;
+  --space-32: 32px; --space-40: 40px; --space-48: 48px; --space-56: 56px; --space-64: 64px;
+  --space-72: 72px; --space-88: 88px;
+  --size-icon-sm: 32px; --size-icon-md: 36px; --size-icon-lg: 40px;
+  --size-target-min: 64px; --size-button-md: 80px; --size-button-lg: 112px; --size-header: 152px;
+
+  /* Radius */
+  --radius-card-sm: 24px; --radius-card: 32px; --radius-panel: 40px; --radius-full: 999px;
+
+  /* Typography: Jost Medium, трекинг -1% */
+  --font-ui: "Jost", system-ui, sans-serif;
+  --font-display: "NauryzRedKeds", "Jost", sans-serif;
+}
+
+/* Текстовые стили */
+.t-heading-lg { font: 500 48px/56px var(--font-ui); letter-spacing: -.01em; }
+.t-heading-md { font: 500 36px/40px var(--font-ui); letter-spacing: -.01em; }
+.t-text-lg    { font: 500 32px/36px var(--font-ui); letter-spacing: -.01em; }
+.t-text-md    { font: 500 24px/28px var(--font-ui); letter-spacing: -.01em; }
+.t-label-lg   { font: 500 36px/40px var(--font-ui); letter-spacing: -.01em; }
+.t-label-md   { font: 500 24px/28px var(--font-ui); letter-spacing: -.01em; }
+/* Заголовки игр NauryzRedKeds (без стиля в Figma): 80/110%, альбом 152/90% */
+.t-display-md { font: 700 80px/1.1 var(--font-display); letter-spacing: .01em; }
+.t-display-xl { font: 700 152px/.9 var(--font-display); letter-spacing: .01em; }

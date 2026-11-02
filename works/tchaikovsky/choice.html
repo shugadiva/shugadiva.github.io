@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Детский альбом · Выбор игры</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kiosk.css">
+<style>
+  /* Выбор игры, Figma 4013:432 / 4013:1186 / 4027:671 (образец 2270:2577) */
+  .choice__bg {
+    left: -2246px; top: -1756px; width: 5819px; height: 2182px;
+    opacity: .5; filter: blur(200px);
+  }
+  /* Карусель: центр 1338×800 на x291 y200, боковые = уменьшение 0.9 со сдвигом ±1335 */
+  .carousel .chapter-card {
+    left: 291px; top: 200px;
+    transition: transform .45s cubic-bezier(.2, .7, .2, 1), box-shadow .45s ease;
+    cursor: pointer;
+  }
+  .chapter-card.is-left  { transform: translateX(-1335px) scale(.9); box-shadow: none; }
+  .chapter-card.is-right { transform: translateX(1335px) scale(.9); box-shadow: none; }
+  .chapter-card.is-center { z-index: 2; }
+  .chapter-card .chapter-card__head { transition: opacity .3s ease; }
+  .chapter-card:not(.is-center) .chapter-card__head { opacity: 0; }
+  /* Боковая = вариант Position=Side: подложка Surface/page, фото 80% с размытием 20 */
+  .chapter-card { transition: background-color .45s ease; }
+  .chapter-card .chapter-card__photo { transition: filter .45s ease, opacity .45s ease; }
+  .chapter-card:not(.is-center) { background: var(--surface-page); }
+  .chapter-card:not(.is-center) .chapter-card__photo { opacity: .8; filter: blur(22px); transform: scale(1.03); }
+  .arrow-button--prev { left: 74px; top: 560px; }
+  .arrow-button--next { left: 1767px; top: 560px; }
+</style>
+</head>
+<body>
+<main class="stage choice">
+  <img class="layer choice__bg cover" src="assets/common/bg-meadow.webp" alt="">
+
+  <header class="header">
+    <h1 class="header__title t-heading-md">Выбор игры</h1>
+    <div class="header__actions">
+      <div class="header__group">
+        <button class="icon-button" type="button" data-sound aria-pressed="false" aria-label="Звук"><span class="icon icon--volume"></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="carousel" id="carousel">
+    <a class="chapter-card" data-href="orchestra.html">
+      <img class="chapter-card__photo" src="assets/common/card-orchestra.webp" alt="">
+      <div class="chapter-card__head">
+        <h2 class="chapter-card__title t-display-md">Оркестровая яма</h2>
+        <p class="chapter-card__desc t-text-md">Слушай инструменты и&nbsp;отгадывай их. Найдёшь все, и&nbsp;для тебя заиграет целый оркестр!</p>
+      </div>
+      <span class="chapter-card__press"></span>
+    </a>
+    <a class="chapter-card" data-href="melody.html">
+      <img class="chapter-card__photo" src="assets/common/card-melody.webp" alt="">
+      <div class="chapter-card__head">
+        <h2 class="chapter-card__title t-display-md">УгаДай меЛоДию</h2>
+        <p class="chapter-card__desc t-text-md">Слушай и&nbsp;угадывай произведения из&nbsp;«Детского альбома» Петра Ильича Чайковского</p>
+      </div>
+      <span class="chapter-card__press"></span>
+    </a>
+    <a class="chapter-card" data-href="quiz.html">
+      <img class="chapter-card__photo" src="assets/common/card-quiz.webp" alt="">
+      <div class="chapter-card__head">
+        <h2 class="chapter-card__title t-display-md">Викторина</h2>
+        <p class="chapter-card__desc t-text-md">Проверь свои знания и&nbsp;открой новые факты о&nbsp;жизни и&nbsp;творчестве Петра Ильича Чайковского</p>
+      </div>
+      <span class="chapter-card__press"></span>
+    </a>
+  </div>
+
+  <button class="arrow-button arrow-button--prev" type="button" aria-label="Предыдущая игра"><span class="icon icon--arrow-left"></span></button>
+  <button class="arrow-button arrow-button--next" type="button" aria-label="Следующая игра"><span class="icon icon--arrow-left"></span></button>
+</main>
+<script src="kiosk.js"></script>
+<script>
+  // Карусель из трёх игр по кругу. Центр открывает игру, боковая карточка и стрелки листают.
+  (function () {
+    var cards = Array.prototype.slice.call(document.querySelectorAll('#carousel .chapter-card'));
+    var start = { orchestra: 0, melody: 1, quiz: 2 }[new URLSearchParams(location.search).get('game')];
+    var center = start === undefined ? 1 : start;
+    function render() {
+      cards.forEach(function (c, i) {
+        var d = (i - center + cards.length) % cards.length;
+        c.classList.toggle('is-center', d === 0);
+        c.classList.toggle('is-right', d === 1);
+        c.classList.toggle('is-left', d === 2);
+        if (d === 0) c.setAttribute('href', c.dataset.href); else c.removeAttribute('href');
+      });
+    }
+    function go(step) { center = (center + step + cards.length) % cards.length; render(); }
+    cards.forEach(function (c) {
+      c.addEventListener('click', function (e) {
+        if (c.classList.contains('is-left')) { e.preventDefault(); go(-1); }
+        else if (c.classList.contains('is-right')) { e.preventDefault(); go(1); }
+      });
+    });
+    document.querySelector('.arrow-button--prev').addEventListener('click', function () { go(-1); });
+    document.querySelector('.arrow-button--next').addEventListener('click', function () { go(1); });
+    // Свайп пальцем
+    var x0 = null;
+    document.getElementById('carousel').addEventListener('pointerdown', function (e) { x0 = e.clientX; });
+    window.addEventListener('pointerup', function (e) {
+      if (x0 === null) return; var dx = e.clientX - x0; x0 = null;
+      if (Math.abs(dx) > 60) go(dx < 0 ? 1 : -1);
+    });
+    render();
+  })();
+</script>
+</body>
+</html>

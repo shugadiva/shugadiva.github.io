@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Детский альбом · Стартовый экран</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kiosk.css">
+<style>
+  /* Стартовый экран, Figma 4013:431 (образец 2270:2488) */
+  .start__bg      { left: -37px; top: -42px; width: 1994px; height: 1122px; opacity: .8; }
+  .start__animals { left: -37px; top: -42px; width: 1994px; height: 1122px; }
+  .start__poppies {
+    left: -167px; top: 673px; width: 2254px; height: 677px;
+    background: url("assets/common/start-poppies.webp") -334px -114px / 2923px 877px no-repeat;
+    filter: blur(60px);
+  }
+  .start__intro {
+    position: absolute; left: var(--space-64); top: var(--space-64); width: 1792px;
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-48);
+    text-align: center;
+  }
+  .start__invite { color: var(--text-primary); }
+  .start__title  { color: var(--text-accent); }
+  .start__cta {
+    position: absolute; left: 0; top: 720px; width: 1920px; height: 360px;
+    display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+    padding: var(--space-72) 0;
+    background: var(--surface-scrim-accent);
+  }
+</style>
+</head>
+<body>
+<main class="stage start">
+  <img class="layer start__bg cover" src="assets/common/start-bg.webp" alt="">
+  <div class="start__intro">
+    <p class="start__invite t-heading-md">Зверята приглашают вас в&nbsp;музыкальное путешествие по&nbsp;страницам альбома. Слушайте внимательно и&nbsp;находите верные ответы!</p>
+    <h1 class="start__title t-display-xl">дЕтский АЛЬбом</h1>
+  </div>
+  <img class="layer start__animals cover" src="assets/common/start-animals.webp" alt="Зайчик играет на флейте, медвежонок на скрипке, котёнок листает ноты">
+  <div class="layer start__poppies" aria-hidden="true"></div>
+  <div class="start__cta">
+    <a class="button" href="choice.html">
+      <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
+      <span class="t-label-lg">Начать игру</span>
+    </a>
+  </div>
+</main>
+<script src="kiosk.js"></script>
+</body>
+</html>
