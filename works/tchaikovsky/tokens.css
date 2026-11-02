@@ -41,8 +41,8 @@
   --accent-deep: #DC4D06;
   --accent-pressed: #C95A17;
   --accent-disabled: #EDBB98;
-  --accent-success: #3F7D32;
-  --accent-error: #B8322B;
+  --accent-success: #57A646;
+  --accent-error: #BE2D25;
 
   /* Effects */
   --shadow-card: 0 4px 60px rgba(55, 47, 47, .08);
@@ -73,4 +73,5 @@
 .t-label-md   { font: 500 24px/28px var(--font-ui); letter-spacing: -.01em; }
 /* Заголовки игр NauryzRedKeds (без стиля в Figma): 80/110%, альбом 152/90% */
 .t-display-md { font: 700 80px/1.1 var(--font-display); letter-spacing: .01em; }
+.t-display-lg { font: 700 120px/1.1 var(--font-display); letter-spacing: .01em; }
 .t-display-xl { font: 700 152px/.9 var(--font-display); letter-spacing: .01em; }

@@ -106,4 +106,75 @@ img { display: block; }
 .chapter-card__press { position: absolute; inset: 0; background: rgba(55, 47, 47, 0); transition: background-color .15s ease; }
 .chapter-card:active .chapter-card__press { background: rgba(55, 47, 47, .12); }
 
+
+/* ---------- Общее для игр (B, C, D) ---------- */
+
+/* Экраны внутри одной страницы: показывается тот, чьё имя в data-screen у .stage */
+.screen { position: absolute; inset: 0; display: none; }
+
+/* Back Button (4009:243): круг 64 + Reply 32, подпись Label/md, gap space/16 */
+.back-button { display: inline-flex; align-items: center; gap: var(--space-16); height: var(--size-target-min); color: var(--text-primary); }
+.back-button .icon-button .icon { width: var(--size-icon-sm); height: var(--size-icon-sm); }
+.back-button:active .icon-button { background: var(--accent-pressed); }
+
+/* Button md (4009:295): высота 80, круг 64, иконка 36, gap space/24, Label/md */
+.button--md { height: var(--size-button-md); gap: var(--space-24); padding: var(--space-8) var(--space-40) var(--space-8) var(--space-8); }
+.button--md .button__circle { width: var(--size-target-min); height: var(--size-target-min); }
+.button--plain { padding: var(--space-8) var(--space-40); }
+/* Hierarchy=Accent, Icon=Trailing: Accent/primary, круг Surface/page справа, стрелка Text/accent */
+.button--accent { background: var(--accent-primary); color: var(--text-on-accent); padding: var(--space-16) var(--space-16) var(--space-16) var(--space-40); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.button--accent.button--md { padding: var(--space-8) var(--space-8) var(--space-8) var(--space-40); }
+.button--accent .button__circle { background: var(--surface-page); color: var(--text-accent); }
+.button--accent:active { background: var(--accent-pressed); }
+.button--accent:active .button__circle { background: var(--surface-page); }
+
+/* Нижний стек заставок и финалов: 0,620 1920×460, паддинг 64, gap 48, прижат к низу */
+.stack {
+  position: absolute; left: 0; top: 620px; width: 1920px; height: 460px;
+  display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+  gap: var(--space-48); padding: var(--space-64); text-align: center;
+}
+.stack--dark   { background: linear-gradient(to top, rgba(55, 47, 47, .35) .7%, rgba(55, 47, 47, 0) 78.5%); }
+.stack--accent { background: var(--surface-scrim-accent); }
+.stack__text { width: 1792px; display: flex; flex-direction: column; gap: var(--space-24); color: var(--text-on-accent); }
+.stack__desc { width: 1187px; color: var(--text-on-accent); }
+/* Заголовок заставки игры: NauryzRedKeds 120, Accent/primary, 367,56 w1187 */
+.intro-title { position: absolute; left: 367px; top: 56px; width: 1187px; text-align: center; color: var(--accent-primary); }
+
+/* Counter (4009:317): капсула 64, Accent/primary, Label/lg, паддинг space/24 */
+.counter { position: absolute; left: 896px; top: 56px; width: 128px; height: var(--size-target-min); border-radius: var(--radius-full);
+  display: grid; place-items: center; background: var(--accent-primary); color: var(--text-on-accent); z-index: 11; }
+
+/* Answer Card (4011:142): стекло, radius/card-sm, паддинг 24/32, gap 24, цифра в круге 64 Surface/dark */
+.answer-card {
+  position: relative; display: flex; align-items: center; gap: var(--space-24);
+  min-height: 160px; padding: var(--space-24) var(--space-32); border-radius: var(--radius-card-sm);
+  background: var(--surface-glass-card); backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  color: var(--text-primary); text-align: left;
+  transition: background-color .2s ease, opacity .2s ease, transform .15s ease;
+}
+.answer-card:active { transform: scale(.98); }
+.answer-card__number { flex: none; width: var(--size-target-min); height: var(--size-target-min); border-radius: var(--radius-full);
+  display: grid; place-items: center; background: var(--surface-dark); color: var(--surface-page); }
+.answer-card__label { flex: 1; }
+.answer-card__result { flex: none; display: none; width: 44px; height: 44px; }
+.answer-card.is-correct, .answer-card.is-wrong { color: var(--text-on-accent); box-shadow: var(--shadow-arrow); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.answer-card.is-correct { background: var(--accent-success); }
+.answer-card.is-wrong   { background: var(--accent-error); }
+.answer-card.is-correct .answer-card__number, .answer-card.is-wrong .answer-card__number { background: var(--surface-page); color: var(--text-primary); }
+.answer-card.is-correct .answer-card__result--ok, .answer-card.is-wrong .answer-card__result--bad { display: grid; }
+.answer-card.is-disabled { opacity: .6; pointer-events: none; }
+.is-locked .answer-card { pointer-events: none; }
+/* Size=lg 576×334: цифра в углу, ответ по центру */
+.answer-card--lg { width: 576px; height: 334px; justify-content: center; text-align: center; padding: var(--space-24) calc(var(--space-32) + var(--size-target-min) + var(--space-24)); }
+.answer-card--lg .answer-card__number { position: absolute; left: var(--space-24); top: var(--space-24); }
+.answer-card--lg .answer-card__result { position: absolute; right: var(--space-32); top: 50%; margin-top: -22px; }
+
+/* Progress (4011:161): сегменты 12, gap space/8 */
+.progress { position: absolute; left: var(--space-64); top: 1004px; width: 1792px; display: flex; gap: var(--space-8); }
+.progress__step { flex: 1; height: 12px; border-radius: var(--radius-full); background: var(--accent-disabled); transition: background-color .2s ease; }
+.progress__step.is-current { background: var(--accent-primary); }
+.progress__step.is-correct { background: var(--accent-success); }
+.progress__step.is-wrong   { background: var(--accent-error); }
+
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }

@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Детский альбом · Викторина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kiosk.css">
+<style>
+  /* Викторина, Figma 4013:444 (темы), 4013:445–447 (вопрос, успех, ошибка), 4013:448 (финал).
+     Экран выбирает data-screen у .stage: topics · question · final */
+  .quiz[data-screen="topics"] .screen--topics,
+  .quiz[data-screen="question"] .screen--question,
+  .quiz[data-screen="final"] .screen--final { display: block; }
+
+  /* 4013:444 Темы: stack 50,288 (заголовок 120, описание, ряд тем через 100) */
+  .topics__bg { left: -120px; top: -68px; width: 2160px; height: 1216px; }
+  .topics__head { position: absolute; left: 50px; top: 288px; width: 1792px; display: flex; flex-direction: column; align-items: center; gap: var(--space-24); text-align: center; }
+  .topics__title { color: var(--text-accent); width: 1242px; }
+  .topics__desc { width: 1000px; }
+  .topics__row { position: absolute; left: 50px; top: 616px; display: flex; gap: var(--space-32); }
+  /* Topic Card (4011:177): 576×400, стекло, radius/card, паддинг 16/16/32, gap 24 */
+  .topic-card {
+    width: 576px; height: 400px; border-radius: var(--radius-card);
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-24);
+    padding: var(--space-16) var(--space-16) var(--space-32);
+    background: var(--surface-glass-card);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+    transition: background-color .15s ease, transform .15s ease;
+  }
+  .topic-card:active { background: var(--surface-glass-pressed); transform: scale(.98); }
+  .topic-card__photo { width: 544px; height: 280px; border-radius: var(--radius-card-sm); object-fit: cover; }
+  .topic-card__title { width: 544px; text-align: center; }
+
+  /* 4013:445–447 Вопрос: stack 372,160 w1176, gap 40; ответы 2×2 по 576, gap 24 */
+  .question__bg { left: -293px; top: -274px; width: 2505px; height: 1430px; opacity: .9; }
+  .question__text { position: absolute; left: 372px; top: 160px; width: 1176px; text-align: center; }
+  .answers { position: absolute; left: 372px; top: 256px; width: 1176px; display: grid; grid-template-columns: 576px 576px; gap: var(--space-24); }
+  /* Arrow Button md Next (4013:446, 447): 1767,562, появляется после ответа */
+  .quiz .next-question { position: absolute; left: 1767px; top: 562px; display: none; }
+  .quiz .next-question.is-shown { display: grid; }
+
+  /* 4013:448 Финал */
+  .final__bg { left: 0; top: 0; width: 1920px; height: 1080px; }
+</style>
+</head>
+<body>
+<main class="stage quiz" id="quiz" data-screen="topics">
+
+  <!-- 4013:444 Викторина: выбор темы -->
+  <section class="screen screen--topics" aria-label="Выбор темы">
+    <img class="layer topics__bg cover" src="assets/quiz/intro.webp" alt="Зверята выглядывают из-за деревьев">
+    <div class="topics__head">
+      <h1 class="topics__title t-display-lg">ВиКтоРиНа</h1>
+      <p class="topics__desc t-text-lg">Проверьте свои знания и&nbsp;откройте новые факты о&nbsp;жизни и&nbsp;творчестве Петра Ильича Чайковского</p>
+    </div>
+    <div class="topics__row">
+      <button class="topic-card" type="button" data-go="question">
+        <img class="topic-card__photo" src="assets/quiz/topic-1.webp" alt="">
+        <span class="topic-card__title t-heading-md">Детский альбом</span>
+      </button>
+      <button class="topic-card" type="button" data-go="question">
+        <img class="topic-card__photo" src="assets/quiz/topic-2.webp" alt="">
+        <span class="topic-card__title t-heading-md">Судьба композитора</span>
+      </button>
+      <button class="topic-card" type="button" data-go="question">
+        <img class="topic-card__photo" src="assets/quiz/topic-3.webp" alt="">
+        <span class="topic-card__title t-heading-md">Музыкальное наследие</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 4013:445 Вопрос, 446 Успех, 447 Ошибка: один экран, состояние после касания -->
+  <section class="screen screen--question" aria-label="Вопрос">
+    <img class="layer question__bg cover" src="assets/quiz/meadow-blur.webp" alt="">
+    <h2 class="question__text t-heading-lg">Кто написал музыку для&nbsp;балета «Щелкунчик»?</h2>
+    <div class="answers" id="answers">
+      <button class="answer-card answer-card--lg" type="button"><span class="answer-card__number t-label-lg">1</span><span class="answer-card__label t-text-lg">Иоганн Себастьян Бах</span><span class="answer-card__result answer-card__result--ok icon icon--check-circle"></span><span class="answer-card__result answer-card__result--bad icon icon--close-circle"></span></button>
+      <button class="answer-card answer-card--lg" type="button" data-correct><span class="answer-card__number t-label-lg">2</span><span class="answer-card__label t-text-lg">Пётр Ильич Чайковский</span><span class="answer-card__result answer-card__result--ok icon icon--check-circle"></span><span class="answer-card__result answer-card__result--bad icon icon--close-circle"></span></button>
+      <button class="answer-card answer-card--lg" type="button"><span class="answer-card__number t-label-lg">3</span><span class="answer-card__label t-text-lg">Вольфганг Амадей Моцарт</span><span class="answer-card__result answer-card__result--ok icon icon--check-circle"></span><span class="answer-card__result answer-card__result--bad icon icon--close-circle"></span></button>
+      <button class="answer-card answer-card--lg" type="button"><span class="answer-card__number t-label-lg">4</span><span class="answer-card__label t-text-lg">Николай Андреевич Римский&#8209;Корсаков</span><span class="answer-card__result answer-card__result--ok icon icon--check-circle"></span><span class="answer-card__result answer-card__result--bad icon icon--close-circle"></span></button>
+    </div>
+    <div class="progress" id="progress"></div>
+    <button class="arrow-button arrow-button--next next-question" type="button" data-go="final" aria-label="Следующий вопрос"><span class="icon icon--arrow-left"></span></button>
+  </section>
+
+  <!-- 4013:448 Финал -->
+  <section class="screen screen--final" aria-label="Финал">
+    <img class="layer final__bg cover" src="assets/quiz/final.webp" alt="Лиса вручает медали">
+    <div class="stack stack--accent">
+      <a class="button button--md button--plain" href="choice.html?game=quiz"><span class="t-label-md">Вернуться в меню</span></a>
+      <div class="stack__text">
+        <p class="t-text-lg">Ты&nbsp;угадал 5&nbsp;из&nbsp;6! Лиса вручает тебе медаль знатока</p>
+        <h2 class="t-display-md">Викторина завершена!</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Шапка общая: Назад, В меню, Звук (заголовка в макете нет) -->
+  <header class="header">
+    <div class="header__actions">
+      <button class="back-button" type="button" data-back>
+        <span class="icon-button"><span class="icon icon--reply"></span></span>
+        <span class="t-label-md">Назад</span>
+      </button>
+      <div class="header__group">
+        <a class="icon-button" href="choice.html?game=quiz" aria-label="В меню"><span class="icon icon--menu"></span></a>
+        <button class="icon-button" type="button" data-sound aria-pressed="false" aria-label="Звук"><span class="icon icon--volume"></span></button>
+      </div>
+    </div>
+  </header>
+</main>
+<script src="kiosk.js"></script>
+<script>
+  // Темы → вопрос → ответ (верный зелёный; неверный красный, верный подсвечивается, остальные гаснут) → Дальше → финал.
+  (function () {
+    var stage = document.getElementById('quiz');
+    var answers = document.getElementById('answers');
+    var cards = Array.prototype.slice.call(answers.querySelectorAll('.answer-card'));
+    var next = stage.querySelector('.next-question');
+    var progress = document.getElementById('progress');
+    for (var i = 0; i < 17; i++) { var s = document.createElement('span'); s.className = 'progress__step'; progress.appendChild(s); }
+    var step1 = progress.firstChild;
+
+    function resetQuestion() {
+      answers.classList.remove('is-locked');
+      cards.forEach(function (c) { c.classList.remove('is-correct', 'is-wrong', 'is-disabled'); });
+      step1.className = 'progress__step is-current';
+      next.classList.remove('is-shown');
+    }
+    function show(name) { if (name === 'question') resetQuestion(); stage.dataset.screen = name; }
+    function answer(c) {
+      var ok = c.hasAttribute('data-correct');
+      answers.classList.add('is-locked');
+      cards.forEach(function (o) {
+        if (o.hasAttribute('data-correct')) o.classList.add('is-correct');
+        else if (o === c) o.classList.add('is-wrong');
+        else o.classList.add('is-disabled');
+      });
+      step1.className = 'progress__step ' + (ok ? 'is-correct' : 'is-wrong');
+      next.classList.add('is-shown');
+    }
+    stage.querySelectorAll('[data-go]').forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.go); }); });
+    cards.forEach(function (c) { c.addEventListener('click', function () { answer(c); }); });
+    stage.querySelector('[data-back]').addEventListener('click', function () {
+      var cur = stage.dataset.screen;
+      if (cur === 'topics') location.href = 'choice.html?game=quiz';
+      else show(cur === 'final' ? 'question' : 'topics');
+    });
+    // Для сверки с макетом: quiz.html#question, #success, #error, #final
+    var hash = location.hash.slice(1);
+    if (hash === 'question') show('question');
+    else if (hash === 'success') { show('question'); answer(cards[1]); }
+    else if (hash === 'error') { show('question'); answer(cards[2]); }
+    else if (hash === 'final') show('final');
+  })();
+</script>
+</body>
+</html>
