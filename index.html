@@ -42,6 +42,8 @@
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://shugadiva.github.io/assets/og-image.png?v=20261001">
+<link rel="alternate" hreflang="en" href="https://shugadiva.github.io/">
+<link rel="alternate" hreflang="ru" href="https://shugadiva.github.io/ru">
 <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">   <!-- знак из Portfolio DS, фрейм Favicon (571:2289) -->
 <link rel="icon" href="assets/favicon-32.png?v=2" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
@@ -183,7 +185,30 @@ html.lenis,html.lenis body{height:auto}.lenis:not(.lenis-autoToggle).lenis-stopp
     letter-spacing: -0.04em;
     font-weight: 700;
   }
-  header > .btn { justify-self: end; }
+  /* Русский текст шире латиницы: те же заголовки в контейнерах пошире, иначе рвутся на лишнюю строку (макет Landing RU) */
+  html[lang="ru"] .headlines { width: 800px; }
+  html[lang="ru"] .about__intro { width: 540px; }
+  html[lang="ru"] .faq__intro { width: 740px; }
+  .header__actions { justify-self: end; display: flex; align-items: center; gap: var(--space-16); }
+  /* Language switch: текущий язык Text/primary, второй Text/secondary. hover · color, underline · 150/250 мс · standard */
+  .lang-switch { display: flex; align-items: center; }
+  .lang-switch a {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 32px;
+    padding: 0 var(--space-8);
+    font-size: var(--label-md);
+    line-height: 16px;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 150ms cubic-bezier(0.2, 0, 0, 1);
+  }
+  .lang-switch a[aria-current="true"] { color: var(--text-primary); }
+  .lang-switch a:not([aria-current="true"]):hover,
+  .lang-switch a:focus-visible { color: var(--text-primary); }
   header.is-scrolled {
     background: rgb(0 3 9 / 0.7);
     -webkit-backdrop-filter: blur(16px);
@@ -338,13 +363,13 @@ html.lenis,html.lenis body{height:auto}.lenis:not(.lenis-autoToggle).lenis-stopp
   }
 
   @media (max-width: 1099px) {
-    header { grid-template-columns: 1fr auto; }
-    header > nav, header > .btn { display: none; }
+    header { grid-template-columns: 1fr auto auto; gap: var(--space-8); }
+    header > nav, .header__actions > .btn { display: none; }
     header .menu-toggle { display: grid; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    nav a::after, .btn, .btn .roll span, header, header::after, .mobile-menu, .menu-scrim { transition: none; }
+    nav a::after, .btn, .btn .roll span, header, header::after, .mobile-menu, .menu-scrim, .lang-switch a { transition: none; }
   }
 
   /* ---------- кнопка из компонента: 122x38, 9/10, r12, 14 SemiBold ---------- */
@@ -1510,13 +1535,19 @@ html.lenis,html.lenis body{height:auto}.lenis:not(.lenis-autoToggle).lenis-stopp
       <a href="#contact">Contact</a>
     </nav>
 
-    <a class="btn" href="#contact">
-      <span class="roll"><span>Let’s Connect</span><span aria-hidden="true">Let’s Connect</span></span>
-      <svg width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true">
-        <path d="M6.77423 10.4371C6.69794 10.4375 6.62234 10.4226 6.55188 10.3934C6.48142 10.3641 6.41751 10.3211 6.3639 10.2668C6.25517 10.1579 6.19409 10.0104 6.19409 9.85648C6.19409 9.70261 6.25517 9.55503 6.3639 9.44616L10.5987 5.21132L6.3639 0.976484C6.26134 0.866413 6.2055 0.720829 6.20815 0.570402C6.21081 0.419975 6.27175 0.276451 6.37813 0.170067C6.48452 0.0636827 6.62804 0.00274457 6.77847 9.04625e-05C6.92889 -0.00256364 7.07448 0.0532735 7.18455 0.155839L11.8297 4.801C11.9384 4.90987 11.9995 5.05745 11.9995 5.21132C11.9995 5.36519 11.9384 5.51277 11.8297 5.62164L7.18455 10.2668C7.13094 10.3211 7.06703 10.3641 6.99657 10.3934C6.92611 10.4226 6.85052 10.4375 6.77423 10.4371Z" fill="currentColor"/>
-        <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
-      </svg>
-    </a>
+    <div class="header__actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <a href="index.html" hreflang="en" lang="en" aria-current="true">EN</a>
+        <a href="ru.html" hreflang="ru" lang="ru">RU</a>
+      </div>
+      <a class="btn" href="#contact">
+        <span class="roll"><span>Let’s Connect</span><span aria-hidden="true">Let’s Connect</span></span>
+        <svg width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true">
+          <path d="M6.77423 10.4371C6.69794 10.4375 6.62234 10.4226 6.55188 10.3934C6.48142 10.3641 6.41751 10.3211 6.3639 10.2668C6.25517 10.1579 6.19409 10.0104 6.19409 9.85648C6.19409 9.70261 6.25517 9.55503 6.3639 9.44616L10.5987 5.21132L6.3639 0.976484C6.26134 0.866413 6.2055 0.720829 6.20815 0.570402C6.21081 0.419975 6.27175 0.276451 6.37813 0.170067C6.48452 0.0636827 6.62804 0.00274457 6.77847 9.04625e-05C6.92889 -0.00256364 7.07448 0.0532735 7.18455 0.155839L11.8297 4.801C11.9384 4.90987 11.9995 5.05745 11.9995 5.21132C11.9995 5.36519 11.9384 5.51277 11.8297 5.62164L7.18455 10.2668C7.13094 10.3211 7.06703 10.3641 6.99657 10.3934C6.92611 10.4226 6.85052 10.4375 6.77423 10.4371Z" fill="currentColor"/>
+          <path d="M11.4194 5.79264H0.580645C0.426648 5.79264 0.278959 5.73146 0.170067 5.62257C0.0611749 5.51368 0 5.36599 0 5.21199C0 5.058 0.0611749 4.91031 0.170067 4.80141C0.278959 4.69252 0.426648 4.63135 0.580645 4.63135H11.4194C11.5734 4.63135 11.721 4.69252 11.8299 4.80141C11.9388 4.91031 12 5.058 12 5.21199C12 5.36599 11.9388 5.51368 11.8299 5.62257C11.721 5.73146 11.5734 5.79264 11.4194 5.79264Z" fill="currentColor"/>
+        </svg>
+      </a>
+    </div>
 
     <button class="icon-button menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
       <svg class="icon-menu" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2.5 5.5h11M2.5 10.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
