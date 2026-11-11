@@ -41,6 +41,10 @@
     a.textContent = 'Открыть ещё раз';
     hint.append('Вкладку можно закрыть. ', a);
     location.href = target;
+    // Закрываем вкладку сами, когда ссылка уже ушла в приложение. Firefox
+    // разрешает это только при dom.allow_scripts_to_close_windows = true;
+    // без настройки вызов молча не срабатывает и остаётся подсказка выше.
+    setTimeout(function () { window.close(); }, 1500);
   } else {
     status.textContent = 'Ссылка неполная';
     hint.textContent = 'Нужен адрес вида f.html?file=ключ&node-id=1-2';
