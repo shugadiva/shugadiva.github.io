@@ -51,9 +51,18 @@
     backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
   .qa__question { width: 576px; color: var(--text-primary); }
   .qa__answers { width: 576px; display: flex; flex-direction: column; gap: var(--space-16); }
-  .game__action { display: none; }
+  /* Кнопка действия под ответами. Панель растёт плавно: ряд кнопки раскрывается 0fr → 1fr, отступ −32 → 0
+     · 400 мс · standard; сама кнопка проявляется и съезжает сверху: opacity 0 → 1, translateY −16 → 0 · 250 мс, задержка 150 мс */
+  .qa__actions { width: 100%; display: grid; grid-template-rows: 0fr; margin-top: calc(-1 * var(--space-32));
+    transition: grid-template-rows var(--duration-slow) var(--easing-standard), margin-top var(--duration-slow) var(--easing-standard); }
+  .qa__actions-inner { min-height: 0; overflow: hidden; display: grid; justify-items: center; }
+  /* .qa .game__action сильнее правила нажатия .button из motion.css, поэтому scale нажатия перечислен здесь же */
+  .qa .game__action { grid-area: 1 / 1; visibility: hidden; opacity: 0; translate: 0 -16px;
+    transition: opacity var(--duration-base) var(--easing-standard), translate var(--duration-base) var(--easing-standard), visibility 0s linear var(--duration-base), background-color .15s ease, scale var(--duration-press) var(--easing-out); }
+  .melody:is([data-screen="error"], [data-screen="success"]) .qa__actions { grid-template-rows: 1fr; margin-top: 0; }
   .melody[data-screen="error"]   [data-act="repeat"],
-  .melody[data-screen="success"] [data-act="next"] { display: inline-flex; }
+  .melody[data-screen="success"] [data-act="next"] { visibility: visible; opacity: 1; translate: 0 0;
+    transition: opacity var(--duration-base) var(--easing-standard) 150ms, translate var(--duration-base) var(--easing-standard) 150ms, visibility 0s, background-color .15s ease, scale var(--duration-press) var(--easing-out); }
 
   /* Финал: фото, ромашки переднего плана (blur 20 + texture), stack / итог Surface/scrim-green, цветы по краям blur 16 */
   .final__bg { left: 0; top: 0; width: 1920px; height: 1080px; }
@@ -98,6 +107,7 @@
         <button class="answer-card" type="button"><span class="answer-card__number t-label-md">3</span><span class="answer-card__label t-text-lg">Сладкая грёза</span></button>
         <button class="answer-card" type="button"><span class="answer-card__number t-label-md">4</span><span class="answer-card__label t-text-lg">Мама</span></button>
       </div>
+      <div class="qa__actions"><div class="qa__actions-inner">
       <button class="button button--md game__action" type="button" data-act="repeat">
         <span class="button__circle"><span class="icon icon--restart"></span></span>
         <span class="t-label-md">Повторить мелодию</span>
@@ -106,6 +116,7 @@
         <span class="t-label-md">Следующая мелодия</span>
         <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
       </button>
+      </div></div>
     </div>
   </section>
 
