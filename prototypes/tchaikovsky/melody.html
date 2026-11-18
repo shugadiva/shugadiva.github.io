@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Детский альбом · Угадай мелодию</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kiosk.css">
+<style>
+  /* Угадай мелодию, Figma секция 4013:430. Экран выбирает data-screen у .stage:
+     intro 4013:439 · listen 4134:3094 (раунды 2–6: 4123:2501…2713) · error 4013:441 · success 4013:442 · final 4013:443 */
+  .melody[data-screen="intro"] .screen--intro,
+  .melody[data-screen="final"] .screen--final,
+  .melody:is([data-screen="listen"], [data-screen="error"], [data-screen="success"]) .screen--game { display: block; }
+
+  /* Шапка: на заставке только Меню и Звук, на финале без счётчика */
+  .melody[data-screen="intro"] .header__title,
+  .melody[data-screen="intro"] .back-button,
+  .melody:is([data-screen="intro"], [data-screen="final"]) .counter { visibility: hidden; }
+
+  /* Заставка: Chapter Title lg 340,56 w1242 */
+  .melody .intro-title { left: 340px; width: 1242px; }
+
+  /* Игра: фон один на все состояния (ошибка и успех реагируют только карточками) */
+  .game__bg { left: 0; top: 0; width: 1920px; height: 1080px; }
+  /* photo / персонаж раунда: у каждого раунда свой, место из кадров 4134:3094, 4123:* */
+  .game__char { object-fit: contain; }
+  .game__char[data-round="1"] { left: 812px; top: 634px; width: 428px; height: 310px; border-radius: var(--radius-card-sm); }
+  .game__char[data-round="2"] { left: 864px; top: 623px; width: 336px; height: 321px; }
+  .game__char[data-round="3"] { left: 864px; top: 596px; width: 336px; height: 348px; }
+  .game__char[data-round="4"] { left: 914px; top: 587px; width: 237px; height: 400px; }
+  .game__char[data-round="5"] { left: 834px; top: 702px; width: 336px; height: 288px; }
+  .game__char[data-round="6"] { left: 864px; top: 631px; width: 336px; height: 313px; }
+  /* bg / верх 1920×360 Surface/card-fade под шапкой */
+  .game__veil { left: 0; top: 0; width: 1920px; height: 360px; background: var(--surface-card-fade); }
+
+  /* Video Block Size=md Surface=None 64,216 1120×630: Play 144 по центру (стиль кнопки в kiosk.css) */
+  .video-block { position: absolute; left: 64px; top: 216px; width: 1120px; height: 630px; border-radius: var(--radius-panel);
+    display: grid; place-items: center; }
+  .play.is-playing { animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 16px rgba(254, 253, 251, .35); } }
+
+  /* panel / вопрос и ответы 1216,152 w640: Surface/glass-card, Border/glass 1 внутри, Glass, r40, паддинг 32, gap 32 */
+  .qa { position: absolute; left: 1216px; top: 152px; width: 640px; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; gap: var(--space-32); padding: var(--space-32);
+    border-radius: var(--radius-panel); background: var(--surface-glass-card); box-shadow: inset 0 0 0 1px var(--border-glass);
+    backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
+  .qa__question { width: 576px; color: var(--text-primary); }
+  .qa__answers { width: 576px; display: flex; flex-direction: column; gap: var(--space-16); }
+  .game__action { display: none; }
+  .melody[data-screen="error"]   [data-act="repeat"],
+  .melody[data-screen="success"] [data-act="next"] { display: inline-flex; }
+
+  /* Финал: фото, ромашки переднего плана (blur 20 + texture), stack / итог Surface/scrim-green, цветы по краям blur 16 */
+  .final__bg { left: 0; top: 0; width: 1920px; height: 1080px; }
+  .final__fg { left: 0; top: 660px; width: 1920px; height: 519px; filter: blur(10px); }
+  .melody .screen--final .stack { background: var(--surface-scrim-green); }
+  .final__flowers { top: 160px; width: 480px; height: 300px; }
+  .final__flowers--left { left: 0; }
+  .final__flowers--right { left: 1440px; }
+  .screen--final .stack > :not(.layer) { position: relative; }
+</style>
+<link rel="stylesheet" href="motion.css">
+</head>
+<body>
+<main class="stage melody" id="melody" data-screen="intro">
+
+  <!-- Заставка 4013:439 -->
+  <section class="screen screen--intro" aria-label="Заставка">
+    <img class="layer final__bg cover" src="assets/melody/intro-bg.webp" alt="Медведь сидит у граммофона в лесу">
+    <h1 class="intro-title t-display-lg">УгаДай меЛоДию</h1>
+    <div class="stack stack--dark">
+      <button class="button" type="button" data-go="listen">
+        <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
+        <span class="t-label-lg">Начать</span>
+      </button>
+      <p class="stack__desc t-heading-md">Слушай и&nbsp;угадывай произведения из&nbsp;«Детского альбома» Петра&nbsp;Ильича&nbsp;Чайковского</p>
+    </div>
+  </section>
+
+  <!-- Игра: 4134:3094 прослушивание (раунды 2–6 4123:2501…2713) · 4013:441 ошибка · 4013:442 успех -->
+  <section class="screen screen--game" aria-label="Угадай произведение">
+    <img class="layer game__bg cover" src="assets/melody/game-bg.webp" alt="Зайчонок слушает граммофон">
+    <img class="layer game__char" id="char" data-round="1" src="assets/melody/char-1-kitten.webp" alt="Котёнок спит на пеньке">
+    <div class="layer game__veil"></div>
+    <div class="video-block">
+      <button class="play" type="button" aria-label="Слушать мелодию"><span class="icon icon--play-bold"></span></button>
+    </div>
+    <div class="qa">
+      <h2 class="qa__question t-heading-md">Как&nbsp;называется это&nbsp;произведение?</h2>
+      <div class="qa__answers" id="answers">
+        <button class="answer-card" type="button"><span class="answer-card__number t-label-md">1</span><span class="answer-card__label t-text-lg">Утренняя молитва</span></button>
+        <button class="answer-card" type="button"><span class="answer-card__number t-label-md">2</span><span class="answer-card__label t-text-lg">Зимнее утро</span></button>
+        <button class="answer-card" type="button"><span class="answer-card__number t-label-md">3</span><span class="answer-card__label t-text-lg">Сладкая грёза</span></button>
+        <button class="answer-card" type="button"><span class="answer-card__number t-label-md">4</span><span class="answer-card__label t-text-lg">Мама</span></button>
+      </div>
+      <button class="button button--md game__action" type="button" data-act="repeat">
+        <span class="button__circle"><span class="icon icon--restart"></span></span>
+        <span class="t-label-md">Повторить мелодию</span>
+      </button>
+      <button class="button button--md button--accent game__action" type="button" data-act="next">
+        <span class="t-label-md">Следующая мелодия</span>
+        <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Финал 4013:443 -->
+  <section class="screen screen--final" aria-label="Финал">
+    <img class="layer final__bg cover" src="assets/melody/final-bg.webp" alt="Зверята водят хоровод вокруг граммофона">
+    <img class="layer final__fg" src="assets/melody/final-daisies.webp" alt="">
+    <div class="stack stack--accent">
+      <img class="layer final__flowers final__flowers--left" src="assets/melody/final-flowers-left.webp" alt="">
+      <img class="layer final__flowers final__flowers--right" src="assets/melody/final-flowers-right.webp" alt="">
+      <a class="button button--md button--plain" href="choice.html?game=melody"><span class="t-label-md">Вернуться в&nbsp;меню</span></a>
+      <div class="stack__text">
+        <p class="t-text-lg">Отличная работа! Кажется, теперь ты&nbsp;узнаешь произведения Чайковского с&nbsp;первых нот</p>
+        <h2 class="t-display-md">Все&nbsp;мелодии угаданы!</h2>
+      </div>
+    </div>
+  </section>
+
+  <header class="header">
+    <h1 class="header__title t-heading-md">Угадай мелодию</h1>
+    <div class="header__actions">
+      <a class="back-button" href="choice.html?game=melody">
+        <span class="icon-button"><span class="icon icon--reply"></span></span>
+        <span class="t-label-md">Назад</span>
+      </a>
+      <div class="header__group">
+        <a class="icon-button" href="choice.html?game=melody" aria-label="В меню"><span class="icon icon--menu"></span></a>
+        <button class="icon-button" type="button" data-sound aria-pressed="false" aria-label="Звук"><span class="icon icon--volume"></span></button>
+      </div>
+    </div>
+  </header>
+  <div class="counter t-label-lg" id="counter">1 / 6</div>
+</main>
+<script src="kiosk.js"></script>
+<script>
+  // Начать → Play → ответ: неверный (ошибка, Повторить) или верный (успех, Следующая мелодия).
+  // Шесть мелодий по кадрам 4134:3094 и 4123:2501…2713: свои ответы и персонаж у каждого раунда.
+  // Счётчик 1/6…6/6, после шестой финал. Звука в прототипе нет, Play только пульсирует.
+  (function () {
+    var ROUNDS = [
+      { char: 'char-1-kitten',   alt: 'Котёнок спит на пеньке',       answers: ['Утренняя молитва', 'Зимнее утро', 'Сладкая грёза', 'Мама'], correct: 2 },
+      { char: 'char-2-hedgehog', alt: 'Ёжик скачет на лошадке',       answers: ['Марш деревянных солдатиков', 'Игра в лошадки', 'Вальс', 'Полька'], correct: 1 },
+      { char: 'char-3-mouse',    alt: 'Мышка с куклой',               answers: ['Новая кукла', 'Мазурка', 'Русская песня', 'Нянина сказка'], correct: 0 },
+      { char: 'char-4-fox',      alt: 'Лисёнок в ступе',              answers: ['Камаринская', 'Итальянская песенка', 'Немецкая песенка', 'Баба Яга'], correct: 3 },
+      { char: 'char-5-squirrel', alt: 'Белка с лютней',               answers: ['Шарманщик поёт', 'Старинная французская песенка', 'Неаполитанская песенка', 'Утренняя молитва'], correct: 1 },
+      { char: 'char-6-lark',     alt: 'Жаворонок на камне',           answers: ['Вальс', 'Зимнее утро', 'Песня жаворонка', 'Мама'], correct: 2 }
+    ];
+    var TOTAL = ROUNDS.length, round = 1;
+    var stage = document.getElementById('melody');
+    var answers = document.getElementById('answers');
+    var cards = Array.prototype.slice.call(answers.querySelectorAll('.answer-card'));
+    var counter = document.getElementById('counter');
+    var play = stage.querySelector('.play');
+    var ch = document.getElementById('char');
+    // Неразрывный пробел после коротких слов (до трёх букв)
+    function nb(t) { return t.replace(/(^|\s)([А-Яа-яЁё]{1,3}) /g, '$1$2\u00A0'); }
+
+    function reset() {
+      var r = ROUNDS[round - 1];
+      answers.classList.remove('is-locked');
+      cards.forEach(function (c, i) {
+        c.classList.remove('is-correct', 'is-wrong');
+        c.querySelector('.answer-card__label').textContent = nb(r.answers[i]);
+        if (i === r.correct) c.setAttribute('data-correct', ''); else c.removeAttribute('data-correct');
+      });
+      ch.src = 'assets/melody/' + r.char + '.webp'; ch.alt = r.alt; ch.dataset.round = round;
+      play.classList.remove('is-playing');
+      counter.textContent = round + ' / ' + TOTAL;
+    }
+    function show(name) { stage.dataset.screen = name; }
+    function answer(c) {
+      answers.classList.add('is-locked');
+      if (c.hasAttribute('data-correct')) { c.classList.add('is-correct'); show('success'); }
+      else { c.classList.add('is-wrong'); show('error'); }
+      play.classList.remove('is-playing');
+    }
+    stage.querySelector('[data-go="listen"]').addEventListener('click', function () { round = 1; reset(); show('listen'); });
+    play.addEventListener('click', function () { play.classList.toggle('is-playing'); });
+    cards.forEach(function (c) { c.addEventListener('click', function () { answer(c); }); });
+    stage.querySelector('[data-act="repeat"]').addEventListener('click', function () { reset(); show('listen'); play.classList.add('is-playing'); });
+    stage.querySelector('[data-act="next"]').addEventListener('click', function () {
+      if (round >= TOTAL) { show('final'); return; }
+      round += 1; reset(); show('listen');
+    });
+    // Для сверки с макетом: melody.html#listen, #listen-2…#listen-6, #error, #success, #final
+    var hash = location.hash.slice(1), m = hash.match(/^listen-([1-6])$/);
+    if (m) { round = +m[1]; reset(); show('listen'); }
+    else if (hash === 'listen') { reset(); show('listen'); }
+    else if (hash === 'error') { reset(); answer(cards[1]); }
+    else if (hash === 'success') { reset(); answer(cards[2]); }
+    else if (hash === 'final') show('final');
+  })();
+</script>
+<script src="motion.js"></script>
+</body>
+</html>

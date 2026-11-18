@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Детский альбом · Танцевальная полянка</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kiosk.css">
+<style>
+  /* Танцевальная полянка, правка 12. Экран выбирает data-screen у .stage, танец data-round:
+     intro 4106:2324 · dance 1 Марш 4106:2351 · 2 Камаринская 4106:2447 · 3 Полька 4106:2479 ·
+     4 Неаполитанская 4106:2383 · 5 Нянина сказка 4106:2415 · 6 Шарманщик 4106:2511 · final 4129:3032 */
+  .dance[data-screen="intro"] .screen--intro,
+  .dance[data-screen="dance"] .screen--dance,
+  .dance[data-screen="final"] .screen--final { display: block; }
+
+  /* Шапка: на заставке только Меню и Звук; на финале Назад, Меню, Звук; счётчик только на танцах */
+  .dance[data-screen="intro"] .back-button,
+  .dance:is([data-screen="intro"], [data-screen="final"]) .header__title,
+  .dance:not([data-screen="dance"]) .counter { visibility: hidden; }
+  /* Header: Back Button на 1498, до группы Меню/Звук space/32 */
+  .dance .header__actions { gap: var(--space-32); }
+
+  /* Заставка 4106:2324: фото, bg / осветление сверху 480 Surface/card-fade, bg / затемнение снизу 700 h380 Surface/scrim-text,
+     stack / старт со своей заливкой Surface/scrim-text */
+  .full { left: 0; top: 0; width: 1920px; height: 1080px; }
+  .intro__lighten { left: 0; top: 0; width: 1920px; height: 480px; background: var(--surface-card-fade); }
+  .intro__darken { left: 0; top: 700px; width: 1920px; height: 380px; background: var(--surface-scrim-text); }
+  .dance .stack--text { background: var(--surface-scrim-text); }
+
+  /* Танец 4106:2351…: фото на весь экран, осветление сверху 360 и снизу 280 (y 800) Surface/card-fade */
+  .dance__top { left: 0; top: 0; width: 1920px; height: 360px; background: var(--surface-card-fade); }
+  .dance__bottom { left: 0; top: 800px; width: 1920px; height: 280px; background: var(--surface-card-fade-up); }
+  .dance__bottom--dense { display: none; top: 880px; height: 200px; }
+  /* Шарманщик 4106:2511: осветление снизу 420 (y 660) и второе, плотнее, 200 (y 880) */
+  .dance[data-round="6"] .dance__bottom { top: 660px; height: 420px; }
+  .dance[data-round="6"] .dance__bottom--dense { display: block; top: 880px; height: 200px; }
+
+  /* stack / видео 400,136 1120×880: инструкция Heading/md, Video Block md Surface=None 1120×630, подпись Text/lg; space-between */
+  .dance__stack { position: absolute; left: 400px; top: 136px; width: 1120px; height: 880px;
+    display: flex; flex-direction: column; justify-content: space-between; align-items: center; text-align: center; color: var(--text-primary); }
+  .video-block { width: 1120px; height: 630px; flex: none; border-radius: var(--radius-panel); display: grid; place-items: center; }
+  .play.is-playing { animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 16px rgba(254, 253, 251, .35); } }
+  /* Arrow Button md Secondary: 64,538 и 1776,538; Disabled 40% (в kiosk.css) */
+  .dance__prev { left: var(--space-64); top: 538px; }
+  .dance__next { left: 1776px; top: 538px; }
+
+  /* Финал 4129:3032: иллюстрация, bg / верх 240 Surface/card-fade, foreground / клевер 0,720 1920×482
+     (Layer blur 30 + Texture 2.5 → blur 15), stack / итог Surface/scrim-plum */
+  .final__top { left: 0; top: 0; width: 1920px; height: 240px; background: var(--surface-card-fade); }
+  .final__fg { left: 0; top: 720px; width: 1920px; height: 482px; filter: blur(15px); }
+  .dance .screen--final .stack { background: var(--surface-scrim-plum); }
+</style>
+<link rel="stylesheet" href="motion.css">
+</head>
+<body>
+<main class="stage dance" id="dance" data-screen="intro" data-round="1">
+
+  <!-- Заставка 4106:2324 -->
+  <section class="screen screen--intro" aria-label="Заставка">
+    <img class="layer full cover" src="assets/dance/intro.webp" alt="Зверята кланяются на сцене">
+    <div class="layer intro__lighten"></div>
+    <div class="layer intro__darken"></div>
+    <h1 class="intro-title t-display-lg">Танцевальная полянка</h1>
+    <div class="stack stack--text">
+      <button class="button" type="button" data-go="dance">
+        <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
+        <span class="t-label-lg">Начать игру</span>
+      </button>
+      <p class="stack__desc t-heading-md">Повторяй танцевальные движения за&nbsp;персонажами и&nbsp;танцуй под&nbsp;композиции Петра&nbsp;Ильича&nbsp;Чайковского!</p>
+    </div>
+  </section>
+
+  <!-- Танцы 4106:2351 · 2447 · 2479 · 2383 · 2415 · 2511 -->
+  <section class="screen screen--dance" aria-label="Повторяй танец">
+    <img class="layer full cover game__bg" id="photo" src="assets/dance/dance-1.webp" alt="Медвежонок и ёжик маршируют на мостике">
+    <div class="layer dance__top"></div>
+    <div class="layer dance__bottom"></div>
+    <div class="layer dance__bottom dance__bottom--dense"></div>
+    <div class="dance__stack">
+      <h2 class="t-heading-md">Посмотри видео и&nbsp;повторяй за&nbsp;персонажами</h2>
+      <div class="video-block">
+        <button class="play" type="button" aria-label="Смотреть видео"><span class="icon icon--play-bold"></span></button>
+      </div>
+      <p class="t-text-lg" id="caption">П.&nbsp;И.&nbsp;Чайковский, Марш деревянных солдатиков</p>
+    </div>
+    <button class="arrow-button arrow-button--prev dance__prev" type="button" aria-label="Предыдущий танец"><span class="icon icon--arrow-left"></span></button>
+    <button class="arrow-button arrow-button--next dance__next" type="button" aria-label="Следующий танец"><span class="icon icon--arrow-left"></span></button>
+  </section>
+
+  <!-- Финал 4129:3032 -->
+  <section class="screen screen--final" aria-label="Финал">
+    <img class="layer final__bg cover" src="assets/dance/final.webp" alt="Зверята танцуют на празднике в берёзовой роще">
+    <div class="layer final__top"></div>
+    <img class="layer final__fg" src="assets/dance/final-clover.webp" alt="">
+    <div class="stack">
+      <a class="button button--md button--plain" href="choice.html?game=dance"><span class="t-label-md">Вернуться в&nbsp;меню</span></a>
+      <div class="stack__text">
+        <p class="t-text-lg">Ты&nbsp;повторил все&nbsp;шесть танцев вместе со&nbsp;зверятами</p>
+        <h2 class="t-display-md">Все&nbsp;танцы станцованы!</h2>
+      </div>
+    </div>
+  </section>
+
+  <header class="header">
+    <h1 class="header__title t-heading-md">Танцевальная полянка</h1>
+    <div class="header__actions">
+      <a class="back-button" href="choice.html?game=dance">
+        <span class="icon-button"><span class="icon icon--reply"></span></span>
+        <span class="t-label-md">Назад</span>
+      </a>
+      <div class="header__group">
+        <a class="icon-button" href="choice.html?game=dance" aria-label="В меню"><span class="icon icon--menu"></span></a>
+        <button class="icon-button" type="button" data-sound aria-pressed="false" aria-label="Звук"><span class="icon icon--volume"></span></button>
+      </div>
+    </div>
+  </header>
+  <div class="counter t-label-lg" id="counter">1 / 6</div>
+</main>
+<script src="kiosk.js"></script>
+<script>
+  // Начать игру → шесть танцев по порядку стрелками (на первом Назад неактивна, на шестом Вперёд неактивна, как в макете).
+  // Play пульсирует вместо видео; на шестом танце после «просмотра» (3 с) открывается финал. Звука в прототипе нет.
+  (function () {
+    var DANCES = [
+      { name: 'Марш деревянных солдатиков', alt: 'Медвежонок и ёжик маршируют на мостике' },
+      { name: 'Камаринская', alt: 'Барсук и енот пляшут у плетня' },
+      { name: 'Полька', alt: 'Лисёнок и мышка танцуют в огороде' },
+      { name: 'Неаполитанская песенка', alt: 'Белка и утёнок танцуют на лестнице' },
+      { name: 'Нянина сказка', alt: 'Сова, зайчонок и котёнок в норе' },
+      { name: 'Шарманщик поёт', alt: 'Ворон и бурундук на ярмарке' }
+    ];
+    var TOTAL = DANCES.length, round = 1, timer = null;
+    var stage = document.getElementById('dance');
+    var photo = document.getElementById('photo');
+    var caption = document.getElementById('caption');
+    var counter = document.getElementById('counter');
+    var play = stage.querySelector('.play');
+    var prev = stage.querySelector('.dance__prev'), next = stage.querySelector('.dance__next');
+    function nb(t) { return t.replace(/(^|\s)([А-Яа-яЁё]{1,3}) /g, '$1$2 '); }
+
+    function show(name) { stage.dataset.screen = name; }
+    function go(n) {
+      round = n; clearTimeout(timer);
+      var d = DANCES[n - 1];
+      photo.src = 'assets/dance/dance-' + n + '.webp'; photo.alt = d.alt;
+      caption.textContent = 'П. И. Чайковский, ' + nb(d.name);
+      counter.textContent = n + ' / ' + TOTAL;
+      stage.dataset.round = n;
+      prev.disabled = n === 1; next.disabled = n === TOTAL;
+      play.classList.remove('is-playing');
+      show('dance');
+    }
+    stage.querySelector('[data-go="dance"]').addEventListener('click', function () { go(1); });
+    prev.addEventListener('click', function () { if (round > 1) go(round - 1); });
+    next.addEventListener('click', function () { if (round < TOTAL) go(round + 1); });
+    play.addEventListener('click', function () {
+      clearTimeout(timer);
+      play.classList.toggle('is-playing');
+      if (round === TOTAL && play.classList.contains('is-playing')) timer = setTimeout(function () { show('final'); }, 3000);
+    });
+    // Для сверки с макетом: dance.html#dance, #dance-1…#dance-6, #final
+    var hash = location.hash.slice(1), m = hash.match(/^dance-([1-6])$/);
+    if (m) go(+m[1]);
+    else if (hash === 'dance') go(1);
+    else if (hash === 'final') show('final');
+  })();
+</script>
+<script src="motion.js"></script>
+</body>
+</html>

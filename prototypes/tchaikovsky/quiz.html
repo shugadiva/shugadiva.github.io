@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Детский альбом · Викторина</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500&display=block" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="kiosk.css">
+<style>
+  /* Викторина, Figma 4013:444 (темы), 4013:445–447 (вопрос, успех, ошибка), 4013:448 (финал).
+     Экран выбирает data-screen у .stage: topics · question · final. Состояние вопроса: data-result у .screen--question */
+  .quiz[data-screen="topics"] .screen--topics,
+  .quiz[data-screen="question"] .screen--question,
+  .quiz[data-screen="final"] .screen--final { display: block; }
+
+  /* bg / верх: Surface/card-fade под шапкой (240 на темах и финале, 360 на вопросе) */
+  .quiz__fade { left: 0; top: 0; width: 1920px; height: 240px; background: var(--surface-card-fade); }
+  .screen--question .quiz__fade { height: 360px; }
+
+  /* 4013:444 Темы: иллюстрация и знак лисы −120,−68 2160×1216; stack 100,288 w1792 gap 8; размытие 0,640; ряд тем 64,616 gap 32 */
+  .topics__bg { left: -120px; top: -68px; width: 2160px; height: 1216px; }
+  .topics__head { position: absolute; left: 100px; top: 288px; width: 1792px; display: flex; flex-direction: column; align-items: center; gap: var(--space-8); text-align: center; }
+  .topics__title { color: var(--text-accent); width: 1242px; }
+  .topics__desc { width: 1000px; color: var(--text-primary); }
+  /* bg / размытие под темами 4232:3306: Blur/background 24, заливка 1% */
+  .topics__blur { left: 0; top: 640px; width: 1920px; height: 440px;
+    background: linear-gradient(to bottom, rgba(254, 253, 251, 0), rgba(152, 151, 150, .01));
+    backdrop-filter: var(--blur-background); -webkit-backdrop-filter: var(--blur-background); }
+  .topics__row { position: absolute; left: 64px; top: 616px; display: flex; gap: var(--space-32); }
+
+  /* 4013:445–447 Вопрос: иллюстрация по состоянию −113,−37 2076×1168; stack 420,160 w1080 gap 40, ответы 528×352 gap 24 */
+  .question__bg { left: -113px; top: -37px; width: 2076px; height: 1168px; display: none; }
+  .screen--question:not([data-result]) .question__bg--wait,
+  .screen--question[data-result="ok"] .question__bg--ok,
+  .screen--question[data-result="bad"] .question__bg--bad { display: block; }
+  .question__stack { position: absolute; left: 420px; top: 160px; width: 1080px; display: flex; flex-direction: column; align-items: center; gap: var(--space-40); }
+  /* block / вопрос: Surface/glass-card + Shadow/card, радиус 40 (radius/panel), паддинг 16/24, высота 90 как в макете, Heading/lg */
+  .question__block { display: flex; align-items: center; min-height: 90px; padding: var(--space-16) var(--space-24); border-radius: var(--radius-panel);
+    background: var(--surface-glass-card); box-shadow: var(--shadow-card); }
+  .question__text { text-align: center; white-space: nowrap; }
+  .answers { width: 1080px; display: grid; grid-template-columns: 528px 528px; gap: var(--space-24); }
+  /* Arrow Button md Next (4013:446, 447): 1767,562, появляется после ответа */
+  .quiz .next-question { position: absolute; left: 1767px; top: 562px; display: none; }
+  .quiz .next-question.is-shown { display: grid; }
+
+  /* 4013:448 Финал: иллюстрация, папоротники 0,678 1920×532 (Layer blur 30), плашка Surface/scrim-green */
+  .final__bg { left: 0; top: 0; width: 1920px; height: 1080px; }
+  .final__fg { left: 0; top: 678px; width: 1920px; height: 532px; filter: blur(15px); }
+  .quiz .stack--green { background: var(--surface-scrim-green); }
+</style>
+<link rel="stylesheet" href="motion.css">
+</head>
+<body>
+<main class="stage quiz" id="quiz" data-screen="topics">
+
+  <!-- 4013:444 Викторина: выбор темы -->
+  <section class="screen screen--topics" aria-label="Выбор темы">
+    <img class="layer topics__bg cover" src="assets/quiz/intro-bg.webp" alt="Зайчик, ёжик и котёнок на ветке с колокольчиками">
+    <div class="layer quiz__fade"></div>
+    <div class="topics__head">
+      <h1 class="topics__title t-display-lg">ВиКтоРиНа</h1>
+      <p class="topics__desc t-text-lg">Проверь знания о&nbsp;жизни и&nbsp;творчестве Чайковского</p>
+    </div>
+    <img class="layer topics__bg" src="assets/quiz/intro-fox.webp" alt="Лиса с табличкой «?»">
+    <div class="layer topics__blur"></div>
+    <div class="topics__row">
+      <button class="topic-card" type="button" data-go="question">
+        <img class="topic-card__photo" src="assets/quiz/topic-1.webp" alt="">
+        <span class="topic-card__label t-heading-md">Детский альбом</span>
+      </button>
+      <button class="topic-card" type="button" data-go="question">
+        <img class="topic-card__photo" src="assets/quiz/topic-2.webp" alt="">
+        <span class="topic-card__label t-heading-md">Судьба композитора</span>
+      </button>
+      <button class="topic-card" type="button" data-go="question">
+        <img class="topic-card__photo" src="assets/quiz/topic-3.webp" alt="">
+        <span class="topic-card__label t-heading-md">Музыкальное наследие</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- 4013:445 Вопрос, 446 Успех, 447 Ошибка: один экран, состояние после касания -->
+  <section class="screen screen--question" aria-label="Вопрос">
+    <img class="layer question__bg question__bg--wait game__bg cover" src="assets/quiz/q-wait.webp" alt="Зверята ждут ответа">
+    <img class="layer question__bg question__bg--ok game__bg cover" src="assets/quiz/q-success.webp" alt="Зверята радуются">
+    <img class="layer question__bg question__bg--bad game__bg cover" src="assets/quiz/q-error.webp" alt="Зверята огорчены">
+    <div class="layer quiz__fade"></div>
+    <div class="counter t-label-lg" id="counter">1 / 17</div>
+    <div class="question__stack">
+      <div class="question__block"><h2 class="question__text t-heading-lg">Кто написал музыку для&nbsp;балета «Щелкунчик»?</h2></div>
+      <div class="answers" id="answers">
+        <button class="answer-card answer-card--lg" type="button"><span class="answer-card__number t-label-md">1</span><span class="answer-card__label t-text-lg">Иоганн Себастьян Бах</span></button>
+        <button class="answer-card answer-card--lg" type="button" data-correct><span class="answer-card__number t-label-md">2</span><span class="answer-card__label t-text-lg">Пётр Ильич Чайковский</span></button>
+        <button class="answer-card answer-card--lg" type="button"><span class="answer-card__number t-label-md">3</span><span class="answer-card__label t-text-lg">Вольфганг Амадей Моцарт</span></button>
+        <button class="answer-card answer-card--lg" type="button"><span class="answer-card__number t-label-md">4</span><span class="answer-card__label t-text-lg">Николай Андреевич Римский&#8209;Корсаков</span></button>
+      </div>
+    </div>
+    <button class="arrow-button arrow-button--next next-question" type="button" data-go="final" aria-label="Следующий вопрос"><span class="icon icon--arrow-left"></span></button>
+  </section>
+
+  <!-- 4013:448 Финал -->
+  <section class="screen screen--final" aria-label="Финал">
+    <img class="layer final__bg cover" src="assets/quiz/final.webp" alt="Лиса вручает медали">
+    <div class="layer quiz__fade"></div>
+    <img class="layer final__fg" src="assets/quiz/ferns.webp" alt="">
+    <div class="stack stack--green">
+      <a class="button button--md button--plain" href="choice.html?game=quiz"><span class="t-label-md">Вернуться в&nbsp;меню</span></a>
+      <div class="stack__text">
+        <p class="t-text-lg">Ты&nbsp;угадал 15&nbsp;из&nbsp;17! Лиса вручает тебе медаль знатока</p>
+        <h2 class="t-display-md">Викторина завершена!</h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- Шапка общая: Назад, В меню, Звук (заголовка в макете нет) -->
+  <header class="header">
+    <div class="header__actions">
+      <button class="back-button" type="button" data-back>
+        <span class="icon-button"><span class="icon icon--reply"></span></span>
+        <span class="t-label-md">Назад</span>
+      </button>
+      <div class="header__group">
+        <a class="icon-button" href="choice.html?game=quiz" aria-label="В меню"><span class="icon icon--menu"></span></a>
+        <button class="icon-button" type="button" data-sound aria-pressed="false" aria-label="Звук"><span class="icon icon--volume"></span></button>
+      </div>
+    </div>
+  </header>
+</main>
+<script src="kiosk.js"></script>
+<script>
+  // Темы → вопрос → ответ (верный зелёный; неверный красный, верный подсвечивается, остальные гаснут; фон со зверятами по состоянию) → Дальше → финал.
+  // Counter «номер / 17» в шапке вместо сегментного прогресса (правка 13); в прототипе один вопрос, num обновлять при переходе к следующему.
+  (function () {
+    var stage = document.getElementById('quiz');
+    var answers = document.getElementById('answers');
+    var cards = Array.prototype.slice.call(answers.querySelectorAll('.answer-card'));
+    var next = stage.querySelector('.next-question');
+    var screenQ = stage.querySelector('.screen--question');
+    var counter = document.getElementById('counter');
+    var total = 17, num = 1;
+
+    function resetQuestion() {
+      answers.classList.remove('is-locked');
+      cards.forEach(function (c) { c.classList.remove('is-correct', 'is-wrong', 'is-disabled'); });
+      screenQ.removeAttribute('data-result');
+      counter.textContent = num + ' / ' + total;
+      next.classList.remove('is-shown');
+    }
+    function show(name) { if (name === 'question') { num = 1; resetQuestion(); } stage.dataset.screen = name; }
+    function answer(c) {
+      var ok = c.hasAttribute('data-correct');
+      answers.classList.add('is-locked');
+      cards.forEach(function (o) {
+        if (o.hasAttribute('data-correct')) o.classList.add('is-correct');
+        else if (o === c) o.classList.add('is-wrong');
+        else o.classList.add('is-disabled');
+      });
+      screenQ.setAttribute('data-result', ok ? 'ok' : 'bad');
+      next.classList.add('is-shown');
+    }
+    stage.querySelectorAll('[data-go]').forEach(function (b) { b.addEventListener('click', function () { show(b.dataset.go); }); });
+    cards.forEach(function (c) { c.addEventListener('click', function () { answer(c); }); });
+    stage.querySelector('[data-back]').addEventListener('click', function () {
+      var cur = stage.dataset.screen;
+      if (cur === 'topics') location.href = 'choice.html?game=quiz';
+      else show(cur === 'final' ? 'question' : 'topics');
+    });
+    // Для сверки с макетом: quiz.html#question, #success, #error, #final
+    var hash = location.hash.slice(1);
+    if (hash === 'question') show('question');
+    else if (hash === 'success') { show('question'); answer(cards[1]); }
+    else if (hash === 'error') { show('question'); answer(cards[2]); }
+    else if (hash === 'final') show('final');
+  })();
+</script>
+<script src="motion.js"></script>
+</body>
+</html>

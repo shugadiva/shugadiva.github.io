@@ -1,0 +1,71 @@
+/* Движение киоска, правки #18 и #6 (список утверждён Дианой 18.11.2026).
+   Пометки «триггер · свойство · от → к · длительность · кривая», токены из Design/methods/MOTION.md.
+   Двигаем только transform (через отдельные свойства scale и translate, чтобы не ломать transform страниц) и opacity.
+   Подключается после стилей страницы. Сценарии в motion.js. */
+
+:root {
+  --duration-press: 100ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-carousel: 700ms;
+  --easing-standard: cubic-bezier(0.2, 0, 0, 1);
+  --easing-exit: cubic-bezier(0.4, 0, 1, 1);
+  --easing-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --easing-out: cubic-bezier(0, 0, 0.2, 1);
+  --easing-carousel: cubic-bezier(0.22, 1, 0.36, 1);
+  --easing-sway: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* 2. press · scale · 1 → 0.96 · 100 мс · ease-out (кнопки и карточки) */
+.button, .icon-button, .arrow-button, .answer-card, .topic-card, .card, .play {
+  transition-property: background-color, opacity, scale;
+  transition-duration: .15s, .2s, var(--duration-press);
+  transition-timing-function: ease, ease, var(--easing-out);
+}
+.button:active, .icon-button:active, .arrow-button:active,
+.answer-card:active, .topic-card:active, .card:active, .play:active { transform: none; scale: .96; }
+
+/* 1. tap · круг в точке касания · scale 0 → 1, opacity 40% → 0 · 400 мс · standard, Text/accent */
+.tap {
+  position: absolute; z-index: 100; pointer-events: none;
+  width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%;
+  background: var(--text-accent);
+  animation: tap var(--duration-slow) var(--easing-standard) forwards;
+}
+@keyframes tap { from { scale: 0; opacity: .4; } to { scale: 1; opacity: 0; } }
+
+/* 7. постоянно · передний план: сдвиг ±12 px и поворот ±1° · 6–8 с туда и обратно · ease-in-out, своя фаза */
+.fg-sway { animation: sway var(--sway-duration, 7s) var(--easing-sway) var(--sway-delay, 0s) infinite alternate; transform-origin: 50% 100%; }
+@keyframes sway {
+  from { translate: -12px 0; rotate: -1deg; }
+  to   { translate: 12px 0;  rotate: 1deg; }
+}
+
+/* 8. постоянно · блёстки: opacity 0 → 80% → 0, подъём на 40 px · 3–5 с, случайная задержка.
+   Цвет: светлый Text/on-accent с тёплым ореолом Accent/primary. На финалах гуще (решает motion.js). */
+.sparkles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.sparkle {
+  position: absolute; width: var(--size, 10px); height: var(--size, 10px); border-radius: 50%;
+  background: var(--text-on-accent);
+  box-shadow: 0 0 16px 6px color-mix(in srgb, var(--accent-primary) 55%, transparent), 0 0 4px 1px var(--text-on-accent);
+  opacity: 0;
+  animation: sparkle var(--d, 4s) ease-in-out var(--delay, 0s) infinite;
+}
+@keyframes sparkle {
+  0%   { opacity: 0;  translate: 0 0; scale: .6; }
+  50%  { opacity: .8; scale: 1; }
+  100% { opacity: 0;  translate: 0 -40px; scale: .6; }
+}
+/* 9. всплеск блёсток у заголовка финала */
+.sparkle--burst { animation: burst 900ms var(--easing-standard) var(--delay, 0s) forwards; }
+@keyframes burst {
+  0%   { opacity: 0; translate: 0 0; scale: .4; }
+  25%  { opacity: .9; }
+  100% { opacity: 0; translate: var(--bx) var(--by); scale: 1; }
+}
+
+/* 10. prefers-reduced-motion: мгновенная смена состояний, постоянное движение выключено */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .sparkles, .tap { display: none; }
+}
