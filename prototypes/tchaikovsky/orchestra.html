@@ -11,40 +11,42 @@
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="kiosk.css">
 <style>
-  /* Оркестровая яма, Figma 4013:433–438. Один файл, экран выбирает data-screen у .stage:
-     intro 4013:433 · choose 4013:434 · repeat 4013:435 · success 4013:436 (Фагот), 4123:2766/2801/2836/2871/2906 · error 4013:437 · final 4013:438 */
+  /* Оркестровая яма, Figma 4013:433–438 (сценарий #17, принят Дианой 18.11). Один файл, экран выбирает data-screen у .stage:
+     intro 4013:433 · game 4013:434 (пусто), 4291:1295 (1 выбран), 4291:1341 (3), 4291:1397 (4), 4295:1403 (5) · final 4013:438.
+     Ошибки, повтора мелодии и экранов «Успех» больше нет: по нажатию карточка Selected=True, над ней приходит свой зверь и остаётся.
+     Когда собраны все пятеро, оркестр играет (звери покачиваются, звука в прототипе нет), затем финал. */
   .orch[data-screen="intro"] .screen--intro,
   .orch[data-screen="final"] .screen--final,
-  .orch:is([data-screen="choose"], [data-screen="repeat"], [data-screen="success"], [data-screen="error"]) .screen--game { display: block; }
+  .orch[data-screen="game"] .screen--game { display: block; }
 
   /* Шапка: на заставке только Меню и Звук, на остальных заголовок и Назад */
   .orch[data-screen="intro"] .header__title,
   .orch[data-screen="intro"] .back-button { visibility: hidden; }
 
-  /* Header 4013:809: Back Button на 1498, до группы Меню/Звук space/32 (в kiosk.css пока 88) */
-
   /* Заставка 4013:433 */
   .intro__bg { left: -644px; top: -396px; width: 2937px; height: 1584px; opacity: .8; transform: scaleX(-1); filter: blur(10px); }
   .intro__owl { left: 147px; top: -95px; width: 1661px; height: 1710px; }
 
-  /* Игра 4013:434–437 */
-  /* bg / луг 4013:1300: прогрессивный Layer blur 25, фильтры картинки и непрозрачность 90% запечены в meadow-blur.webp (экспорт слоя) */
+  /* Игра: bg / луг 4013:1300, прогрессивный Layer blur 25 и непрозрачность 90% запечены в meadow-blur.webp */
   .game__bg { left: -268px; top: -249px; width: 2455px; height: 1380px; }
-  /* photo / зверёк 4119:2499, 4123:2769…2909: 560×540 в 680,168, FIT */
-  .game__photo { left: 680px; top: 168px; width: 560px; height: 540px; object-fit: contain; display: none; }
-  .orch[data-screen="success"] .game__photo { display: block; }
-  .game__actions { position: absolute; left: 0; top: 724px; width: 1920px; display: flex; justify-content: center; }
-  .game__actions .button { display: none; }
-  .orch[data-screen="choose"]  [data-act="listen"],
-  .orch[data-screen="repeat"]  [data-act="repeat"],
-  .orch[data-screen="error"]   [data-act="repeat"],
-  .orch[data-screen="success"] [data-act="next"] { display: inline-flex; }
-  .orch[data-screen="success"] .arrow-button { display: none; }
-  /* Bold Restart в Button md: бокс 28 (4013:687), в отличие от Linear-иконок svg на весь бокс */
-  .strip-prev { left: 32px; top: 724px; }
-  .strip-next { left: 1808px; top: 724px; }
 
-  /* Instrument Strip 4012:140: 1856, gap space/8, шесть карточек поровну */
+  /* row / музыканты 4296:1462: x 32, y 377, пять slot 365×360 через space/8, каждый над своей карточкой.
+     Фото зверя FIT в слоте; медведь в макете сдвинут на 24 вправо внутри слота (4295:1440) */
+  .band { position: absolute; left: var(--space-32); top: 377px; width: 1856px; height: 360px; display: flex; gap: var(--space-8); pointer-events: none; }
+  .slot { position: relative; flex: 1 1 0; min-width: 0; height: 360px; }
+  .slot__photo {
+    position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain;
+    opacity: 0; translate: 0 48px; scale: .85; transform-origin: 50% 100%;
+    transition: opacity var(--duration-slow) var(--easing-out), translate 600ms var(--easing-spring), scale 600ms var(--easing-spring);
+  }
+  .slot--balalaika .slot__photo { left: 24px; }
+  .slot.is-here .slot__photo { opacity: 1; translate: 0 0; scale: 1; }
+  /* Оркестр играет: зверята покачиваются в такт, у каждого свой сдвиг фазы */
+  .orch.is-playing .slot__photo { animation: play 900ms var(--easing-sway) var(--d, 0s) infinite alternate; }
+  .slot:nth-child(2) { --d: -.3s; } .slot:nth-child(3) { --d: -.6s; } .slot:nth-child(4) { --d: -.15s; } .slot:nth-child(5) { --d: -.45s; }
+  @keyframes play { from { rotate: -3deg; translate: 0 0; } to { rotate: 3deg; translate: 0 -12px; } }
+
+  /* Instrument Strip 4012:140: 1856, gap space/8, пять карточек поровну */
   .strip { position: absolute; left: var(--space-32); top: 828px; width: 1856px; display: flex; gap: var(--space-8); }
   /* Instrument Card 4011:111: паддинг и gap space/16, radius/card-sm, Surface/glass-card + Glass, фото 120, строка подписи 52 */
   .card {
@@ -54,27 +56,26 @@
     background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
     color: var(--text-primary); text-align: center;
-    transition: background-color .15s ease, transform .15s ease;
+    transition: background-color .15s ease, scale var(--duration-press) var(--easing-out);
   }
   .card__photo { width: 100%; height: 120px; flex: none; object-fit: cover; }
-  /* row / подпись: 52, паддинг и gap space/8, по центру, Text/lg */
   .card__row {
     width: 100%; height: 52px; flex: none;
-    display: flex; align-items: center; justify-content: center; gap: var(--space-8);
+    display: flex; align-items: center; justify-content: center;
     padding: var(--space-8); border-radius: var(--radius-card-sm);
   }
-  .card__row .icon { display: none; width: 36px; height: 36px; }
-  .card:active { background: var(--surface-glass-pressed); transform: scale(.98); }
-  .orch[data-screen="choose"] .card { pointer-events: none; }
-  .orch:is([data-screen="success"], [data-screen="error"]) .card { pointer-events: none; }
-  /* Result=Correct|Wrong: строка подписи становится плашкой Accent/success|error, иконка Bold Check|Close Circle 36, Text/on-accent */
-  .card.is-correct .card__row { background: var(--accent-success); color: var(--text-on-accent); }
-  .card.is-wrong   .card__row { background: var(--accent-error);   color: var(--text-on-accent); }
-  .card.is-correct .icon--check-bold,
-  .card.is-wrong   .icon--close-bold { display: inline-grid; }
+  .card:active { background: var(--surface-glass-pressed); scale: .98; }
+  /* Selected=True: обводка 4 внутрь, Border/selected (4015:844) */
+  .card::after {
+    content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+    box-shadow: inset 0 0 0 4px var(--border-selected); opacity: 0;
+    transition: opacity var(--duration-base) var(--easing-standard);
+  }
+  .card.is-selected::after { opacity: 1; }
+  .card.is-selected, .orch.is-playing .card { pointer-events: none; }
 
   /* Финал 4013:438 */
-  .final__bg { left: -268px; top: -249px; width: 2455px; height: 1380px; } /* 4022:682, тот же слой, что bg / луг игры */
+  .final__bg { left: -268px; top: -249px; width: 2455px; height: 1380px; }
   .final__orchestra { left: -268px; top: -263px; width: 2455px; height: 1380px; }
   .final__poppies { left: 0; top: 580px; width: 1920px; height: 500px; filter: blur(15px); }
 </style>
@@ -89,34 +90,18 @@
     <h1 class="intro-title t-display-lg">Оркестровая яма</h1>
     <img class="layer intro__owl" src="assets/orchestra/intro-owl.webp" alt="Сова-дирижёр взмахивает палочкой">
     <div class="stack stack--dark">
-      <button class="button" type="button" data-go="choose">
+      <button class="button" type="button" data-go="game">
         <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
         <span class="t-label-lg">Начать</span>
       </button>
-      <p class="stack__desc t-heading-md">Слушайте инструменты и&nbsp;отгадывайте их. Как&nbsp;только найдёте все, для&nbsp;вас&nbsp;заиграет целый оркестр!</p>
+      <p class="stack__desc t-heading-md">Нажимайте на&nbsp;инструменты, и&nbsp;на&nbsp;поляну придут музыканты. Когда соберутся все пятеро, заиграет оркестр!</p>
     </div>
   </section>
 
-  <!-- Игра 4013:434 выбор · 435 повтор · 436 успех · 437 ошибка -->
-  <section class="screen screen--game" aria-label="Угадай инструмент">
+  <!-- Игра 4013:434 пусто · 4291:1295 1 выбран · 4291:1341 3 · 4291:1397 4 · 4295:1403 5 -->
+  <section class="screen screen--game" aria-label="Собери оркестр">
     <img class="layer game__bg cover" src="assets/orchestra/meadow-blur.webp" alt="">
-    <img class="layer game__photo" id="bigPhoto" src="assets/orchestra/hero-fagot.webp" alt="">
-    <div class="game__actions">
-      <button class="button button--md" type="button" data-act="listen">
-        <span class="button__circle"><span class="icon icon--play"></span></span>
-        <span class="t-label-md">Прослушать мелодию</span>
-      </button>
-      <button class="button button--md" type="button" data-act="repeat">
-        <span class="button__circle"><span class="icon icon--restart"></span></span>
-        <span class="t-label-md">Повторить мелодию</span>
-      </button>
-      <button class="button button--md button--accent" type="button" data-act="next">
-        <span class="t-label-md">Следующий инструмент</span>
-        <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
-      </button>
-    </div>
-    <button class="arrow-button arrow-button--prev strip-prev" type="button" aria-label="Предыдущие инструменты"><span class="icon icon--arrow-left"></span></button>
-    <button class="arrow-button arrow-button--next strip-next" type="button" aria-label="Следующие инструменты"><span class="icon icon--arrow-left"></span></button>
+    <div class="band" id="band"></div>
     <div class="strip" id="strip"></div>
   </section>
 
@@ -150,71 +135,68 @@
 </main>
 
 <template id="cardTpl">
-  <button class="card" type="button">
+  <button class="card" type="button" aria-pressed="false">
     <img class="card__photo" alt="">
-    <span class="card__row">
-      <span class="icon icon--check-bold"></span><span class="icon icon--close-bold"></span>
-      <span class="card__label t-text-lg"></span>
-    </span>
+    <span class="card__row"><span class="card__label t-text-lg"></span></span>
   </button>
 </template>
 
 <script src="kiosk.js"></script>
 <script>
-  // Сценарий: Начать → Прослушать мелодию → выбор карточки → Верно (успех) или Неверно (ошибка, Повторить).
-  // Шесть мелодий по порядку ленты; после шестого верного ответа финал. Звука в прототипе нет.
+  // Сценарий: Начать → нажатия на инструменты в любом порядке, над каждой карточкой приходит свой музыкант и остаётся →
+  // когда собраны все пятеро, оркестр играет PLAY_MS (звука в прототипе нет) → финал.
   (function () {
     var LIST = [
-      { key: 'fagot', name: 'Фагот', hero: 'Медвежонок' }, { key: 'truba', name: 'Труба', hero: 'Ёжик' },
-      { key: 'valtorna', name: 'Валторна', hero: 'Барсук' }, { key: 'klarnet', name: 'Кларнет', hero: 'Лисёнок' },
-      { key: 'fleyta', name: 'Флейта', hero: 'Зайка' }, { key: 'goboy', name: 'Гобой', hero: 'Котёнок' }
+      { key: 'klarnet', name: 'Кларнет', hero: 'Лисёнок' }, { key: 'dombra', name: 'Домбра', hero: 'Ёжик' },
+      { key: 'bayan', name: 'Баян', hero: 'Барсук' }, { key: 'fleyta', name: 'Флейта', hero: 'Зайка' },
+      { key: 'balalaika', name: 'Балалайка', hero: 'Медвежонок' }
     ];
+    var PLAY_MS = 3000;
     var stage = document.getElementById('orch');
     var strip = document.getElementById('strip');
+    var band = document.getElementById('band');
     var tpl = document.getElementById('cardTpl');
-    var photo = document.getElementById('bigPhoto');
-    var round = 0;
+    var cards = [], slots = [], timer = null;
 
     LIST.forEach(function (it, i) {
       var c = tpl.content.firstElementChild.cloneNode(true);
       c.querySelector('.card__photo').src = 'assets/orchestra/card-' + it.key + '.webp';
       c.querySelector('.card__label').textContent = it.name;
       c.setAttribute('aria-label', it.name);
-      c.addEventListener('click', function () { answer(i, c); });
-      strip.appendChild(c);
+      c.addEventListener('click', function () { pick(i); });
+      strip.appendChild(c); cards.push(c);
+      var s = document.createElement('div');
+      s.className = 'slot slot--' + it.key;
+      s.innerHTML = '<img class="slot__photo" src="assets/orchestra/musician-' + it.key + '.webp" alt="' + it.hero + ' играет: ' + it.name.toLowerCase() + '">';
+      band.appendChild(s); slots.push(s);
     });
-    window.renderIcons(strip);
-    var cards = strip.querySelectorAll('.card');
 
-    function show(name) {
-      stage.dataset.screen = name;
-      if (name === 'choose' || name === 'repeat') cards.forEach(function (c) { c.classList.remove('is-correct', 'is-wrong'); });
+    function select(i) {
+      cards[i].classList.add('is-selected'); cards[i].setAttribute('aria-pressed', 'true');
+      slots[i].classList.add('is-here');
     }
-    function answer(i, c) {
-      if (i === round) {
-        c.classList.add('is-correct');
-        photo.src = 'assets/orchestra/hero-' + LIST[i].key + '.webp';
-        photo.alt = LIST[i].hero + ' играет: ' + LIST[i].name.toLowerCase();
-        show('success');
-      } else {
-        c.classList.add('is-wrong');
-        show('error');
+    function reset() {
+      clearTimeout(timer); stage.classList.remove('is-playing');
+      cards.forEach(function (c) { c.classList.remove('is-selected'); c.setAttribute('aria-pressed', 'false'); });
+      slots.forEach(function (s) { s.classList.remove('is-here'); });
+    }
+    function pick(i) {
+      select(i);
+      if (cards.every(function (c) { return c.classList.contains('is-selected'); })) {
+        // пятый музыкант успевает прийти, потом оркестр играет, потом финал
+        timer = setTimeout(function () {
+          stage.classList.add('is-playing');
+          timer = setTimeout(function () { stage.dataset.screen = 'final'; }, PLAY_MS);
+        }, 700);
       }
     }
-    document.querySelector('[data-go="choose"]').addEventListener('click', function () { round = 0; show('choose'); });
-    document.querySelector('[data-act="listen"]').addEventListener('click', function () { show('repeat'); });
-    document.querySelector('[data-act="repeat"]').addEventListener('click', function () { show('repeat'); });
-    document.querySelector('[data-act="next"]').addEventListener('click', function () {
-      round += 1;
-      show(round >= LIST.length ? 'final' : 'choose');
-    });
+    document.querySelector('[data-go="game"]').addEventListener('click', function () { reset(); stage.dataset.screen = 'game'; });
 
-    // Для сверки с макетом: orchestra.html#success открывает нужный экран, #success-2…6 успех на Трубе…Гобое
-    var hash = location.hash.slice(1);
-    var m = /^success(?:-(\d))?$/.exec(hash);
-    if (m) { round = m[1] ? +m[1] - 1 : 0; answer(round, cards[round]); }
-    else if (hash === 'error') { show('repeat'); answer(3, cards[3]); }
-    else if (['choose', 'repeat', 'final'].indexOf(hash) > -1) show(hash);
+    // Для сверки с макетом: #game пустая поляна, #pick-1 / #pick-3 / #pick-4 / #pick-5 как кадры «N выбрано», #final
+    var PICKS = { 1: [0], 3: [0, 1, 3], 4: [0, 1, 2, 3], 5: [0, 1, 2, 3, 4] };
+    var hash = location.hash.slice(1), m = /^pick-(\d)$/.exec(hash);
+    if (m && PICKS[m[1]]) { stage.dataset.screen = 'game'; PICKS[m[1]].forEach(select); }
+    else if (hash === 'game' || hash === 'final') stage.dataset.screen = hash;
   })();
 </script>
 <script src="motion.js"></script>
