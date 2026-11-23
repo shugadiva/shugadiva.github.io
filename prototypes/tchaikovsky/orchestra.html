@@ -233,7 +233,8 @@
       }, 700);
     }
     btn.listen.addEventListener('click', listen);
-    btn.next.addEventListener('click', startRound);
+    // К32: «Следующий инструмент» сразу запускает мелодию, дальше только «Повторить мелодию»
+    btn.next.addEventListener('click', function () { startRound(); listen(); });
     // «Повторить мелодию»: мелодия звучит снова, раунд тот же (звука в прототипе нет)
     document.querySelector('[data-go="game"]').addEventListener('click', function () { reset(); stage.dataset.screen = 'game'; });
 
