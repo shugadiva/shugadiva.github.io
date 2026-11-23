@@ -22,6 +22,9 @@
   .melody[data-screen="intro"] .back-button,
   .melody:is([data-screen="intro"], [data-screen="final"]) .counter { visibility: hidden; }
 
+  /* melody · К18: Counter Size=md, Surface=None (4320:1142) без подложки и Glass, y 44: цифры на y 56, в строку с названием */
+  .melody .counter { top: 44px; white-space: nowrap; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+
   /* Заставка: Chapter Title lg 340,56 w1242 */
   .melody .intro-title { left: 340px; width: 1242px; }
 
@@ -44,10 +47,10 @@
   .play.is-playing { animation: pulse 1.2s ease-in-out infinite; }
   @keyframes pulse { 50% { box-shadow: 0 0 0 16px rgba(254, 253, 251, .35); } }
 
-  /* panel / вопрос и ответы 1216,152 w640: Surface/glass-card, Border/glass 1 внутри, Glass, r40, паддинг 32, gap 32 */
+  /* panel / вопрос и ответы 1216,152 w640: Surface/glass-card, Glass, r40, паддинг 32, gap 32; обводки нет (Диана, 23.11) */
   .qa { position: absolute; left: 1216px; top: 152px; width: 640px; z-index: 1;
     display: flex; flex-direction: column; align-items: center; gap: var(--space-32); padding: var(--space-32);
-    border-radius: var(--radius-panel); background: var(--surface-glass-card); box-shadow: inset 0 0 0 1px var(--border-glass);
+    border-radius: var(--radius-panel); background: var(--surface-glass-card);
     backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); }
   .qa__question { width: 576px; color: var(--text-primary); }
   .qa__answers { width: 576px; display: flex; flex-direction: column; gap: var(--space-16); }
@@ -81,7 +84,7 @@
   <!-- Заставка 4013:439 -->
   <section class="screen screen--intro" aria-label="Заставка">
     <img class="layer final__bg cover" src="assets/melody/intro-bg.webp" alt="Медведь сидит у граммофона в лесу">
-    <h1 class="intro-title t-display-lg">УгаДай меЛоДию</h1>
+    <h1 class="intro-title t-display-lg" aria-label="Угадай мелодию" title="Угадай мелодию">УгаДай меЛоДию</h1>
     <div class="stack stack--dark">
       <button class="button" type="button" data-go="listen">
         <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
@@ -148,7 +151,7 @@
       </div>
     </div>
   </header>
-  <div class="counter t-label-lg" id="counter">1 / 6</div>
+  <div class="counter t-label-lg" id="counter">1&nbsp;/&nbsp;6</div>
 </main>
 <script src="kiosk.js"></script>
 <script>
@@ -184,7 +187,7 @@
       });
       ch.src = 'assets/melody/' + r.char + '.webp'; ch.alt = r.alt; ch.dataset.round = round;
       play.classList.remove('is-playing');
-      counter.textContent = round + ' / ' + TOTAL;
+      counter.textContent = round + ' / ' + TOTAL;
     }
     function show(name) { stage.dataset.screen = name; }
     function answer(c) {

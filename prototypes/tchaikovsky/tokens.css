@@ -6,6 +6,10 @@
   src: url("assets/fonts/NauryzRedKeds-Bold.ttf") format("truetype");
   font-weight: 700;
   font-display: block;
+  /* Метрики как в Figma (hhea 1491/431 из 2048). Без них Chrome на Windows берёт usWin 1854/434 и буквы садятся ниже на ~0.088em */
+  ascent-override: 72.8%;
+  descent-override: 21.05%;
+  line-gap-override: 0%;
 }
 
 :root {
@@ -21,6 +25,8 @@
   --surface-card-fade: linear-gradient(to bottom, rgba(254, 253, 251, .5) 20%, rgba(254, 253, 251, 0) 100%);
   --surface-card-fade-up: linear-gradient(to top, rgba(254, 253, 251, .5) 20%, rgba(254, 253, 251, 0) 100%); /* Surface/card-fade, развёрнутый снизу вверх */
   /* Финалы, правка 11: подложка в цвет передних растений */
+  /* К20: свет за текстом в небе, слой 2400×560 со сдвигом −240,−54; радиальный, слой 70%: 80% на 0.4, 20% на 0.7, 0 у края */
+  --surface-sky-glow: radial-gradient(50% 50% at 50% 50%, rgba(254, 253, 251, .56) 40%, rgba(254, 253, 251, .14) 70%, rgba(254, 253, 251, 0) 100%);
   --surface-scrim-plum: linear-gradient(to top, rgba(94, 58, 90, 1) 1%, rgba(94, 58, 90, 0) 100%);
   --surface-scrim-green: linear-gradient(to top, rgba(46, 94, 78, 1) 1%, rgba(46, 94, 78, 0) 100%);
   /* Карточка выбора игры, правка 5: светлая радиальная вуаль под шапкой (слой 1338×520, центр овала на y 40 карточки, радиусы 640×300) */
@@ -44,7 +50,8 @@
   /* Effects */
   --shadow-card: 0 4px 60px rgba(55, 47, 47, .08);
   --shadow-arrow: 0 0 30px rgba(55, 47, 47, .04);
-  --glass-blur: blur(50px); /* Figma Glass 100 */
+  --glass-blur: blur(7.5px); /* Figma Glass 15 (Диана, 23.11): радиус CSS вдвое меньше фигмового */
+  --glass-blur-arrow: blur(50px); /* Figma «Glass + Shadow/arrow» 100, стрелки */
   --blur-background: blur(24px); /* Blur/background, правка 14 */
 
   /* Spacing (коллекция Spacing) */

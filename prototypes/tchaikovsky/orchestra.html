@@ -11,17 +11,19 @@
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="kiosk.css">
 <style>
-  /* Оркестровая яма, Figma 4013:433–438 (сценарий #17, принят Дианой 18.11). Один файл, экран выбирает data-screen у .stage:
-     intro 4013:433 · game 4013:434 (пусто), 4291:1295 (1 выбран), 4291:1341 (3), 4291:1397 (4), 4295:1403 (5) · final 4013:438.
-     Ошибки, повтора мелодии и экранов «Успех» больше нет: по нажатию карточка Selected=True, над ней приходит свой зверь и остаётся.
-     Когда собраны все пятеро, оркестр играет (звери покачиваются, звука в прототипе нет), затем финал. */
+  /* orchestra. Оркестровая яма, Figma 4013:433–438, второй круг К27, К28 (20.11.2026). Экран выбирает data-screen у .stage:
+     intro 4013:433 · game: поляна 4013:434 → 1 выбран 4291:1295 → Ошибка 4326:1623 → 2 выбрано 4326:1635 → 3 4291:1341 → 4 4291:1397 → 5 4295:1403 · final 4013:438.
+     Раунд: «Послушать мелодию» → карточки открыты, кнопка «Повторить мелодию»; неверная карточка Result=Wrong, раунд остаётся;
+     верная Selected=True, зверь приходит в свой слот, кнопка «Следующий инструмент». После пятого кнопки нет: оркестр играет, потом финал.
+     Финал К28 вариант C: отдельная иллюстрация концерта, текст в небе без плашки. Звука в прототипе нет. */
   .orch[data-screen="intro"] .screen--intro,
-  .orch[data-screen="final"] .screen--final,
-  .orch[data-screen="game"] .screen--game { display: block; }
+  .orch[data-screen="game"] .screen--game,
+  .orch[data-screen="final"] .screen--final { display: block; }
 
   /* Шапка: на заставке только Меню и Звук, на остальных заголовок и Назад */
   .orch[data-screen="intro"] .header__title,
-  .orch[data-screen="intro"] .back-button { visibility: hidden; }
+  .orch[data-screen="intro"] .back-button,
+  .orch[data-screen="final"] .header__title { visibility: hidden; }
 
   /* Заставка 4013:433 */
   .intro__bg { left: -644px; top: -396px; width: 2937px; height: 1584px; opacity: .8; transform: scaleX(-1); filter: blur(10px); }
@@ -30,24 +32,23 @@
   /* Игра: bg / луг 4013:1300, прогрессивный Layer blur 25 и непрозрачность 90% запечены в meadow-blur.webp */
   .game__bg { left: -268px; top: -249px; width: 2455px; height: 1380px; }
 
-  /* row / музыканты 4296:1462: x 32, y 377, пять slot 365×360 через space/8, каждый над своей карточкой.
-     Фото зверя FIT в слоте; медведь в макете сдвинут на 24 вправо внутри слота (4295:1440) */
-  .band { position: absolute; left: var(--space-32); top: 377px; width: 1856px; height: 360px; display: flex; gap: var(--space-8); pointer-events: none; }
+  /* row / музыканты 4296:1462: x 32, y 377, пять slot 368×360 через space/4, каждый над своей карточкой.
+     Фото зверя FIT в слоте, от края слота (4295:1403) */
+  .band { position: absolute; left: var(--space-32); top: 377px; width: 1856px; height: 360px; display: flex; gap: var(--space-4); pointer-events: none; }
   .slot { position: relative; flex: 1 1 0; min-width: 0; height: 360px; }
   .slot__photo {
     position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: contain;
     opacity: 0; translate: 0 48px; scale: .85; transform-origin: 50% 100%;
     transition: opacity var(--duration-slow) var(--easing-out), translate 600ms var(--easing-spring), scale 600ms var(--easing-spring);
   }
-  .slot--balalaika .slot__photo { left: 24px; }
   .slot.is-here .slot__photo { opacity: 1; translate: 0 0; scale: 1; }
   /* Оркестр играет: зверята покачиваются в такт, у каждого свой сдвиг фазы */
   .orch.is-playing .slot__photo { animation: play 900ms var(--easing-sway) var(--d, 0s) infinite alternate; }
   .slot:nth-child(2) { --d: -.3s; } .slot:nth-child(3) { --d: -.6s; } .slot:nth-child(4) { --d: -.15s; } .slot:nth-child(5) { --d: -.45s; }
   @keyframes play { from { rotate: -3deg; translate: 0 0; } to { rotate: 3deg; translate: 0 -12px; } }
 
-  /* Instrument Strip 4012:140: 1856, gap space/8, пять карточек поровну */
-  .strip { position: absolute; left: var(--space-32); top: 828px; width: 1856px; display: flex; gap: var(--space-8); }
+  /* Instrument Strip 4012:140: 1856, gap space/4, пять карточек по 368 */
+  .strip { position: absolute; left: var(--space-32); top: 828px; width: 1856px; display: flex; gap: var(--space-4); }
   /* Instrument Card 4011:111: паддинг и gap space/16, radius/card-sm, Surface/glass-card + Glass, фото 120, строка подписи 52 */
   .card {
     position: relative; flex: 1 1 0; min-width: 0; height: 220px;
@@ -63,6 +64,7 @@
     width: 100%; height: 52px; flex: none;
     display: flex; align-items: center; justify-content: center;
     padding: var(--space-8); border-radius: var(--radius-card-sm);
+    transition: background-color var(--duration-base) var(--easing-standard);
   }
   .card:active { background: var(--surface-glass-pressed); scale: .98; }
   /* Selected=True: обводка 4 внутрь, Border/selected (4015:844) */
@@ -73,11 +75,30 @@
   }
   .card.is-selected::after { opacity: 1; }
   .card.is-selected, .orch.is-playing .card { pointer-events: none; }
+  /* Result=Wrong (4011:105, на экране 4326:1623): строка подписи Accent/error, паддинг 8/52, подпись Text/on-accent по центру,
+     Close Circle 36 вне потока у левого края строки, x 8 */
+  .card__mark { display: none; position: absolute; left: var(--space-8); top: 50%; translate: 0 -50%; width: 36px; height: 36px; place-items: center; }
+  .card__mark svg { width: 30px; height: 30px; }
+  .card.is-wrong .card__row { position: relative; padding: var(--space-8) 52px; background: var(--accent-error); color: var(--text-on-accent); }
+  .card.is-wrong .card__mark { display: inline-grid; }
+  .card.is-wrong { pointer-events: none; }
+  /* До «Послушать мелодию» и после верного ответа карточки ждут */
+  .strip.is-waiting .card { pointer-events: none; }
 
-  /* Финал 4013:438 */
-  .final__bg { left: -268px; top: -249px; width: 2455px; height: 1380px; }
-  .final__orchestra { left: -268px; top: -263px; width: 2455px; height: 1380px; }
-  .final__poppies { left: 0; top: 580px; width: 1920px; height: 500px; filter: blur(15px); }
+  /* Кнопка раунда по центру шапки, y 48 (4326:1744, 4326:1733, 4326:1750): Button md Primary Leading или Accent Trailing */
+  .round { position: absolute; left: 960px; top: var(--space-48); translate: -50% 0; z-index: 11; white-space: nowrap; display: none; }
+  .round.is-shown { display: inline-flex; }
+
+  /* Финал 4013:438, К28 вариант C: illustration / концерт 0,0 1920×1080; bg / свет за текстом −240,−54 2400×560 Surface/sky-glow;
+     stack / текст 64,152 w1792 gap 24 по центру: описание Text/lg Text/primary, заголовок Display/md Text/accent;
+     button / Вернуться в меню Primary md без иконки в (823, 936) 274×80. В шапке без заголовка */
+  .final__bg { left: 0; top: 0; width: 1920px; height: 1080px; }
+  .final__glow { left: -240px; top: -54px; width: 2400px; height: 560px;
+    background: var(--surface-sky-glow, radial-gradient(50% 50% at 50% 50%, rgba(254, 253, 251, .56) 40%, rgba(254, 253, 251, .14) 70%, rgba(254, 253, 251, 0) 100%)); }
+  .final__text { position: absolute; left: var(--space-64); top: 152px; width: 1792px; display: flex; flex-direction: column;
+    gap: var(--space-24); text-align: center; color: var(--text-primary); }
+  .final__title { color: var(--text-accent); }
+  .final__button { position: absolute; left: 823px; top: 936px; }
 </style>
 <link rel="stylesheet" href="motion.css">
 </head>
@@ -94,29 +115,26 @@
         <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
         <span class="t-label-lg">Начать</span>
       </button>
-      <p class="stack__desc t-heading-md">Нажимайте на&nbsp;инструменты, и&nbsp;на&nbsp;поляну придут музыканты. Когда соберутся все пятеро, заиграет оркестр!</p>
+      <p class="stack__desc t-heading-md">Нажимайте на&nbsp;инструменты, и&nbsp;на&nbsp;поляну придут музыканты. Когда&nbsp;соберутся все&nbsp;пятеро, заиграет оркестр!</p>
     </div>
   </section>
 
-  <!-- Игра 4013:434 пусто · 4291:1295 1 выбран · 4291:1341 3 · 4291:1397 4 · 4295:1403 5 -->
+  <!-- Игра 4013:434 · 4291:1295 · 4326:1623 · 4326:1635 · 4291:1341 · 4291:1397 · 4295:1403; финал 4013:438 на той же поляне -->
   <section class="screen screen--game" aria-label="Собери оркестр">
     <img class="layer game__bg cover" src="assets/orchestra/meadow-blur.webp" alt="">
     <div class="band" id="band"></div>
-    <div class="strip" id="strip"></div>
+    <div class="strip is-waiting" id="strip"></div>
   </section>
 
   <!-- Финал 4013:438 -->
   <section class="screen screen--final" aria-label="Финал">
-    <img class="layer final__bg cover" src="assets/orchestra/meadow-blur.webp" alt="">
-    <img class="layer final__orchestra cover" src="assets/orchestra/final-orchestra.webp" alt="Зверята играют в оркестре">
-    <img class="layer final__poppies cover" src="assets/orchestra/final-poppies.webp" alt="">
-    <div class="stack stack--accent">
-      <a class="button button--md button--plain" href="choice.html?game=orchestra"><span class="t-label-md">Вернуться в&nbsp;меню</span></a>
-      <div class="stack__text">
-        <p class="t-text-lg">Блестящие знания! Дирижёр снимает шляпу</p>
-        <h2 class="t-display-md">Вы&nbsp;собрали весь оркестр!</h2>
-      </div>
+    <img class="layer final__bg cover" src="assets/orchestra/final-concert.webp" alt="Зверята играют концерт на поляне, сова дирижирует">
+    <div class="layer final__glow"></div>
+    <div class="final__text">
+      <p class="t-text-lg">Блестящие знания! Дирижёр снимает шляпу</p>
+      <h2 class="final__title t-display-md">Вы&nbsp;собрали весь оркестр!</h2>
     </div>
+    <a class="button button--md button--plain final__button" href="choice.html?game=orchestra"><span class="t-label-md">Вернуться в&nbsp;меню</span></a>
   </section>
 
   <header class="header">
@@ -132,31 +150,48 @@
       </div>
     </div>
   </header>
+
+  <!-- Кнопка раунда: Послушать 4326:1744 · Повторить 4326:1733 · Следующий инструмент 4326:1750 -->
+  <button class="button button--md round" type="button" id="listen">
+    <span class="button__circle"><span class="icon icon--play-bold"></span></span>
+    <span class="t-label-md">Послушать мелодию</span>
+  </button>
+  <button class="button button--md round" type="button" id="repeat">
+    <span class="button__circle"><span class="icon icon--restart"></span></span>
+    <span class="t-label-md">Повторить мелодию</span>
+  </button>
+  <button class="button button--md button--accent round" type="button" id="next">
+    <span class="t-label-md">Следующий инструмент</span>
+    <span class="button__circle"><span class="icon icon--arrow-right"></span></span>
+  </button>
 </main>
 
 <template id="cardTpl">
   <button class="card" type="button" aria-pressed="false">
     <img class="card__photo" alt="">
-    <span class="card__row"><span class="card__label t-text-lg"></span></span>
+    <span class="card__row"><span class="icon icon--close-circle card__mark"></span><span class="card__label t-text-lg"></span></span>
   </button>
 </template>
 
 <script src="kiosk.js"></script>
 <script>
-  // Сценарий: Начать → нажатия на инструменты в любом порядке, над каждой карточкой приходит свой музыкант и остаётся →
-  // когда собраны все пятеро, оркестр играет PLAY_MS (звука в прототипе нет) → финал.
+  // Сценарий К27: пять раундов по порядку экранов макета (Кларнет, Домбра, Флейта, Баян, Балалайка).
+  // «Послушать мелодию» → карточки открыты, «Повторить мелодию» → неверная карточка Wrong, раунд остаётся →
+  // верная Selected, зверь приходит в свой слот, «Следующий инструмент». После пятого: оркестр играет PLAY_MS, потом финал.
   (function () {
     var LIST = [
       { key: 'klarnet', name: 'Кларнет', hero: 'Лисёнок' }, { key: 'dombra', name: 'Домбра', hero: 'Ёжик' },
       { key: 'bayan', name: 'Баян', hero: 'Барсук' }, { key: 'fleyta', name: 'Флейта', hero: 'Зайка' },
       { key: 'balalaika', name: 'Балалайка', hero: 'Медвежонок' }
     ];
+    var ORDER = [0, 1, 3, 2, 4];
     var PLAY_MS = 3000;
     var stage = document.getElementById('orch');
     var strip = document.getElementById('strip');
     var band = document.getElementById('band');
     var tpl = document.getElementById('cardTpl');
-    var cards = [], slots = [], timer = null;
+    var btn = { listen: document.getElementById('listen'), repeat: document.getElementById('repeat'), next: document.getElementById('next') };
+    var cards = [], slots = [], round = 0, timer = null;
 
     LIST.forEach(function (it, i) {
       var c = tpl.content.firstElementChild.cloneNode(true);
@@ -170,33 +205,46 @@
       s.innerHTML = '<img class="slot__photo" src="assets/orchestra/musician-' + it.key + '.webp" alt="' + it.hero + ' играет: ' + it.name.toLowerCase() + '">';
       band.appendChild(s); slots.push(s);
     });
+    if (window.renderIcons) window.renderIcons(strip);
 
+    function showButton(name) { Object.keys(btn).forEach(function (k) { btn[k].classList.toggle('is-shown', k === name); }); }
+    function clearWrong() { cards.forEach(function (c) { c.classList.remove('is-wrong'); }); }
     function select(i) {
       cards[i].classList.add('is-selected'); cards[i].setAttribute('aria-pressed', 'true');
       slots[i].classList.add('is-here');
     }
+    function startRound() { clearWrong(); strip.classList.add('is-waiting'); showButton('listen'); }
+    function listen() { strip.classList.remove('is-waiting'); showButton('repeat'); }
     function reset() {
-      clearTimeout(timer); stage.classList.remove('is-playing');
-      cards.forEach(function (c) { c.classList.remove('is-selected'); c.setAttribute('aria-pressed', 'false'); });
+      clearTimeout(timer); stage.classList.remove('is-playing'); round = 0;
+      cards.forEach(function (c) { c.classList.remove('is-selected', 'is-wrong'); c.setAttribute('aria-pressed', 'false'); });
       slots.forEach(function (s) { s.classList.remove('is-here'); });
+      startRound();
     }
     function pick(i) {
-      select(i);
-      if (cards.every(function (c) { return c.classList.contains('is-selected'); })) {
-        // пятый музыкант успевает прийти, потом оркестр играет, потом финал
-        timer = setTimeout(function () {
-          stage.classList.add('is-playing');
-          timer = setTimeout(function () { stage.dataset.screen = 'final'; }, PLAY_MS);
-        }, 700);
-      }
+      if (i !== ORDER[round]) { cards[i].classList.add('is-wrong'); return; }
+      clearWrong(); select(i); strip.classList.add('is-waiting'); round++;
+      if (round < ORDER.length) { showButton('next'); return; }
+      showButton(null);
+      // пятый музыкант успевает прийти, потом оркестр играет, потом финал
+      timer = setTimeout(function () {
+        stage.classList.add('is-playing');
+        timer = setTimeout(function () { stage.classList.remove('is-playing'); stage.dataset.screen = 'final'; }, PLAY_MS);
+      }, 700);
     }
+    btn.listen.addEventListener('click', listen);
+    btn.next.addEventListener('click', startRound);
+    // «Повторить мелодию»: мелодия звучит снова, раунд тот же (звука в прототипе нет)
     document.querySelector('[data-go="game"]').addEventListener('click', function () { reset(); stage.dataset.screen = 'game'; });
 
-    // Для сверки с макетом: #game пустая поляна, #pick-1 / #pick-3 / #pick-4 / #pick-5 как кадры «N выбрано», #final
-    var PICKS = { 1: [0], 3: [0, 1, 3], 4: [0, 1, 2, 3], 5: [0, 1, 2, 3, 4] };
-    var hash = location.hash.slice(1), m = /^pick-(\d)$/.exec(hash);
-    if (m && PICKS[m[1]]) { stage.dataset.screen = 'game'; PICKS[m[1]].forEach(select); }
-    else if (hash === 'game' || hash === 'final') stage.dataset.screen = hash;
+    // Для сверки с макетом: #game, #replay (4402:2140), #pick-1, #error, #pick-2 … #pick-5, #final
+    function jump(n) { reset(); stage.dataset.screen = 'game'; for (var k = 0; k < n; k++) pick(ORDER[k]); clearTimeout(timer); }
+    var hash = location.hash.slice(1), m = /^pick-([1-5])$/.exec(hash);
+    if (m) jump(+m[1]);
+    else if (hash === 'error') { jump(1); startRound(); listen(); pick(2); }
+    else if (hash === 'game') jump(0);
+    else if (hash === 'replay') { jump(0); listen(); }
+    else if (hash === 'final') { jump(5); stage.dataset.screen = 'final'; }
   })();
 </script>
 <script src="motion.js"></script>

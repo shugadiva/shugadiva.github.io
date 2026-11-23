@@ -80,7 +80,7 @@ img { display: block; }
   width: var(--size-button-md); height: var(--size-button-md); border-radius: var(--radius-full);
   display: grid; place-items: center;
   background: var(--surface-glass-button); box-shadow: var(--shadow-arrow);
-  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur-arrow); -webkit-backdrop-filter: var(--glass-blur-arrow);
   color: var(--text-accent);
   transition: background-color .15s ease;
 }
@@ -199,9 +199,12 @@ img { display: block; }
 .topic-card:active { background: var(--surface-glass-pressed); }
 .topic-card.is-disabled, .topic-card:disabled { opacity: .4; pointer-events: none; }
 
-/* Video Block (4011:155, правка 7): кнопка Play — круг 144 Surface/glass-button, Bold Play 56 */
+/* Video Block (4011:155, правка 7, К17): кнопка Play — круг 144 как плашка вопроса 4123:2613:
+   Surface/glass-card 70%, Glass, без обводки (Диана, 23.11); Pressed 4045:924 Surface/glass-pressed, круг 138 (scale .96 в motion.css), Bold Play 56 */
 .play { width: 144px; height: 144px; border-radius: var(--radius-full); display: grid; place-items: center;
-  background: var(--surface-glass-button); color: var(--text-accent); }
+  background: var(--surface-glass-card); color: var(--text-accent);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur); transition: background-color .15s ease; }
+.play:active { background: var(--surface-glass-pressed); }
 .play .icon { width: 56px; height: 56px; }
 .play .icon svg, .icon--play-bold svg, .icon--restart svg, .icon--check-bold svg, .icon--close-bold svg { width: 100%; height: 100%; }
 
