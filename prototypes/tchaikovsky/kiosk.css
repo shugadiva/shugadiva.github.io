@@ -21,7 +21,7 @@ img { display: block; }
   position: absolute; left: 50%; top: 50%;
   width: 1920px; height: 1080px;
   transform: translate(-50%, -50%) scale(var(--k, 1));
-  overflow: hidden;
+  overflow: clip; /* clip, а не hidden: программная прокрутка сцены невозможна (замечание проверки К32) */
   background: var(--surface-page);
 }
 .layer { position: absolute; pointer-events: none; }

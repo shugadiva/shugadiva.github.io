@@ -12,8 +12,9 @@
 <link rel="stylesheet" href="kiosk.css">
 <style>
   /* orchestra. Оркестровая яма, Figma 4013:433–438, второй круг К27, К28 (20.11.2026). Экран выбирает data-screen у .stage:
-     intro 4013:433 · game: поляна 4013:434 → 1 выбран 4291:1295 → Ошибка 4326:1623 → 2 выбрано 4326:1635 → 3 4291:1341 → 4 4291:1397 → 5 4295:1403 · final 4013:438.
-     Раунд: «Послушать мелодию» → карточки открыты, кнопка «Повторить мелодию»; неверная карточка Result=Wrong, раунд остаётся;
+     intro 4013:433 · game: поляна 4013:434 → 1 выбран 4291:1295 → Раунд 2 4432:1344 → Ошибка 4326:1623 → 2 выбрано 4326:1635 → 3 4291:1341 → 4 4291:1397 → 5 4295:1403 · final 4013:438.
+     Раунд (К32, 23.11): мелодия запускается сама после «Начать» и «Следующий инструмент», карточки открыты, кнопка «Повторить мелодию»
+     пульсирует, пока мелодия звучит (MELODY_MS); неверная карточка Result=Wrong, раунд остаётся;
      верная Selected=True, зверь приходит в свой слот, кнопка «Следующий инструмент». После пятого кнопки нет: оркестр играет, потом финал.
      Финал К28 вариант C: отдельная иллюстрация концерта, текст в небе без плашки. Звука в прототипе нет. */
   .orch[data-screen="intro"] .screen--intro,
@@ -82,12 +83,15 @@
   .card.is-wrong .card__row { position: relative; padding: var(--space-8) 52px; background: var(--accent-error); color: var(--text-on-accent); }
   .card.is-wrong .card__mark { display: inline-grid; }
   .card.is-wrong { pointer-events: none; }
-  /* До «Послушать мелодию» и после верного ответа карточки ждут */
+  /* После верного ответа карточки ждут «Следующий инструмент» */
   .strip.is-waiting .card { pointer-events: none; }
 
   /* Кнопка раунда по центру шапки, y 48 (4326:1744, 4326:1733, 4326:1750): Button md Primary Leading или Accent Trailing */
   .round { position: absolute; left: 960px; top: var(--space-48); translate: -50% 0; z-index: 11; white-space: nowrap; display: none; }
   .round.is-shown { display: inline-flex; }
+  /* Мелодия звучит: кольцо пульсирует, как Play в «Угадай мелодию» (melody.html) */
+  .round.is-playing { animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 50% { box-shadow: 0 0 0 16px rgba(254, 253, 251, .35); } }
 
   /* Финал 4013:438, К28 вариант C: illustration / концерт 0,0 1920×1080; bg / свет за текстом −240,−54 2400×560 Surface/sky-glow;
      stack / текст 64,152 w1792 gap 24 по центру: описание Text/lg Text/primary, заголовок Display/md Text/accent;
@@ -119,7 +123,7 @@
     </div>
   </section>
 
-  <!-- Игра 4013:434 · 4291:1295 · 4326:1623 · 4326:1635 · 4291:1341 · 4291:1397 · 4295:1403; финал 4013:438 на той же поляне -->
+  <!-- Игра 4013:434 · 4291:1295 · 4432:1344 · 4326:1623 · 4326:1635 · 4291:1341 · 4291:1397 · 4295:1403; финал 4013:438 на той же поляне -->
   <section class="screen screen--game" aria-label="Собери оркестр">
     <img class="layer game__bg cover" src="assets/orchestra/meadow-blur.webp" alt="">
     <div class="band" id="band"></div>
@@ -151,11 +155,7 @@
     </div>
   </header>
 
-  <!-- Кнопка раунда: Послушать 4326:1744 · Повторить 4326:1733 · Следующий инструмент 4326:1750 -->
-  <button class="button button--md round" type="button" id="listen">
-    <span class="button__circle"><span class="icon icon--play-bold"></span></span>
-    <span class="t-label-md">Послушать мелодию</span>
-  </button>
+  <!-- Кнопка раунда: Повторить 4436:1385 · Следующий инструмент 4326:1750 («Послушать мелодию» убрана по К32) -->
   <button class="button button--md round" type="button" id="repeat">
     <span class="button__circle"><span class="icon icon--restart"></span></span>
     <span class="t-label-md">Повторить мелодию</span>
@@ -176,7 +176,7 @@
 <script src="kiosk.js"></script>
 <script>
   // Сценарий К27: пять раундов по порядку экранов макета (Кларнет, Домбра, Флейта, Баян, Балалайка).
-  // «Послушать мелодию» → карточки открыты, «Повторить мелодию» → неверная карточка Wrong, раунд остаётся →
+  // Мелодия сама (К32), карточки открыты, «Повторить мелодию» → неверная карточка Wrong, раунд остаётся →
   // верная Selected, зверь приходит в свой слот, «Следующий инструмент». После пятого: оркестр играет PLAY_MS, потом финал.
   (function () {
     var LIST = [
@@ -186,12 +186,13 @@
     ];
     var ORDER = [0, 1, 3, 2, 4];
     var PLAY_MS = 3000;
+    var MELODY_MS = 4000; // условная длина мелодии раунда: столько пульсирует «Повторить мелодию»
     var stage = document.getElementById('orch');
     var strip = document.getElementById('strip');
     var band = document.getElementById('band');
     var tpl = document.getElementById('cardTpl');
-    var btn = { listen: document.getElementById('listen'), repeat: document.getElementById('repeat'), next: document.getElementById('next') };
-    var cards = [], slots = [], round = 0, timer = null;
+    var btn = { repeat: document.getElementById('repeat'), next: document.getElementById('next') };
+    var cards = [], slots = [], round = 0, timer = null, melody = null;
 
     LIST.forEach(function (it, i) {
       var c = tpl.content.firstElementChild.cloneNode(true);
@@ -213,8 +214,14 @@
       cards[i].classList.add('is-selected'); cards[i].setAttribute('aria-pressed', 'true');
       slots[i].classList.add('is-here');
     }
-    function startRound() { clearWrong(); strip.classList.add('is-waiting'); showButton('listen'); }
-    function listen() { strip.classList.remove('is-waiting'); showButton('repeat'); }
+    // Мелодия звучит (звука в прототипе нет): «Повторить мелодию» пульсирует MELODY_MS
+    function playMelody() {
+      clearTimeout(melody); btn.repeat.classList.remove('is-playing'); void btn.repeat.offsetWidth; btn.repeat.classList.add('is-playing');
+      melody = setTimeout(function () { btn.repeat.classList.remove('is-playing'); }, MELODY_MS);
+    }
+    function stopMelody() { clearTimeout(melody); btn.repeat.classList.remove('is-playing'); }
+    // К32: раунд сразу с мелодией, без «Послушать мелодию»
+    function startRound() { clearWrong(); strip.classList.remove('is-waiting'); showButton('repeat'); playMelody(); }
     function reset() {
       clearTimeout(timer); stage.classList.remove('is-playing'); round = 0;
       cards.forEach(function (c) { c.classList.remove('is-selected', 'is-wrong'); c.setAttribute('aria-pressed', 'false'); });
@@ -223,7 +230,7 @@
     }
     function pick(i) {
       if (i !== ORDER[round]) { cards[i].classList.add('is-wrong'); return; }
-      clearWrong(); select(i); strip.classList.add('is-waiting'); round++;
+      clearWrong(); select(i); strip.classList.add('is-waiting'); stopMelody(); round++;
       if (round < ORDER.length) { showButton('next'); return; }
       showButton(null);
       // пятый музыкант успевает прийти, потом оркестр играет, потом финал
@@ -232,19 +239,18 @@
         timer = setTimeout(function () { stage.classList.remove('is-playing'); stage.dataset.screen = 'final'; }, PLAY_MS);
       }, 700);
     }
-    btn.listen.addEventListener('click', listen);
-    // К32: «Следующий инструмент» сразу запускает мелодию, дальше только «Повторить мелодию»
-    btn.next.addEventListener('click', function () { startRound(); listen(); });
-    // «Повторить мелодию»: мелодия звучит снова, раунд тот же (звука в прототипе нет)
+    btn.next.addEventListener('click', startRound);
+    // «Повторить мелодию»: мелодия звучит снова, раунд тот же
+    btn.repeat.addEventListener('click', playMelody);
     document.querySelector('[data-go="game"]').addEventListener('click', function () { reset(); stage.dataset.screen = 'game'; });
 
-    // Для сверки с макетом: #game, #replay (4402:2140), #pick-1, #error, #pick-2 … #pick-5, #final
+    // Для сверки с макетом: #game (4013:434), #pick-1, #round-2 (4432:1344), #error, #pick-2 … #pick-5, #final
     function jump(n) { reset(); stage.dataset.screen = 'game'; for (var k = 0; k < n; k++) pick(ORDER[k]); clearTimeout(timer); }
     var hash = location.hash.slice(1), m = /^pick-([1-5])$/.exec(hash);
     if (m) jump(+m[1]);
-    else if (hash === 'error') { jump(1); startRound(); listen(); pick(2); }
-    else if (hash === 'game') jump(0);
-    else if (hash === 'replay') { jump(0); listen(); }
+    else if (hash === 'error') { jump(1); startRound(); pick(2); }
+    else if (hash === 'game' || hash === 'replay') jump(0);
+    else if (hash === 'round-2') { jump(1); startRound(); }
     else if (hash === 'final') { jump(5); stage.dataset.screen = 'final'; }
   })();
 </script>
